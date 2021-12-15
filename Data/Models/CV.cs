@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Data.Models
 {
-    class CV
+    public class CV
     {
         [Key]
         public int CVID { get; set; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Data.Models
 {
-    class Message
+    public class Message
     {
         [Key]
         public int MessageID { get; set; }

@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Data.Models
 {
-    class School_Type
+    public class School_Type
     {
         [Key]
         public int School_TypeID { get; set; }
