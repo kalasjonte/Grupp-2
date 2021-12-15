@@ -10,6 +10,8 @@ namespace Grupp_2
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        //När applikationen startar kommer denna fil kallas på.
+        //I detta fall berättar vi för Runtime vilka Routes vi har i applikationen.
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
