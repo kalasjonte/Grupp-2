@@ -12,5 +12,7 @@ namespace Data.Models
         [Key]
         public int SkillID { get; set; }
         public string Title { get; set; }
+
+        public virtual ICollection<CV> CVs { get; set; }
     }
 }
