@@ -21,6 +21,7 @@ namespace Grupp_2
                 //Andra delen "{action}" antas vara namnet på action:en (controllerns method som ska hantera http-requesten)
                 //Tredje delen "{id}" är ett ID som vi kan passa till action:en
                 url: "{controller}/{action}/{id}",
+                //Om våran URL-inte innehåller några av ovanstående delar så passar vi till definierade defualt-delarna under:
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }
