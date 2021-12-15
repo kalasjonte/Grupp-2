@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Data.Models
 {
-    public class User_Messages
+    public class User_Message
     {
         [Key, Column(Order = 0)]
         public int RecievingUser { get; set; }
