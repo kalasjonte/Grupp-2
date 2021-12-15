@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace Data.Models
 {
-    class Project
+    class Work_experience
     {
         [Key]
-        public int ProjectID { get; set; }
+        public int WorkExpID { get; set; }
         public string Titel { get; set; }
-        public string Description { get; set; }
 
     }
 }

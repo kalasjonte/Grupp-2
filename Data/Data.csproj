@@ -52,7 +52,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Datacontext.cs" />
+    <Compile Include="Models\CV.cs" />
+    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\Education.cs" />
     <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\Work_experience.cs" />
+    <Compile Include="Models\Skill.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Models\School.cs" />
     <Compile Include="Models\School_Type.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
