@@ -156,10 +156,13 @@ namespace Grupp_2.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+
                     var db = new Datacontext();
                     db.Users.Add(new Data.Models.User { Email = model.Email });
                     db.SaveChanges();
-                    
+
+                    //Ska detta flyttas ut?
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
