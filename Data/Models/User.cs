@@ -28,6 +28,6 @@ namespace Data.Models
         public virtual CV CV { get; set; }
 
 
-        public virtual ICollection<User_Message> User_Messages { get; set; }
+        public virtual ICollection<User_Messages> User_Messages { get; set; }
     }
 }
