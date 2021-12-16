@@ -12,10 +12,12 @@ namespace Data.Models
     {
         [Key]
         public int CVID { get; set; }
-        [ForeignKey("User")]
-        public int UserID { get; set; }
-        public virtual User User { get; set; }
+
         public string ImgPath { get; set; }
+
+        [ForeignKey("User")]
+        public int UID { get; set; }
+        public virtual User User { get; set; }
 
         public virtual ICollection<Skill> Skills { get; set; }
         public virtual ICollection<Education> Educations { get; set; }

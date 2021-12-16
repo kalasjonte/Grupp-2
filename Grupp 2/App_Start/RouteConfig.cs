@@ -13,6 +13,14 @@ namespace Grupp_2
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute(
+                name: "SchoolT",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "School_Type", action = "Index", id = UrlParameter.Optional }
+            );
+
+
+
             //Här har vi en Rout med namnet "Default". En router ansvarar för att skapa kopplingen mellan rätt controller till inkommande HTTP-request.
             routes.MapRoute(
                 name: "Default",
@@ -28,6 +36,7 @@ namespace Grupp_2
                 //{id} i detta fall är optianal: "id = UrlParameter.Optional".
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+            
         }
     }
 }
