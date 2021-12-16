@@ -10,7 +10,7 @@ namespace Data
 {
     public class Datacontext : DbContext
     {
-        public Datacontext() : base("Datacontext")
+        public Datacontext() // : base("Datacontext")
         {
 
         }
