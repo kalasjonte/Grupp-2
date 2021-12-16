@@ -13,7 +13,5 @@ namespace Data.Models
         public int WorkExpID { get; set; }
         public string Titel { get; set; }
 
-        public virtual ICollection<CV> CVs { get; set; }
-
     }
 }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Models
 {
@@ -18,16 +17,5 @@ namespace Data.Models
         public string Adress { get; set; }
         public string Email { get; set; }
         public bool PrivateProfile { get; set; }
-        
-        
-        public virtual ICollection<Project> In_Projects { get; set; }
-        public virtual ICollection<Project> Owned_Project { get; set; }
-
-        [ForeignKey("CV")]
-        public int CVID { get; set; }
-        public virtual CV CV { get; set; }
-
-
-        public virtual ICollection<User_Messages> User_Messages { get; set; }
     }
 }
