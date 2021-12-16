@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Data.Models
 {
-    public class Work_experience
+    public class Work_Experience
     {
         [Key]
         public int WorkExpID { get; set; }

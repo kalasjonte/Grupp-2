@@ -23,10 +23,6 @@ namespace Data.Models
         public virtual ICollection<Project> In_Projects { get; set; }
         public virtual ICollection<Project> Owned_Project { get; set; }
 
-        [ForeignKey("CV")]
-        public int CVID { get; set; }
-        public virtual CV CV { get; set; }
-
 
         public virtual ICollection<User_Message> User_Messages { get; set; }
     }
