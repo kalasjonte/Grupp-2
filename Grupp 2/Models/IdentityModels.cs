@@ -21,7 +21,7 @@ namespace Grupp_2.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("Datacontext", throwIfV1Schema: false)
         {
         }
 
