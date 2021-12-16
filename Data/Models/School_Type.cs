@@ -12,5 +12,9 @@ namespace Data.Models
         [Key]
         public int School_TypeID { get; set; }
         public string Type { get; set; }
+
+
+        public virtual ICollection<School> Schools { get; set; }
+
     }
 }
