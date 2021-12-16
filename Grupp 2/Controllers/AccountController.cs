@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Grupp_2.Models;
+using Data;
 
 namespace Grupp_2.Controllers
 {
@@ -155,7 +156,10 @@ namespace Grupp_2.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //Här kan vi kanske slänga in registrerings query -> vår databas
+                    var db = new Datacontext();
+                    db.Users.Add(new Data.Models.User { Email = model.Email });
+                    db.SaveChanges();
+                    
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
