@@ -33,7 +33,7 @@ namespace Grupp_2.Controllers
         public ActionResult Search(string searchString)
         {
            
-            return View(db.Users.Where(x => x.Firstname.Contains(searchString) || searchString == null).ToList());
+            return View(db.School_Types.Where(x => x.Type.Contains(searchString) || searchString == null).ToList());
         }
     }
 }
