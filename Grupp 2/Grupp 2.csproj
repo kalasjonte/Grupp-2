@@ -313,6 +313,7 @@
     <Content Include="Views\Work_Experience\Details.cshtml" />
     <Content Include="Views\Work_Experience\Edit.cshtml" />
     <Content Include="Views\Work_Experience\Index.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
