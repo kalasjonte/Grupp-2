@@ -18,7 +18,12 @@ namespace Grupp_2.Controllers
         // GET: User
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            var user = db.Users
+                    .Where(u => u.Email == "gabben@gmail.com")
+                    .FirstOrDefault();
+        
+            return View(user);
+
         }
 
         // GET: User/Details/5
