@@ -20,9 +20,9 @@ namespace Data.Models
         [ForeignKey("User")]
         public int Creator { get; set; }
         public virtual User User { get; set; }
-        
+
+
+
         public virtual ICollection<User> Users { get; set; }
-
-
     }
 }

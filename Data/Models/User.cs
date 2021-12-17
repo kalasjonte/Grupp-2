@@ -15,15 +15,13 @@ namespace Data.Models
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string Adress { get; set; }
-        public string Password { get; set; }
+       
         public string Email { get; set; }
         public bool PrivateProfile { get; set; }
-        
-        
-        public virtual ICollection<Project> In_Projects { get; set; }
-        public virtual ICollection<Project> Owned_Project { get; set; }
 
+        public virtual ICollection<Project> Projects { get; set; }
+       
 
-        public virtual ICollection<User_Message> User_Messages { get; set; }
+        
     }
 }

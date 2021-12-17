@@ -14,6 +14,8 @@ namespace Data
         {
 
         }
+        
+
         public DbSet<CV> CVs { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<Message> Messages { get; set; }
@@ -26,7 +28,6 @@ namespace Data
         public DbSet<User_Message> User_Messages { get; set; }
         public DbSet<Work_Experience> Work_Experiences { get; set; }
 
-        
 
     }
 }

@@ -183,23 +183,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202112161715295_first.cs" />
-    <Compile Include="Migrations\202112161715295_first.Designer.cs">
-      <DependentUpon>202112161715295_first.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202112161721135_hej.cs" />
-    <Compile Include="Migrations\202112161721135_hej.Designer.cs">
-      <DependentUpon>202112161721135_hej.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202112161727203_retry.cs" />
-    <Compile Include="Migrations\202112161727203_retry.Designer.cs">
-      <DependentUpon>202112161727203_retry.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202112161731182_losen.cs" />
-    <Compile Include="Migrations\202112161731182_losen.Designer.cs">
-      <DependentUpon>202112161731182_losen.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -336,20 +319,6 @@
       <Project>{22dce153-38cf-4432-b565-52e725b7feff}</Project>
       <Name>Data</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202112161715295_first.resx">
-      <DependentUpon>202112161715295_first.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202112161721135_hej.resx">
-      <DependentUpon>202112161721135_hej.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202112161727203_retry.resx">
-      <DependentUpon>202112161727203_retry.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202112161731182_losen.resx">
-      <DependentUpon>202112161731182_losen.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
