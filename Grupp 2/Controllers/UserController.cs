@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Data;
 using Data.Models;
 
@@ -16,11 +17,14 @@ namespace Grupp_2.Controllers
         private Datacontext db = new Datacontext();
 
         // GET: User
-        public ActionResult Index()
+
+        public ActionResult Index(string email)
         {
+            Console.WriteLine(email);
             var user = db.Users
-                    .Where(u => u.Email == "gabben@gmail.com")
+                    .Where(u => u.Email == email)
                     .FirstOrDefault();
+        
         
             return View(user);
 
