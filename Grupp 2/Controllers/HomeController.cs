@@ -16,11 +16,11 @@ namespace Grupp_2.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Project()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Projekt som är inlagda i systemet.";
 
-            return View();
+            return View(db.Projects);
         }
 
         public ActionResult Contact()
