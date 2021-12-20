@@ -47,13 +47,17 @@ namespace Grupp_2.Controllers
 
         public ActionResult CreateCVVM()
         {
-            var ed = db.Educations.ToList();
-            var skills = db.Skills.ToList(); //where currentCVID in bla bla bla
-            var workExp = db.Work_Experiences.ToList();
+            
+            var workExp = db.Work_Experiences.Where(we => we.CVs.Any(cv => cv.CVID == 2)).ToList();
+
+            var education = db.Educations.Where(ed => ed.CVs.Any(cv => cv.CVID == 2)).ToList();
+
+            var skills = db.Skills.Where(s => s.CVs.Any(cv => cv.CVID == 2)).ToList();
+
 
             var CreateCVViewModel = new CreateCVViewModel
             {
-                Educations = ed,
+                Educations = education,
                 Skills = skills,
                 Work_Experiences = workExp
             };

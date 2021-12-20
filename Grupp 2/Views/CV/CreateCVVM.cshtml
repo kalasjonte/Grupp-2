@@ -7,7 +7,7 @@
 
 <div>
     <h3>Din profilbild:</h3>
-    <img src="F:/Foton/Bilder/Wall/912208.jpg" />
+    <img src="F:/Foton/Bilder/Wall/912208.jpg" style="max-width: 400px; max-height: 400px" />
 </div>
 
 <h4>Tillagda Utbildningar i ditt cv:</h4>
@@ -54,7 +54,10 @@
     <td>
         @Html.DropDownList("MySkills", (IEnumerable
        <SelectListItem>)ViewData["DBMySkills"])
+
+        <input type="submit" value="Lägg till Färdighet i cvet" class="btn btn-default" />
     </td>
+
 </tr>
 
 <hr />
@@ -64,9 +67,14 @@
     <td>
         @Html.DropDownList("WorkExp", (IEnumerable
        <SelectListItem>)ViewData["DBMyWorkExp"])
-    </td>
-</tr>
 
+       
+       <input type="submit" value="Lägg till arbete i cvet" class="btn btn-default" />
+            
+    </td>
+    
+
+</tr>
 <hr />
 
 <tr>
@@ -74,7 +82,30 @@
     <td>
         @Html.DropDownList("MyEducations", (IEnumerable
        <SelectListItem>)ViewData["DBMyEducations"])
+
+        <input type="submit" value="Lägg till Utbildning i cvet" class="btn btn-default" />
     </td>
 </tr>
 
+    <div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Uppdatera CV" class="btn btn-default" />
+    </div>
 
+   
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Lägg till ny färdighet" class="btn btn-default" />
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lägg till ny utbildning" class="btn btn-default" />
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Lägg till ny arbete" class="btn btn-default" />
+                </div>
