@@ -4,7 +4,8 @@
 }
 
 <h2>Hoppsan!</h2>
-<h3>Titeln används redan i ett projekt, vänligen använd ett annat namn... </h3>
+<h3>Titeln används redan i ett projekt. </h3>
+<h4> vänligen använd ett annat namn eller gå med som deltagare i det befintliga projektet. </h4>
 
 @if (null != TempData["alertMessage"])
 {
@@ -15,5 +16,5 @@
 
 
 <div>
-    @Html.ActionLink("Tillbaka till projekt-skapandet", "Index")
+    @Html.ActionLink("Tillbaka till projekt-skapandet", "Create")
 </div>

@@ -53,6 +53,11 @@ namespace Grupp_2.Controllers
         {
             if (ModelState.IsValid)
             {
+                foreach (var item in db.Schools) {
+                    if (school.Name.ToLower() == item.Name.ToLower()) {
+                        return RedirectToAction("DuplicateErrorSchool");
+                    }
+                }
                 db.Schools.Add(school);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -60,6 +65,12 @@ namespace Grupp_2.Controllers
 
             ViewBag.Type = new SelectList(db.School_Types, "School_TypeID", "Type", school.Type);
             return View(school);
+        }
+
+        public ActionResult DuplicateErrorSchool()
+        {
+            TempData["alertMessage"] = "Det finns redan en skola med denna titel i systemet!";
+            return View();
         }
 
         // GET: School/Edit/5
