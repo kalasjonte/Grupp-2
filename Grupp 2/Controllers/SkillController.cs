@@ -51,6 +51,7 @@ namespace Grupp_2.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 db.Skills.Add(skill);
                 db.SaveChanges();
                 return RedirectToAction("Index");

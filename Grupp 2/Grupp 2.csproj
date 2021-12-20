@@ -189,6 +189,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CreateCVViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -302,6 +303,7 @@
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Home\Project.cshtml" />
+    <Content Include="Views\CV\CreateCVVM.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
