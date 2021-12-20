@@ -304,6 +304,7 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Home\Project.cshtml" />
     <Content Include="Views\CV\CreateCVVM.cshtml" />
+    <Content Include="Views\Project\DuplicateErrorProj.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

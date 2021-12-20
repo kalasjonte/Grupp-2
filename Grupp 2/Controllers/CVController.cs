@@ -54,7 +54,6 @@ namespace Grupp_2.Controllers
 
             var skills = db.Skills.Where(s => s.CVs.Any(cv => cv.CVID == 2)).ToList();
 
-
             var CreateCVViewModel = new CreateCVViewModel
             {
                 Educations = education,
@@ -64,7 +63,7 @@ namespace Grupp_2.Controllers
             var skillsList = new SelectList(db.Skills.ToList(), "SkillID", "Title");
             ViewData["DBMySkills"] = skillsList;
 
-            var workExperience = new SelectList(db.Work_Experiences.ToList(), "WorkExpID", "Title");
+            var workExperience = new SelectList(db.Work_Experiences.ToList(), "WorkExpID", "Titel");
             ViewData["DBMyWorkExp"] = workExperience;
 
             var educations = new SelectList(db.Educations.ToList(), "EduID", "Title");

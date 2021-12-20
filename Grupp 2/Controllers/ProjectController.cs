@@ -20,6 +20,7 @@ namespace Grupp_2.Controllers
         public ActionResult Index()
         {
             
+            
             string loggedInUserMail = User.Identity.Name.ToString();
             System.Diagnostics.Debug.WriteLine(loggedInUserMail);
             User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
@@ -62,6 +63,13 @@ namespace Grupp_2.Controllers
         {
             if (ModelState.IsValid)
             {
+                foreach (var proj in db.Projects) 
+                { 
+                    if(proj.Titel == project.Titel)
+                    {
+                        return RedirectToAction("DuplicateErrorProj");
+                    }
+                }
                 db.Projects.Add(project);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -70,6 +78,12 @@ namespace Grupp_2.Controllers
             ViewBag.Creator = new SelectList(db.Users, "UserID", "Firstname", project.Creator);
             return View(project);
         }
+        public ActionResult DuplicateErrorProj()
+        {
+            TempData["alertMessage"] = "Det finns redan ett projekt med denna titel i systemet!";
+            return View();
+        }
+
 
         // GET: Project/Edit/5
         public ActionResult Edit(int? id)
