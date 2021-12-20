@@ -54,7 +54,7 @@ namespace Grupp_2.Controllers
             if (ModelState.IsValid)
             {
                 foreach (var item in db.Schools) {
-                    if (school.Name == item.Name) {
+                    if (school.Name.ToLower() == item.Name.ToLower()) {
                         return RedirectToAction("DuplicateErrorSchool");
                     }
                 }

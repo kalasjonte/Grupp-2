@@ -57,7 +57,7 @@ namespace Grupp_2.Controllers
             {
                 foreach (var proj in db.Projects) 
                 { 
-                    if(proj.Titel == project.Titel)
+                    if(proj.Titel.ToLower() == project.Titel.ToLower())
                     {
                         return RedirectToAction("DuplicateErrorProj");
                     }

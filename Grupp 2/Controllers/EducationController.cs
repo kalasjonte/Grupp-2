@@ -51,12 +51,25 @@ namespace Grupp_2.Controllers
         {
             if (ModelState.IsValid)
             {
+                foreach(var item in db.Educations)
+                {
+                    if(item.Title.ToLower() == education.Title.ToLower())
+                    {
+                        return RedirectToAction("DuplicateErrorEdu");
+                    }
+                }
                 db.Educations.Add(education);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             return View(education);
+        }
+
+        public ActionResult DuplicateErrorEdu()
+        {
+            TempData["alertMessage"] = "Det finns redan en utbildning med denna titel i systemet!";
+            return View();
         }
 
         // GET: Education/Edit/5
