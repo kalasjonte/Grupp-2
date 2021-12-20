@@ -15,7 +15,7 @@
     @foreach (var item in Model.Educations)
     {
         <li>
-            @item.Title;
+            @item.Title
         </li>
 
     }
@@ -28,7 +28,7 @@
     @foreach (var item in Model.Work_Experiences)
     {
         <li>
-            @item.Titel;
+            @item.Titel
         </li>
 
     }
@@ -41,7 +41,7 @@
     @foreach (var skills in Model.Skills)
     {
         <li>
-            @skills.Title;
+            @skills.Title
         </li>
 
     }
@@ -68,11 +68,11 @@
         @Html.DropDownList("WorkExp", (IEnumerable
        <SelectListItem>)ViewData["DBMyWorkExp"])
 
-       
-       <input type="submit" value="Lägg till arbete i cvet" class="btn btn-default" />
-            
+
+        <input type="submit" value="Lägg till arbete i cvet" class="btn btn-default" />
+
     </td>
-    
+
 
 </tr>
 <hr />
@@ -87,25 +87,16 @@
     </td>
 </tr>
 
-    <div class="form-group">
+<div class="form-group">
     <div class="col-md-offset-2 col-md-10">
         <input type="submit" value="Uppdatera CV" class="btn btn-default" />
     </div>
 
-   
 
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Lägg till ny färdighet" class="btn btn-default" />
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Lägg till ny utbildning" class="btn btn-default" />
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Lägg till ny arbete" class="btn btn-default" />
-                </div>
+    <p>
+        @Html.ActionLink("Lägg till ny Färdighet", "Create", "Skill")
+        @Html.ActionLink("Lägg till nytt Arbete", "Create", "Work_Experience")
+        @Html.ActionLink("Lägg till ny Utbildning", "Create","Education")
+    </p>
