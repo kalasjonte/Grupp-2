@@ -114,6 +114,7 @@ namespace Grupp_2.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+        
     }
 
     public static class IdentityExtensions
@@ -135,6 +136,7 @@ namespace Grupp_2.Models
             {
                 var user = context.Users.FirstOrDefault(u => u.UserID.ToString() == userId);
                 return user.UserID.ToString();
+                
             }
         }
     }

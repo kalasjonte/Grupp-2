@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Data;
 using Data.Models;
+using Grupp_2.Models;
 
 namespace Grupp_2.Controllers
 {
@@ -18,8 +19,7 @@ namespace Grupp_2.Controllers
         // GET: Project
         public ActionResult Index()
         {
-           
-
+            
             var projects = db.Projects.Include(p => p.User);
             return View(projects.ToList());
         }
