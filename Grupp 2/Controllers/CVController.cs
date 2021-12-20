@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Data;
 using Data.Models;
+using Grupp_2.Models;
 
 namespace Grupp_2.Controllers
 {
@@ -43,6 +44,30 @@ namespace Grupp_2.Controllers
             ViewBag.UserID = new SelectList(db.Users, "UserID", "Firstname");
             return View();
         }
+
+        public ActionResult CreateCVVM()
+        {
+            var ed = db.Educations.ToList();
+            var skills = db.Skills.ToList(); //where currentCVID in bla bla bla
+            var workExp = db.Work_Experiences.ToList();
+
+            var CreateCVViewModel = new CreateCVViewModel
+            {
+                Educations = ed,
+                Skills = skills,
+                Work_Experiences = workExp
+            };
+            var skillsList = new SelectList(db.Skills.ToList(), "SkillID", "Title");
+            ViewData["DBMySkills"] = skillsList;
+
+            var workExperience = new SelectList(db.Work_Experiences.ToList(), "WorkExpID", "Title");
+            ViewData["DBMyWorkExp"] = workExperience;
+
+            var educations = new SelectList(db.Educations.ToList(), "EduID", "Title");
+            ViewData["DBMyEducations"] = educations;
+
+            return View(CreateCVViewModel);
+    }
 
         // POST: CV/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
