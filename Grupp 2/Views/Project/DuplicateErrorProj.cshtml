@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "DuplicateErrorProj";
+}
+
+<h2>Hoppsan!</h2>
+<h3>Titeln används redan i ett projekt, vänligen använd ett annat namn... </h3>
+
+@if (null != TempData["alertMessage"])
+{
+    <script type="text/javascript">
+    alert('@TempData["alertMessage"]');
+    </script>
+}
+
+
+<div>
+    @Html.ActionLink("Tillbaka till projekt-skapandet", "Index")
+</div>
