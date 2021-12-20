@@ -1,5 +1,6 @@
 ﻿using Data;
 using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
@@ -131,13 +132,15 @@ namespace Grupp_2.Models
 
         public static string GetLoggedInId(this IIdentity identity)
         {
-            var userId = identity.GetUserId();
-            using (var context = new Datacontext())
-            {
-                var user = context.Users.FirstOrDefault(u => u.UserID.ToString() == userId);
-                return user.UserID.ToString();
-                
-            }
+            
+                var userId = identity.GetUserId();
+                using (var context = new Datacontext())
+                {
+                    var user = context.Users.FirstOrDefault(u => u.UserID.ToString() == userId);
+                    return user.UserID.ToString();
+
+                }
+            
         }
     }
 }
