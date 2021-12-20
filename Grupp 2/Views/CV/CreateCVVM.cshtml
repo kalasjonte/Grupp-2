@@ -5,6 +5,7 @@
 }
 
 
+@using (Html.BeginForm("UpdateCvVm", "Cv", FormMethod.Post)) { 
 <div>
     <h3>Din profilbild:</h3>
     <img src="F:/Foton/Bilder/Wall/912208.jpg" style="max-width: 400px; max-height: 400px" />
@@ -14,9 +15,9 @@
 <ul>
     @foreach (var item in Model.Educations)
     {
-        <li>
-            @item.Title
-        </li>
+    <li>
+        @item.Title
+    </li>
 
     }
 </ul>
@@ -27,9 +28,9 @@
 <ul>
     @foreach (var item in Model.Work_Experiences)
     {
-        <li>
-            @item.Titel
-        </li>
+    <li>
+        @item.Titel
+    </li>
 
     }
 </ul>
@@ -40,9 +41,9 @@
 <ul>
     @foreach (var skills in Model.Skills)
     {
-        <li>
-            @skills.Title
-        </li>
+    <li>
+        @skills.Title
+    </li>
 
     }
 </ul>
@@ -52,10 +53,16 @@
 <tr>
     <td> Lägg till en ny färdighet i ditt cv: </td>
     <td>
+
+
         @Html.DropDownList("MySkills", (IEnumerable
        <SelectListItem>)ViewData["DBMySkills"])
 
-        <input type="submit" name="Skill" value="Lägg till Färdighet i cvet" class="btn btn-default" />
+        <input type="submit" name="actionType" value="Save" class="btn btn-default" />
+
+        @*<input type="submit" value="Save" onclick="@("window.location.href='" + @Url.Action("UpdateCvVm", "Cv" , new { actionType = "Save" }) + "'");" />*@
+
+
     </td>
 
 </tr>
@@ -69,7 +76,7 @@
        <SelectListItem>)ViewData["DBMyWorkExp"])
 
 
-        <input type="submit" name="WorkExp" value="Lägg till arbete i cvet" class="btn btn-default" />
+        <input type="submit" name="actionType" value="Lägg till arbete i cvet" class="btn btn-default" />
 
     </td>
 
@@ -83,16 +90,17 @@
         @Html.DropDownList("MyEducations", (IEnumerable
        <SelectListItem>)ViewData["DBMyEducations"])
 
-        <input type="submit" name="Education" value="Lägg till Utbildning i cvet" class="btn btn-default" />
+        <input type="submit" name="actionType" value="Lägg till Utbildning i cvet" class="btn btn-default" />
     </td>
 </tr>
 
+}
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
         <input type="submit" value="Uppdatera CV" class="btn btn-default" />
     </div>
 
-
+    
 
 
     <p>
@@ -100,3 +108,5 @@
         @Html.ActionLink("Lägg till nytt Arbete", "Create", "Work_Experience")
         @Html.ActionLink("Lägg till ny Utbildning", "Create","Education")
     </p>
+
+   

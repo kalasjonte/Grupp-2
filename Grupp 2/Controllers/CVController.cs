@@ -72,6 +72,41 @@ namespace Grupp_2.Controllers
             return View(CreateCVViewModel);
     }
 
+        
+        public ActionResult UpdateCvVm(string actionType)
+        {
+            if (actionType == "Save")
+            {
+
+                int skill = Int32.Parse(Request.Form["MySkills"]);
+                var skillAdd = db.Skills.Where(s => s.SkillID == skill).FirstOrDefault();
+                CV cv = db.CVs.Where(s => s.CVID == 2).FirstOrDefault();
+
+
+                cv.Skills.Add(skillAdd);
+                db.SaveChanges();
+
+                
+                return RedirectToAction("Index");
+
+            }
+            //else if (actionType == "Save and Close")
+            //{
+            //    // Save and quit action
+            //}
+            //else
+            //{
+            //    // Cancel action
+            //}
+
+            else
+            {
+                return View("Index");
+            }
+
+           
+        }
+
         // POST: CV/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
