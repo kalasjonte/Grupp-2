@@ -1,5 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Data;
+using Microsoft.AspNet.Identity;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
+using System.Linq;
+using System.Security.Principal;
 
 namespace Grupp_2.Models
 {
@@ -109,5 +114,28 @@ namespace Grupp_2.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+    }
+
+    public static class IdentityExtensions
+    {
+        public static string GetEmailAdress(this IIdentity identity)
+        {
+            var userId = identity.GetUserId();
+            using (var context = new Datacontext())
+            {
+                var user = context.Users.FirstOrDefault(u => u.UserID.ToString() == userId);
+                return user.Email;
+            }
+        }
+
+        public static string GetLoggedInId(this IIdentity identity)
+        {
+            var userId = identity.GetUserId();
+            using (var context = new Datacontext())
+            {
+                var user = context.Users.FirstOrDefault(u => u.UserID.ToString() == userId);
+                return user.UserID.ToString();
+            }
+        }
     }
 }
