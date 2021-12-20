@@ -19,14 +19,15 @@ namespace Grupp_2.Controllers
         // GET: Project
         public ActionResult Index()
         {
-            
-            
+
             string loggedInUserMail = User.Identity.Name.ToString();
-            System.Diagnostics.Debug.WriteLine(loggedInUserMail);
             User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
-            int userId = user.UserID;
-            System.Diagnostics.Debug.WriteLine(userId.ToString());
-            ViewBag.Id = userId;
+
+            if (user != null)
+            {
+                int userId = user.UserID;
+                ViewBag.Id = userId;
+            }
 
             var projects = db.Projects.Include(p => p.User);
             return View(projects.ToList());
