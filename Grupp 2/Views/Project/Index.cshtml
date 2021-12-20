@@ -1,10 +1,15 @@
-﻿@model IEnumerable<Data.Models.Project>
+﻿
+
+@model IEnumerable<Data.Models.Project>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Projekt som är inlagda i systemet";
 }
 
 <h2>Index</h2>
+
+
+
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -13,6 +18,7 @@
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.User.Firstname)
+
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Titel)
@@ -23,23 +29,30 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.Firstname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Titel)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProjectID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ProjectID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ProjectID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Firstname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            @*@if ()
+            {*@
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ProjectID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ProjectID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ProjectID })
+                </td>
+            @*}*@
+
+
+        </tr>
+    }
 
 </table>
+

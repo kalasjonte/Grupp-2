@@ -16,12 +16,7 @@ namespace Grupp_2.Controllers
             return View();
         }
 
-        public ActionResult Project()
-        {
-            ViewBag.Message = "Projekt som är inlagda i systemet.";
-
-            return View(db.Projects);
-        }
+        
 
         public ActionResult Contact()
         {
