@@ -285,7 +285,6 @@
     <Content Include="Views\User\Delete.cshtml" />
     <Content Include="Views\User\Details.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User_Message\Create.cshtml" />
     <Content Include="Views\User_Message\Delete.cshtml" />
     <Content Include="Views\User_Message\Details.cshtml" />
@@ -297,6 +296,7 @@
     <Content Include="Views\Work_Experience\Edit.cshtml" />
     <Content Include="Views\Work_Experience\Index.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

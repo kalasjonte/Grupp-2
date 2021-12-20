@@ -26,7 +26,7 @@ namespace Grupp_2
                 //Om URL:en INTE innehåller NÅGRA av ovanstående delar så passar vi till defualt: controller = "Home".
                 //Om URL:en BARA definierar {controller} men inte {action}, så passar vi till defualt: action = "Index".
                 //{id} i detta fall är optianal: "id = UrlParameter.Optional".
-                defaults: new { controller = "Project", action = "index", id = UrlParameter.Optional }
+                defaults: new { controller = "User", action = "Edit", id = 1 } // UrlParameter.Optional }
             );
         }
     }

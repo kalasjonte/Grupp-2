@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Datacontext.cs" />
-    <Compile Include="DataInitializer.cs" />
     <Compile Include="Models\CV.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Education.cs" />

@@ -18,26 +18,24 @@ namespace Grupp_2.Controllers
 
         // GET: User
 
-        public ActionResult Index(string email)
+        public ActionResult Index()
         {
-            Console.WriteLine(email);
-            var user = db.Users
-                    .Where(u => u.Email == email)
-                    .FirstOrDefault();
+            
+           
         
-        
-            return View(user);
+            return View(db.Users.ToList());
 
         }
 
         // GET: User/Details/5
         public ActionResult Details(int? id)
         {
+            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
+           User user = db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -88,13 +86,13 @@ namespace Grupp_2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserID,Firstname,Lastname,Password,Adress,Email,PrivateProfile")] User user)
+        public ActionResult Edit([Bind(Include = "UserID,Firstname,Lastname,Adress,Email,PrivateProfile")] User user)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details");
             }
             return View(user);
         }

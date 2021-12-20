@@ -1,12 +1,15 @@
-﻿@model Data.Models.User
+﻿@model IEnumerable<Data.Models.User>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>View</h2>
 
-
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
 <table class="table">
     <tr>
         <th>
@@ -15,32 +18,40 @@
         <th>
             @Html.DisplayNameFor(model => model.Lastname)
         </th>
-
         <th>
             @Html.DisplayNameFor(model => model.Adress)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Email)
         </th>
-        
+        <th>
+            @Html.DisplayNameFor(model => model.PrivateProfile)
+        </th>
+        <th></th>
     </tr>
 
-
+@foreach (var item in Model) {
     <tr>
         <td>
-            @Html.ViewData.Model.Firstname
+            @Html.DisplayFor(modelItem => item.Firstname)
         </td>
         <td>
-            @Html.ViewData.Model.Lastname
-        </td>
-       
-        <td>
-            @Html.ViewData.Model.Adress
+            @Html.DisplayFor(modelItem => item.Lastname)
         </td>
         <td>
-            @Html.ViewData.Model.Email
+            @Html.DisplayFor(modelItem => item.Adress)
         </td>
-        
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrivateProfile)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.UserID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.UserID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.UserID })
+        </td>
     </tr>
 }
 
