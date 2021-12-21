@@ -46,11 +46,15 @@
         @Html.DisplayFor(modelItem => item.Description)
     </td>
     <td>
-        @Html.DropDownList("Deltagande", new SelectList(ViewBag.Users, "Firstname"))
+        @if (ViewBag.Id != null)
+        {
+            @Html.DropDownList("Deltagande", new SelectList(ViewBag.Users, "Firstname"))
+        }
+        else if (ViewBag.Id == null)
+        {
+            @Html.DropDownList("Deltagande", new SelectList(ViewBag.UsersNoPrivate, "Firstname"))
+        }
     </td>
-
-
-    @*@Html.DropDownList("MySkills", (IEnumerable<SelectListItem>)ViewData["DBMySkills"])*@
 
     @if (item.Creator == ViewBag.Id)
     {
