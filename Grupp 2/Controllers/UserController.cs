@@ -19,10 +19,7 @@ namespace Grupp_2.Controllers
         // GET: User
 
         public ActionResult Index()
-        {
-            
-           
-        
+        {   
             return View(db.Users.ToList());
 
         }
