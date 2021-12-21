@@ -85,7 +85,7 @@ namespace Grupp_2.Controllers
                 int skill = Int32.Parse(Request.Form["MySkills"]);
                 var skillAdd = db.Skills.Where(s => s.SkillID == skill).FirstOrDefault();
 
-                System.Diagnostics.Debug.WriteLine(skill);
+                
 
                 cv.Skills.Add(skillAdd);
                 db.SaveChanges();
