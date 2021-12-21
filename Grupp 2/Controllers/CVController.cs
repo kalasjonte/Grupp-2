@@ -99,7 +99,7 @@ namespace Grupp_2.Controllers
 
                 int workxp = Int32.Parse(Request.Form["WorkExp"]);
                 var workadd = db.Work_Experiences.Where(s => s.WorkExpID == workxp).FirstOrDefault();
-                System.Diagnostics.Debug.WriteLine(workxp);
+                
 
                 cv.Work_Experiences.Add(workadd);
                 db.SaveChanges();
@@ -108,11 +108,48 @@ namespace Grupp_2.Controllers
             else if (actionType == "Lägg till Utbildning i cvet")
             {
                 int educ = Int32.Parse(Request.Form["MyEducations"]);
-                System.Diagnostics.Debug.WriteLine(educ);
+                
                 var eduadd = db.Educations.Where(s => s.EduID == educ).FirstOrDefault();
                 
 
                 cv.Educations.Add(eduadd);
+                db.SaveChanges();
+
+                return RedirectToAction("CreateCVVM");
+            }
+
+            else if (actionType.Contains("Ta bort utbildning"))
+            {
+                
+                string utbildning = actionType.Substring(19);
+                var edudel = db.Educations.Where(s => s.Title.Equals(utbildning)).FirstOrDefault();
+
+                cv.Educations.Remove(edudel);
+                db.SaveChanges();
+
+                return RedirectToAction("CreateCVVM");
+            }
+
+            else if (actionType.Contains("Ta bort erfarenhet"))
+            {
+                
+
+                string erfarenhet = actionType.Substring(19);
+                var skillDel = db.Skills.Where(s => s.Title.Equals(erfarenhet)).FirstOrDefault();
+
+                cv.Skills.Remove(skillDel);
+                db.SaveChanges();
+
+                return RedirectToAction("CreateCVVM");
+            }
+
+            else if (actionType.Contains("Ta bort arbete"))
+            {
+                string arbete = actionType.Substring(15);
+
+                var workDel = db.Work_Experiences.Where(s => s.Titel.Equals(arbete)).FirstOrDefault();
+
+                cv.Work_Experiences.Remove(workDel);
                 db.SaveChanges();
 
                 return RedirectToAction("CreateCVVM");

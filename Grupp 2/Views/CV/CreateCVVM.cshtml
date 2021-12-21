@@ -16,7 +16,7 @@
     @foreach (var item in  Model.Educations)
     {
     <li>
-        @item.Title
+        @item.Title   <input type="submit" name="actionType" value="Ta bort utbildning @item.Title"  class="btn btn-default" />
     </li>
 
     }
@@ -29,7 +29,7 @@
     @foreach (var item in Model.Work_Experiences)
     {
     <li>
-        @item.Titel
+        @item.Titel <input type="submit" name="actionType" value="Ta bort arbete @item.Titel" class="btn btn-default" />
     </li>
 
     }
@@ -42,7 +42,7 @@
     @foreach (var skills in Model.Skills)
     {
     <li>
-        @skills.Title
+        @skills.Title <input type="submit" name="actionType" value="Ta bort erfarenhet @skills.Title" class="btn btn-default" />
     </li>
 
     }
