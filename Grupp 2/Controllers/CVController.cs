@@ -85,6 +85,8 @@ namespace Grupp_2.Controllers
                 int skill = Int32.Parse(Request.Form["MySkills"]);
                 var skillAdd = db.Skills.Where(s => s.SkillID == skill).FirstOrDefault();
 
+                
+
                 cv.Skills.Add(skillAdd);
                 db.SaveChanges();
 
@@ -184,30 +186,32 @@ namespace Grupp_2.Controllers
 
             return View(CreateCVViewModel);
         }
+        [Route("Cv/{userid:int}/ShowUserCv", Name = "ShowUserCv")]
+        public ActionResult ShowUserCV(int userid)
+        {
 
-        //public ActionResult ShowCVVM(int userid)
-        //{
-        //    string loggedInUserMail = User.Identity.Name.ToString();
-        //    User user = db.Users.Where(u => u.UserID == userid).FirstOrDefault(); 
+            User user = db.Users.Where(u => u.UserID == userid).FirstOrDefault();
+            //ifnotnull
+            CV cvet = db.CVs.Where(u => u.UserID == user.UserID).FirstOrDefault();
+            int cvId = cvet.CVID;
 
-        //    int cvId = GetLoggedInCvID(); //göra ny, ändra till inskickad userid?
-        //    var workExp = db.Work_Experiences.Where(we => we.CVs.Any(cv => cv.CVID == cvId)).ToList();
+            var workExp = db.Work_Experiences.Where(we => we.CVs.Any(cv => cv.CVID == cvId)).ToList();
 
-        //    var education = db.Educations.Where(ed => ed.CVs.Any(cv => cv.CVID == cvId)).ToList();
+            var education = db.Educations.Where(ed => ed.CVs.Any(cv => cv.CVID == cvId)).ToList();
 
-        //    var skills = db.Skills.Where(s => s.CVs.Any(cv => cv.CVID == cvId)).ToList();
+            var skills = db.Skills.Where(s => s.CVs.Any(cv => cv.CVID == cvId)).ToList();
 
-        //    var CreateCVViewModel = new CreateCVViewModel
-        //    {
-        //        Användare = user.Firstname,
-        //        imgpath = "",
-        //        Educations = education,
-        //        Skills = skills,
-        //        Work_Experiences = workExp
-        //    };
+            var CreateCVViewModel = new CreateCVViewModel
+            {
+                Användare = user.Firstname,
+                imgpath = "",
+                Educations = education,
+                Skills = skills,
+                Work_Experiences = workExp
+            };
 
-        //    return View(CreateCVViewModel);
-        //}
+            return View(CreateCVViewModel);
+        }
 
         // POST: CV/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 

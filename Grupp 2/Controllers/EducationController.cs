@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Data;
 using Data.Models;
+using Grupp_2.Models;
 
 namespace Grupp_2.Controllers
 {
@@ -65,6 +66,84 @@ namespace Grupp_2.Controllers
 
             return View(education);
         }
+
+        public ActionResult CreateEduVM()
+        {
+            var st = db.School_Types.ToList();
+            
+            var CreateEduViewModel = new CreateEduViewModel
+            {
+                School_Types = st,
+            };
+
+            var stList = new SelectList(db.School_Types.ToList(), "School_TypeID", "Type");
+            ViewData["DBMySchool_Types"] = stList;
+
+
+            return View(CreateEduViewModel);
+        }
+
+        //public ActionResult UpdateEduVM(string actionType, CreateEduViewModel vm)
+        //{
+            
+        //    if (actionType == "SaveSchool")
+        //    {
+
+
+        //        int stID = Int32.Parse(Request.Form["MySchool_Types"]); //ger id på skoltyp
+                
+        //        int stID = Int32.Parse(); //ger id på skola
+
+        //        var stAdd = db.School_Types.Where(s => s.School_TypeID == stID).FirstOrDefault(); //hämtar objekt
+                
+        //        if (ModelState.IsValid) {
+        //            string lolol = vm.SchoolName;
+        //            foreach (var item in db.Schools)
+        //            {
+        //                if (item.Name.ToLower() == lolol.ToLower())
+        //                {
+        //                    return RedirectToAction("DuplicateErrorEdu");
+        //                }
+        //            }
+
+
+                    
+        //            db.Schools.Add(new Data.Models.School {Name = vm.SchoolName, Place = //lägg till denna i mvc, stID  });
+        //            db.SaveChanges();
+        //            return RedirectToAction("Index");
+
+        //        }
+
+                
+
+        //        CV cv = db.CVs.Where(s => s.CVID == 2).FirstOrDefault();
+
+
+        //        //cv.Skills.Add(skillAdd);
+        //        //db.SaveChanges();
+
+
+        //        return RedirectToAction("Index");
+
+        //    }
+        //    //else if (actionType == "Save and Close")
+        //    //{
+        //    //    // Save and quit action
+        //    //}
+        //    //else
+        //    //{
+        //    //    // Cancel action
+        //    //}
+
+        //    else
+        //    {
+        //        return View("Index");
+        //    }
+
+
+        //}
+
+
 
         public ActionResult DuplicateErrorEdu()
         {

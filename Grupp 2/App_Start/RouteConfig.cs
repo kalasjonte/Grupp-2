@@ -12,6 +12,7 @@ namespace Grupp_2
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.MapMvcAttributeRoutes();
 
             //Här har vi en Rout med namnet "Default". En router ansvarar för att skapa kopplingen mellan rätt controller till inkommande HTTP-request.
             routes.MapRoute(
