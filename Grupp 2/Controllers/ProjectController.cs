@@ -39,17 +39,25 @@ namespace Grupp_2.Controllers
                 ViewBag.Id = userId;
             }
 
+            //ändra linq mot den sammansatta tabellen istället
             var usersInProjects = db.Users.ToList();
-            List<string> usersFirstname = new List<string>();
-            
+            List<string> allUsers = new List<string>();
+            List<string> usersNoPrivate = new List<string>();
+
             foreach (var item in usersInProjects)
             {
-                usersFirstname.Add(item.Firstname);
+                allUsers.Add(item.Firstname);
+
+                if (item.PrivateProfile == false)
+                {
+                    usersNoPrivate.Add(item.Firstname);
+                }
             }
+            //ViewBag med alla users, ska visas när personen som kollar är inloggad
+            ViewBag.Users = allUsers;
 
-            ViewBag.Users = usersFirstname;
-            
-
+            //ViewBag med users - alla med privata profiler
+            ViewBag.UsersNoPrivate = usersNoPrivate;
 
             var projects = db.Projects.Include(p => p.User);
             return View(projects.ToList());

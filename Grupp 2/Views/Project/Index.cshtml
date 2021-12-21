@@ -29,7 +29,7 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
-
+            Deltagande i projekt
         </th>
     </tr>
 
@@ -45,6 +45,16 @@
     <td>
         @Html.DisplayFor(modelItem => item.Description)
     </td>
+    <td>
+        @if (ViewBag.Id != null)
+        {
+            @Html.DropDownList("Deltagande", new SelectList(ViewBag.Users, "Firstname"))
+        }
+        else if (ViewBag.Id == null)
+        {
+            @Html.DropDownList("Deltagande", new SelectList(ViewBag.UsersNoPrivate, "Firstname"))
+        }
+    </td>
 
     @if (item.Creator == ViewBag.Id)
     {
@@ -58,7 +68,7 @@
     {
         //kod att kontrollera om användaren är med i projektet eller inte
         <td>
-            <input type="button"  value="Gå med i projekt" onclick= "location.href='@Url.Action("Insert", "Project", new {id = item.ProjectID})'"/>
+            <input type="button" value="Gå med i projekt" onclick="location.href='@Url.Action("Insert", "Project", new {id = item.ProjectID})'" />
         </td>
 
     }
