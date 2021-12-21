@@ -39,6 +39,7 @@ namespace Grupp_2.Controllers
                 ViewBag.Id = userId;
             }
 
+            //ändra linq mot den sammansatta tabellen istället
             var usersInProjects = db.Users.ToList();
             List<string> usersFirstname = new List<string>();
             
