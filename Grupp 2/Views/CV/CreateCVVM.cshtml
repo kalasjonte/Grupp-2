@@ -13,7 +13,7 @@
 
 <h4>Tillagda Utbildningar i ditt cv:</h4>
 <ul>
-    @foreach (var item in Model.Educations)
+    @foreach (var item in  Model.Educations)
     {
     <li>
         @item.Title
@@ -58,9 +58,9 @@
         @Html.DropDownList("MySkills", (IEnumerable
        <SelectListItem>)ViewData["DBMySkills"])
 
-        <input type="submit" name="actionType" value="Save" class="btn btn-default" />
+        <input type="submit" name="actionType" value="Lägg till färdighet på ditt cv" class="btn btn-default" />
 
-        @*<input type="submit" value="Save" onclick="@("window.location.href='" + @Url.Action("UpdateCvVm", "Cv" , new { actionType = "Save" }) + "'");" />*@
+       
 
 
     </td>
@@ -73,7 +73,7 @@
     <td> Lägg till en ny Arbets erfarenhet i ditt cv: </td>
     <td>
         @Html.DropDownList("WorkExp", (IEnumerable
-       <SelectListItem>)ViewData["DBMyWorkExp"])
+       <SelectListItem>)ViewData["DBMyWorkExp"]) 
 
 
         <input type="submit" name="actionType" value="Lägg till arbete i cvet" class="btn btn-default" />
@@ -95,14 +95,7 @@
 </tr>
 
 }
-<div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Uppdatera CV" class="btn btn-default" />
-    </div>
-
     
-
-
     <p>
         @Html.ActionLink("Lägg till ny Färdighet", "Create", "Skill")
         @Html.ActionLink("Lägg till nytt Arbete", "Create", "Work_Experience")
