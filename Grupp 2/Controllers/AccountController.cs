@@ -165,7 +165,7 @@ namespace Grupp_2.Controllers
                     string loggedInUserMail = model.Email;
                     User user1 = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
                     int id = user1.UserID;
-                    db.CVs.Add(new Data.Models.CV { UserID = id, ImgPath = "default" });
+                    db.CVs.Add(new Data.Models.CV { UserID = id, ImageID = 1 });
                     db.SaveChanges();
                     //Ska detta flyttas ut?
 

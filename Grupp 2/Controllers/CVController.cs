@@ -85,8 +85,6 @@ namespace Grupp_2.Controllers
                 int skill = Int32.Parse(Request.Form["MySkills"]);
                 var skillAdd = db.Skills.Where(s => s.SkillID == skill).FirstOrDefault();
 
-                
-
                 cv.Skills.Add(skillAdd);
                 db.SaveChanges();
 
@@ -162,6 +160,54 @@ namespace Grupp_2.Controllers
 
            
         }
+
+        public ActionResult ShowCVVM() //bryt ut till service, ha denna här men contenten i services
+        {
+            string loggedInUserMail = User.Identity.Name.ToString(); //KAN finnas här, eller ligga i services med hhtpcontext current (owin)
+            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault(); //hämta user på inskickad id ist? -> in i user respository som ligger i data.
+
+            int cvId = GetLoggedInCvID(); //göra ny, ändra till inskickad userid?
+            var workExp = db.Work_Experiences.Where(we => we.CVs.Any(cv => cv.CVID == cvId)).ToList();
+
+            var education = db.Educations.Where(ed => ed.CVs.Any(cv => cv.CVID == cvId)).ToList();
+
+            var skills = db.Skills.Where(s => s.CVs.Any(cv => cv.CVID == cvId)).ToList();
+
+            var CreateCVViewModel = new CreateCVViewModel //skapa viewmodel i  klassen istället -> släng ut den i shared
+            {
+                Användare = user.Firstname,
+                imgpath = "",
+                Educations = education,
+                Skills = skills,
+                Work_Experiences = workExp
+            };
+
+            return View(CreateCVViewModel);
+        }
+
+        //public ActionResult ShowCVVM(int userid)
+        //{
+        //    string loggedInUserMail = User.Identity.Name.ToString();
+        //    User user = db.Users.Where(u => u.UserID == userid).FirstOrDefault(); 
+
+        //    int cvId = GetLoggedInCvID(); //göra ny, ändra till inskickad userid?
+        //    var workExp = db.Work_Experiences.Where(we => we.CVs.Any(cv => cv.CVID == cvId)).ToList();
+
+        //    var education = db.Educations.Where(ed => ed.CVs.Any(cv => cv.CVID == cvId)).ToList();
+
+        //    var skills = db.Skills.Where(s => s.CVs.Any(cv => cv.CVID == cvId)).ToList();
+
+        //    var CreateCVViewModel = new CreateCVViewModel
+        //    {
+        //        Användare = user.Firstname,
+        //        imgpath = "",
+        //        Educations = education,
+        //        Skills = skills,
+        //        Work_Experiences = workExp
+        //    };
+
+        //    return View(CreateCVViewModel);
+        //}
 
         // POST: CV/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -249,12 +295,11 @@ namespace Grupp_2.Controllers
             base.Dispose(disposing);
         }
 
-        public int GetLoggedInCvID()
+        public int GetLoggedInCvID() //-> KAN finnas här eller service, respository
         {
-            Datacontext ct = new Datacontext();
-
+            
             string loggedInUserMail = User.Identity.Name.ToString();
-            User user = ct.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
             int userid = user.UserID;
 
             CV cv = db.CVs.Where(u => u.UserID == userid).FirstOrDefault();

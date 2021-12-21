@@ -16,7 +16,9 @@ namespace Data.Models
         [Key, Column(Order = 1)]
         public int MessageID { get; set; }
 
+        [ForeignKey("RecievingUser") ]
         public virtual User User { get; set; }
+
         public virtual Message Message { get; set; }
         public bool Read { get; set; }
 
