@@ -16,6 +16,16 @@ namespace Grupp_2.Controllers
     {
         private Datacontext db = new Datacontext();
 
+        
+        
+        public ActionResult Insert(int id)
+        {
+            //kod för att inserta i sammansatta tabellen Users_Projects
+            
+            return RedirectToAction("index");
+        }
+        
+        
         // GET: Project
         public ActionResult Index()
         {
@@ -28,6 +38,18 @@ namespace Grupp_2.Controllers
                 int userId = user.UserID;
                 ViewBag.Id = userId;
             }
+
+            var usersInProjects = db.Users.ToList();
+            List<string> usersFirstname = new List<string>();
+            
+            foreach (var item in usersInProjects)
+            {
+                usersFirstname.Add(item.Firstname);
+            }
+
+            ViewBag.Users = usersFirstname;
+            
+
 
             var projects = db.Projects.Include(p => p.User);
             return View(projects.ToList());
