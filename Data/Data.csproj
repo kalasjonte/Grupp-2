@@ -53,17 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Datacontext.cs" />
-    <Compile Include="Migrations\202112211517389_init.cs" />
-    <Compile Include="Migrations\202112211517389_init.designer.cs">
-      <DependentUpon>202112211517389_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202112211537146_ant bild.cs" />
-    <Compile Include="Migrations\202112211537146_ant bild.designer.cs">
-      <DependentUpon>202112211537146_ant bild.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202112211541188_nullble.cs" />
-    <Compile Include="Migrations\202112211541188_nullble.designer.cs">
-      <DependentUpon>202112211541188_nullble.cs</DependentUpon>
+    <Compile Include="Migrations\202112211556302_init.cs" />
+    <Compile Include="Migrations\202112211556302_init.designer.cs">
+      <DependentUpon>202112211556302_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CV.cs" />
@@ -85,14 +77,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202112211517389_init.resx">
-      <DependentUpon>202112211517389_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202112211537146_ant bild.resx">
-      <DependentUpon>202112211537146_ant bild.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202112211541188_nullble.resx">
-      <DependentUpon>202112211541188_nullble.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202112211556302_init.resx">
+      <DependentUpon>202112211556302_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

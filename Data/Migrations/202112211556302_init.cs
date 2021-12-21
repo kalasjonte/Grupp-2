@@ -13,11 +13,13 @@
                     {
                         CVID = c.Int(nullable: false, identity: true),
                         UserID = c.Int(nullable: false),
-                        ImgPath = c.String(),
+                        ImageID = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.CVID)
+                .ForeignKey("dbo.Images", t => t.ImageID, cascadeDelete: true)
                 .ForeignKey("dbo.Users", t => t.UserID, cascadeDelete: true)
-                .Index(t => t.UserID);
+                .Index(t => t.UserID)
+                .Index(t => t.ImageID);
             
             CreateTable(
                 "dbo.Educations",
@@ -49,6 +51,16 @@
                         Type = c.String(),
                     })
                 .PrimaryKey(t => t.School_TypeID);
+            
+            CreateTable(
+                "dbo.Images",
+                c => new
+                    {
+                        ImageID = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        Path = c.String(),
+                    })
+                .PrimaryKey(t => t.ImageID);
             
             CreateTable(
                 "dbo.Skills",
@@ -197,6 +209,7 @@
             DropForeignKey("dbo.Projects", "Creator", "dbo.Users");
             DropForeignKey("dbo.SkillCVs", "CV_CVID", "dbo.CVs");
             DropForeignKey("dbo.SkillCVs", "Skill_SkillID", "dbo.Skills");
+            DropForeignKey("dbo.CVs", "ImageID", "dbo.Images");
             DropForeignKey("dbo.Schools", "Type", "dbo.School_Type");
             DropForeignKey("dbo.SchoolEducations", "Education_EduID", "dbo.Educations");
             DropForeignKey("dbo.SchoolEducations", "School_SchoolID", "dbo.Schools");
@@ -216,6 +229,7 @@
             DropIndex("dbo.Projects_Users", new[] { "ProjectID" });
             DropIndex("dbo.Projects_Users", new[] { "UserID" });
             DropIndex("dbo.Schools", new[] { "Type" });
+            DropIndex("dbo.CVs", new[] { "ImageID" });
             DropIndex("dbo.CVs", new[] { "UserID" });
             DropTable("dbo.Work_ExperienceCV");
             DropTable("dbo.SkillCVs");
@@ -228,6 +242,7 @@
             DropTable("dbo.Projects_Users");
             DropTable("dbo.Users");
             DropTable("dbo.Skills");
+            DropTable("dbo.Images");
             DropTable("dbo.School_Type");
             DropTable("dbo.Schools");
             DropTable("dbo.Educations");
