@@ -19,7 +19,7 @@ namespace Data.Models
         public string Email { get; set; }
         public bool PrivateProfile { get; set; }
 
-        public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<Projects_Users> Projects { get; set; }
        
 
         

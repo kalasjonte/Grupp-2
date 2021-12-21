@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Grupp_2.Models;
 using Data;
+using Data.Models;
 
 namespace Grupp_2.Controllers
 {
@@ -161,6 +162,11 @@ namespace Grupp_2.Controllers
                     db.Users.Add(new Data.Models.User { Email = model.Email });
                     db.SaveChanges();
 
+                    string loggedInUserMail = model.Email;
+                    User user1 = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+                    int id = user1.UserID;
+                    db.CVs.Add(new Data.Models.CV { UserID = id, ImageID = 1 });
+                    db.SaveChanges();
                     //Ska detta flyttas ut?
 
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);

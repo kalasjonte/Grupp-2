@@ -43,6 +43,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,10 +53,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Datacontext.cs" />
+    <Compile Include="Migrations\202112211517389_init.cs" />
+    <Compile Include="Migrations\202112211517389_init.designer.cs">
+      <DependentUpon>202112211517389_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112211537146_ant bild.cs" />
+    <Compile Include="Migrations\202112211537146_ant bild.designer.cs">
+      <DependentUpon>202112211537146_ant bild.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112211541188_nullble.cs" />
+    <Compile Include="Migrations\202112211541188_nullble.designer.cs">
+      <DependentUpon>202112211541188_nullble.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CV.cs" />
+    <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Education.cs" />
     <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\Projects_Users.cs" />
     <Compile Include="Models\User_Message.cs" />
     <Compile Include="Models\Work_Experience.cs" />
     <Compile Include="Models\Skill.cs" />
@@ -68,7 +84,17 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202112211517389_init.resx">
+      <DependentUpon>202112211517389_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112211537146_ant bild.resx">
+      <DependentUpon>202112211537146_ant bild.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112211541188_nullble.resx">
+      <DependentUpon>202112211541188_nullble.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

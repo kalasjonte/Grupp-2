@@ -47,12 +47,12 @@ namespace Grupp_2.Controllers
 
         public ActionResult CreateCVVM()
         {
-            
-            var workExp = db.Work_Experiences.Where(we => we.CVs.Any(cv => cv.CVID == 2)).ToList();
+            int cvId = GetLoggedInCvID();
+            var workExp = db.Work_Experiences.Where(we => we.CVs.Any(cv => cv.CVID == cvId)).ToList();
 
-            var education = db.Educations.Where(ed => ed.CVs.Any(cv => cv.CVID == 2)).ToList();
+            var education = db.Educations.Where(ed => ed.CVs.Any(cv => cv.CVID == cvId)).ToList();
 
-            var skills = db.Skills.Where(s => s.CVs.Any(cv => cv.CVID == 2)).ToList();
+            var skills = db.Skills.Where(s => s.CVs.Any(cv => cv.CVID == cvId)).ToList();
 
             var CreateCVViewModel = new CreateCVViewModel
             {
@@ -75,29 +75,83 @@ namespace Grupp_2.Controllers
         
         public ActionResult UpdateCvVm(string actionType)
         {
-            if (actionType == "Save")
+            int cvId = GetLoggedInCvID();
+            CV cv = db.CVs.Where(s => s.CVID == cvId).FirstOrDefault();
+
+
+            if (actionType == "Lägg till färdighet på ditt cv")
             {
 
                 int skill = Int32.Parse(Request.Form["MySkills"]);
                 var skillAdd = db.Skills.Where(s => s.SkillID == skill).FirstOrDefault();
-                CV cv = db.CVs.Where(s => s.CVID == 2).FirstOrDefault();
-
 
                 cv.Skills.Add(skillAdd);
                 db.SaveChanges();
 
                 
-                return RedirectToAction("Index");
+                return RedirectToAction("CreateCVVM");
 
             }
-            //else if (actionType == "Save and Close")
-            //{
-            //    // Save and quit action
-            //}
-            //else
-            //{
-            //    // Cancel action
-            //}
+            else if (actionType == "Lägg till arbete i cvet")
+            {
+
+                int workxp = Int32.Parse(Request.Form["WorkExp"]);
+                var workadd = db.Work_Experiences.Where(s => s.WorkExpID == workxp).FirstOrDefault();
+                
+
+                cv.Work_Experiences.Add(workadd);
+                db.SaveChanges();
+                return RedirectToAction("CreateCVVM");
+            }
+            else if (actionType == "Lägg till Utbildning i cvet")
+            {
+                int educ = Int32.Parse(Request.Form["MyEducations"]);
+                
+                var eduadd = db.Educations.Where(s => s.EduID == educ).FirstOrDefault();
+                
+
+                cv.Educations.Add(eduadd);
+                db.SaveChanges();
+
+                return RedirectToAction("CreateCVVM");
+            }
+
+            else if (actionType.Contains("Ta bort utbildning"))
+            {
+                
+                string utbildning = actionType.Substring(19);
+                var edudel = db.Educations.Where(s => s.Title.Equals(utbildning)).FirstOrDefault();
+
+                cv.Educations.Remove(edudel);
+                db.SaveChanges();
+
+                return RedirectToAction("CreateCVVM");
+            }
+
+            else if (actionType.Contains("Ta bort erfarenhet"))
+            {
+                
+
+                string erfarenhet = actionType.Substring(19);
+                var skillDel = db.Skills.Where(s => s.Title.Equals(erfarenhet)).FirstOrDefault();
+
+                cv.Skills.Remove(skillDel);
+                db.SaveChanges();
+
+                return RedirectToAction("CreateCVVM");
+            }
+
+            else if (actionType.Contains("Ta bort arbete"))
+            {
+                string arbete = actionType.Substring(15);
+
+                var workDel = db.Work_Experiences.Where(s => s.Titel.Equals(arbete)).FirstOrDefault();
+
+                cv.Work_Experiences.Remove(workDel);
+                db.SaveChanges();
+
+                return RedirectToAction("CreateCVVM");
+            }
 
             else
             {
@@ -106,6 +160,54 @@ namespace Grupp_2.Controllers
 
            
         }
+
+        public ActionResult ShowCVVM() //bryt ut till service, ha denna här men contenten i services
+        {
+            string loggedInUserMail = User.Identity.Name.ToString(); //KAN finnas här, eller ligga i services med hhtpcontext current (owin)
+            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault(); //hämta user på inskickad id ist? -> in i user respository som ligger i data.
+
+            int cvId = GetLoggedInCvID(); //göra ny, ändra till inskickad userid?
+            var workExp = db.Work_Experiences.Where(we => we.CVs.Any(cv => cv.CVID == cvId)).ToList();
+
+            var education = db.Educations.Where(ed => ed.CVs.Any(cv => cv.CVID == cvId)).ToList();
+
+            var skills = db.Skills.Where(s => s.CVs.Any(cv => cv.CVID == cvId)).ToList();
+
+            var CreateCVViewModel = new CreateCVViewModel //skapa viewmodel i  klassen istället -> släng ut den i shared
+            {
+                Användare = user.Firstname,
+                imgpath = "",
+                Educations = education,
+                Skills = skills,
+                Work_Experiences = workExp
+            };
+
+            return View(CreateCVViewModel);
+        }
+
+        //public ActionResult ShowCVVM(int userid)
+        //{
+        //    string loggedInUserMail = User.Identity.Name.ToString();
+        //    User user = db.Users.Where(u => u.UserID == userid).FirstOrDefault(); 
+
+        //    int cvId = GetLoggedInCvID(); //göra ny, ändra till inskickad userid?
+        //    var workExp = db.Work_Experiences.Where(we => we.CVs.Any(cv => cv.CVID == cvId)).ToList();
+
+        //    var education = db.Educations.Where(ed => ed.CVs.Any(cv => cv.CVID == cvId)).ToList();
+
+        //    var skills = db.Skills.Where(s => s.CVs.Any(cv => cv.CVID == cvId)).ToList();
+
+        //    var CreateCVViewModel = new CreateCVViewModel
+        //    {
+        //        Användare = user.Firstname,
+        //        imgpath = "",
+        //        Educations = education,
+        //        Skills = skills,
+        //        Work_Experiences = workExp
+        //    };
+
+        //    return View(CreateCVViewModel);
+        //}
 
         // POST: CV/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -191,6 +293,18 @@ namespace Grupp_2.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public int GetLoggedInCvID() //-> KAN finnas här eller service, respository
+        {
+            
+            string loggedInUserMail = User.Identity.Name.ToString();
+            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+            int userid = user.UserID;
+
+            CV cv = db.CVs.Where(u => u.UserID == userid).FirstOrDefault();
+            int id = cv.CVID;
+            return id;
         }
     }
 }

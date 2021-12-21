@@ -15,7 +15,10 @@ namespace Data.Models
         [ForeignKey("User")]
         public int UserID { get; set; }
         public virtual User User { get; set; }
-        public string ImgPath { get; set; }
+
+        [ForeignKey("Image")]
+        public int ImageID { get; set; }
+        public virtual Image Image { get; set; }
 
         public virtual ICollection<Skill> Skills { get; set; }
         public virtual ICollection<Education> Educations { get; set; }

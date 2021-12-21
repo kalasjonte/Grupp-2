@@ -21,8 +21,6 @@ namespace Data.Models
         public int Creator { get; set; }
         public virtual User User { get; set; }
 
-
-
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<Projects_Users> Users { get; set; }
     }
 }

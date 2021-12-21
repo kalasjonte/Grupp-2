@@ -1,0 +1,52 @@
+﻿@model Grupp_2.Models.CreateCVViewModel
+@{
+    ViewBag.Title = "ShowCVVM";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Cv för @Model.Användare</h2>
+<div>
+    <h3>Din profilbild:</h3>
+    <img src="F:/Foton/Bilder/Wall/912208.jpg" style="max-width: 400px; max-height: 400px" />
+</div>
+
+<h4>Utbildningar:</h4>
+<ul>
+    @foreach (var item in Model.Educations)
+    {
+        <li>
+            @item.Title  
+        </li>
+
+    }
+</ul>
+
+<hr />
+
+<h4>Arbets erfarenheter:</h4>
+<ul>
+    @foreach (var item in Model.Work_Experiences)
+    {
+        <li>
+            @item.Titel 
+        </li>
+
+    }
+</ul>
+
+<hr />
+
+<h4>Färdigheter:</h4>
+<ul>
+    @foreach (var skills in Model.Skills)
+    {
+        <li>
+            @skills.Title 
+        </li>
+
+    }
+</ul>
+
+<hr />
+
+

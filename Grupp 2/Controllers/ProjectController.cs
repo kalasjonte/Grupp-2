@@ -16,6 +16,16 @@ namespace Grupp_2.Controllers
     {
         private Datacontext db = new Datacontext();
 
+        
+        
+        public ActionResult Insert(int id)
+        {
+            //kod för att inserta i sammansatta tabellen Users_Projects
+            
+            return RedirectToAction("index");
+        }
+        
+        
         // GET: Project
         public ActionResult Index()
         {
@@ -28,6 +38,26 @@ namespace Grupp_2.Controllers
                 int userId = user.UserID;
                 ViewBag.Id = userId;
             }
+
+            //ändra linq mot den sammansatta tabellen istället
+            var usersInProjects = db.Users.ToList();
+            List<string> allUsers = new List<string>();
+            List<string> usersNoPrivate = new List<string>();
+
+            foreach (var item in usersInProjects)
+            {
+                allUsers.Add(item.Firstname);
+
+                if (item.PrivateProfile == false)
+                {
+                    usersNoPrivate.Add(item.Firstname);
+                }
+            }
+            //ViewBag med alla users, ska visas när personen som kollar är inloggad
+            ViewBag.Users = allUsers;
+
+            //ViewBag med users - alla med privata profiler
+            ViewBag.UsersNoPrivate = usersNoPrivate;
 
             var projects = db.Projects.Include(p => p.User);
             return View(projects.ToList());

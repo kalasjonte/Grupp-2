@@ -19,10 +19,7 @@ namespace Grupp_2.Controllers
         // GET: User
 
         public ActionResult Index()
-        {
-            
-           
-        
+        {   
             return View(db.Users.ToList());
 
         }
@@ -67,13 +64,16 @@ namespace Grupp_2.Controllers
         }
 
         // GET: User/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit()
         {
+            string loggedInUserMail = User.Identity.Name.ToString();
+            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+            int ? id = user.UserID;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
+            /*User user = db.Users.Find(id)*/;
             if (user == null)
             {
                 return HttpNotFound();
@@ -112,8 +112,19 @@ namespace Grupp_2.Controllers
             return View(user);
         }
 
-        // POST: User/Delete/5
-        [HttpPost, ActionName("Delete")]
+        public  int GetLoggedInId()
+        {
+
+            Datacontext ct = new Datacontext();
+
+            string loggedInUserMail = User.Identity.Name.ToString();
+            User user = ct.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+            int id = user.UserID;
+            return id;
+        }
+
+            // POST: User/Delete/5
+            [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
