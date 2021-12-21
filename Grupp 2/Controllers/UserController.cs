@@ -71,7 +71,7 @@ namespace Grupp_2.Controllers
         {
             string loggedInUserMail = User.Identity.Name.ToString();
             User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
-            int id = user.UserID;
+            int ? id = user.UserID;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
