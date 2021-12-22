@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Data;
 using Data.Models;
+using Grupp_2.Models;
 
 namespace Grupp_2.Controllers
 {
@@ -65,12 +66,6 @@ namespace Grupp_2.Controllers
 
             ViewBag.Type = new SelectList(db.School_Types, "School_TypeID", "Type", school.Type);
             return View(school);
-        }
-
-        public ActionResult DuplicateErrorSchool()
-        {
-            TempData["alertMessage"] = "Det finns redan en skola med denna titel i systemet!";
-            return View();
         }
 
         // GET: School/Edit/5
@@ -140,5 +135,58 @@ namespace Grupp_2.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult DuplicateErrorSchool()
+        {
+            TempData["alertMessage"] = "Det finns redan en skola med denna titel i systemet!";
+            return View();
+        }
+
+        public ActionResult CreateSchoolVM()
+        {
+            var st = db.School_Types.ToList();
+            var CreateSchoolViewModel = new CreateSchoolViewModel
+            {
+                School_Types = st,
+            };
+            var stList = new SelectList(db.School_Types.ToList(), "School_TypeID", "Type");
+            ViewData["DBMySchool_Types"] = stList;
+            return View(CreateSchoolViewModel);
+        }
+
+        public ActionResult UpdateSchoolVM(string actionType, CreateSchoolViewModel vm)
+        {
+            if (actionType == "SaveSchool")
+            {
+                int schoolTypeID = Int32.Parse(Request.Form["MySchool_Types"]);
+                if (ModelState.IsValid)
+                {
+                    foreach (var item in db.Schools)
+                    {
+                        if (item.Name.ToLower() == vm.SchoolName.ToLower())
+                        {
+                            return RedirectToAction("DuplicateErrorSchool");
+                        }
+                    }
+                    db.Schools.Add(new Data.Models.School
+                    {
+                        Name = vm.SchoolName,
+                        Place = vm.SchoolPlace,
+                        Type = schoolTypeID
+                    });
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction("CreateSchoolVM");
+                }
+            }
+            else
+            {
+                return RedirectToAction("CreateSchoolVM");
+            }
+        }
+
     }
 }
