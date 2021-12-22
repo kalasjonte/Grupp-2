@@ -69,6 +69,8 @@
         //kod att kontrollera om användaren är med i projektet eller inte
         foreach (var id in ViewBag.Projects)
         {
+            System.Diagnostics.Debug.WriteLine(id);
+            //funkar inte riktigt kolla igen
             if (id == item.ProjectID)
             {
                 break;
