@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+
 }
 
 <div class="jumbotron">
@@ -11,9 +12,19 @@
     <div class="col-md-4">
         <h2>Urval av cv's:</h2>
         <p>
-            <a>@Html.RouteLink("Kolla på COOLANVÄNDARE1S CV ", "ShowUserCv", new { userid = 4 })  </a> <hr>
-            <a href="google.com">Ipsmun lormen 2 </a> <hr>
-            <a href="google.com">Ipsmun lormen 3 </a> <hr>
+            @if (ViewBag.Count >= 1)
+            {
+                <a>@Html.RouteLink("Kolla på COOLANVÄNDARE1S CV ", "ShowUserCv", new { userid = ViewBag.Uid[0] })  </a> <hr>
+            }
+            @if (ViewBag.Count >= 2)
+            {
+                <a>@Html.RouteLink("Kolla på COOLANVÄNDARE1S CV ", "ShowUserCv", new { userid = ViewBag.Uid[1] })  </a> <hr>
+            }
+            @if (ViewBag.Count >= 3)
+            {
+                <a>@Html.RouteLink("Kolla på COOLANVÄNDARE1S CV ", "ShowUserCv", new { userid = ViewBag.Uid[2] })  </a> <hr>
+            }
+
         </p>
     </div>
     <div class="col-md-4">

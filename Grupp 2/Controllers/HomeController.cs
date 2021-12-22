@@ -13,6 +13,23 @@ namespace Grupp_2.Controllers
         Datacontext db = new Datacontext();
         public ActionResult Index()
         {
+            var users = db.Users.ToList();
+
+            if (users.Count() > 0)
+            {
+                int check = users.Count();
+                ViewBag.Count = users.Count();
+
+                List<int> uID = new List<int>();
+                for (int i = 0; i < 3 && i < check; i++)
+                {
+                    var user = users.Last();
+                    uID.Add(user.UserID);
+                    users.Remove(user);
+                }
+                ViewBag.UID = uID;
+            }
+            
             return View();
         }
 
