@@ -67,19 +67,16 @@
     else if (ViewBag.Id != null && item.Creator != ViewBag.Id)
     {
         //kod att kontrollera om användaren är med i projektet eller inte
-        foreach (var id in ViewBag.Projects)
-        {
-            if (id == item.ProjectID)
+        
+
+    if (!ViewBag.Projects.Contains(item.ProjectID.ToString()))
             {
-                break;
-            }
-            else
-            {
+
                 <td>
                     <input type="button" value="Gå med i projekt" onclick="location.href='@Url.Action("Insert", "Project", new {id = item.ProjectID})'" />
                 </td>
             }
-        }
+        
 
 
 

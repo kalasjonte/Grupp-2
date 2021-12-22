@@ -64,12 +64,14 @@ namespace Grupp_2.Controllers
             //ViewBag med users - alla med privata profiler
             ViewBag.UsersNoPrivate = usersNoPrivate;
 
-            //ViewBag med alla users från gemensamma tabellen
+            //ViewBag med alla projektId som inloggade användaren är med i
             var userIdCommon = db.Projects_Users.Where(pu => pu.UserID == user.UserID).ToList();
-            List<int> projIds = new List<int>();
+            List<string> projIds = new List<string>();
             foreach(var item in userIdCommon)
             {
-                projIds.Add(item.ProjectID);
+                projIds.Add(item.ProjectID.ToString());
+                System.Diagnostics.Debug.WriteLine(item.ProjectID);
+                    
             }
             ViewBag.Projects = projIds;
 
