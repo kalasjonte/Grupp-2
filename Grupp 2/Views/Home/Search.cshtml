@@ -1,40 +1,59 @@
-﻿@model IEnumerable<Data.Models.School_Type>
+﻿@model IEnumerable<Data.Models.User>
 
 @{
     ViewBag.Title = "Sök efter användare";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<br /><br />
+<br />
+<br />
 @using (Html.BeginForm("Search", "Home", FormMethod.Get))
-            {
-                @Html.TextBox("searchString")<input type="submit" value="Sök" />
-            }
+{
+    @Html.TextBox("searchString")
+    <input type="submit" value="Sök" />
+}
 
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Namn</th>
+            <th>CV</th>
         </tr>
 
     </thead>
     <tbody>
         @if (Model.Count() == 0)
-            {
-                <tr>
-                    <td colspan="3" style="color:red"> Inga matchningar</td>
-                    
-                </tr>
+        {
+            <tr>
+                <td colspan="3" style="color:red"> Inga matchningar</td>
+
+            </tr>
         }
         else
+        {
+            foreach (var item in Model)
             {
-                foreach (var item in Model)
+                if (ViewBag.Id != null)
                 {
                     <tr>
-                        <td>@item.Type</td>
+
+                        <td>@item.Firstname</td>
+                        <td> @Html.RouteLink("Klicka för att visa CV", "ShowUserCV", new { userid = item.UserID })</td>
                     </tr>
                 }
+                if (ViewBag.Id == null && item.PrivateProfile == false)
+                {
+                    <tr>
+
+                        <td>@item.Firstname</td>
+                        <td> @Html.RouteLink("Klicka för att visa CV", "ShowUserCV", new { userid = item.UserID })</td>
+                    </tr>
+                }
+
+
+
             }
+        }
     </tbody>
 
 

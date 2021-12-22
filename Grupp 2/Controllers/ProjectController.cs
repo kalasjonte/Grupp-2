@@ -56,13 +56,28 @@ namespace Grupp_2.Controllers
                 ViewBag.Id = userId;
             }
 
+
+            //var userProfiles = _dataContext.UserProfile
+            //                   .Where(t => idList.Contains(t.Id));
+
             //ändra linq mot den sammansatta tabellen istället
-            var usersInProjects = db.Users.ToList();
+            var tempIdList = db.Projects_Users.ToList();
+            List<int> idList = new List<int>();
+            foreach(var item in tempIdList)
+            {
+                idList.Add(item.UserID);
+
+            }
+            
+            var usersInProjects = db.Users.Where(u => idList.Contains(u.UserID)).ToList();
             List<string> allUsers = new List<string>();
             List<string> usersNoPrivate = new List<string>();
 
+            List<int> tempList = new List<int>();
+
             foreach (var item in usersInProjects)
             {
+
                 allUsers.Add(item.Firstname);
 
                 if (item.PrivateProfile == false)
@@ -77,15 +92,18 @@ namespace Grupp_2.Controllers
             ViewBag.UsersNoPrivate = usersNoPrivate;
 
             //ViewBag med alla projektId som inloggade användaren är med i
-            var userIdCommon = db.Projects_Users.Where(pu => pu.UserID == user.UserID).ToList();
-            List<string> projIds = new List<string>();
-            foreach(var item in userIdCommon)
+            if (user != null)
             {
-                projIds.Add(item.ProjectID.ToString());
-                System.Diagnostics.Debug.WriteLine(item.ProjectID);
-                    
+                var userIdCommon = db.Projects_Users.Where(pu => pu.UserID == user.UserID).ToList();
+                List<string> projIds = new List<string>();
+                foreach (var item in userIdCommon)
+                {
+                    projIds.Add(item.ProjectID.ToString());
+                    System.Diagnostics.Debug.WriteLine(item.ProjectID);
+
+                }
+                ViewBag.Projects = projIds;
             }
-            ViewBag.Projects = projIds;
 
             var projects = db.Projects.Include(p => p.User);
             return View(projects.ToList());

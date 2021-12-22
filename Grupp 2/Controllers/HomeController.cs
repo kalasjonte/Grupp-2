@@ -52,8 +52,17 @@ namespace Grupp_2.Controllers
 
         public ActionResult Search(string searchString)
         {
-           
-            return View(db.School_Types.Where(x => x.Type.Contains(searchString) || searchString == null).ToList());
+            string loggedInUserMail = User.Identity.Name.ToString();
+            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+
+            if (user != null)
+            {
+                int userId = user.UserID;
+                ViewBag.Id = userId;
+            }
+
+
+            return View(db.Users.Where(x => x.Firstname.Contains(searchString) || searchString == null).ToList());
         }
     }
 }
