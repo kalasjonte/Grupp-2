@@ -13,6 +13,14 @@ namespace Grupp_2.Controllers
         Datacontext db = new Datacontext();
         public ActionResult Index()
         {
+            var projects  = db.Projects.ToList() ;
+            var project = projects.Last();
+            if (project != null)
+            {
+                ViewBag.Projectnamn = "Titel: " + project.Titel;
+                var creator = db.Users.Where(s => s.UserID == project.Creator).FirstOrDefault();
+                ViewBag.Creator = creator.Firstname;
+            }
             var users = db.Users.ToList();
 
             if (users.Count() > 0)
