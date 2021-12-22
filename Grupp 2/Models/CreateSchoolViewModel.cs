@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Grupp_2.Models
 {
-    public class CreateEduViewModel
+    public class CreateSchoolViewModel
     {
         public List<School_Type> School_Types { get; set; }
 
