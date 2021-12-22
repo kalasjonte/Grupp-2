@@ -184,7 +184,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\CreateEduViewModel.cs" />
+    <Compile Include="Models\CreateSchoolViewModel.cs" />
     <Compile Include="Models\CreateCVViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -303,9 +303,9 @@
     <Content Include="Views\Project\DuplicateErrorProj.cshtml" />
     <Content Include="Views\School\DuplicateErrorSchool.cshtml" />
     <Content Include="Views\Education\DuplicateErrorEdu.cshtml" />
-    <Content Include="Views\Education\CreateEduVM.cshtml" />
     <Content Include="Views\CV\ShowCVVM.cshtml" />
     <Content Include="Views\CV\ShowUserCV.cshtml" />
+    <Content Include="Views\School\CreateSchoolVM.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
