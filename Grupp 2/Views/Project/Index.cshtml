@@ -35,55 +35,59 @@
 
     @foreach (var item in Model)
     {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.User.Firstname)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Titel)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Description)
-    </td>
-    <td>
-        @if (ViewBag.Id != null)
-        {
-            @Html.DropDownList("Deltagande", new SelectList(ViewBag.Users, "Firstname"))
-        }
-        else if (ViewBag.Id == null)
-        {
-            @Html.DropDownList("Deltagande", new SelectList(ViewBag.UsersNoPrivate, "Firstname"))
-        }
-    </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Firstname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @if (ViewBag.Id != null)
+                {
+                    @Html.DropDownList("Deltagande", new SelectList(ViewBag.Users, "Firstname"))
+                }
+                else if (ViewBag.Id == null)
+                {
+                    @Html.DropDownList("Deltagande", new SelectList(ViewBag.UsersNoPrivate, "Firstname"))
+                }
+            </td>
 
-    @if (item.Creator == ViewBag.Id)
-    {
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ProjectID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ProjectID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ProjectID })
-        </td>
-    }
-    else if (ViewBag.Id != null && item.Creator != ViewBag.Id)
-    {
-        //kod att kontrollera om användaren är med i projektet eller inte
-        
-
-    if (!ViewBag.Projects.Contains(item.ProjectID.ToString()))
+            @if (item.Creator == ViewBag.Id)
             {
-
                 <td>
-                    <input type="button" value="Gå med i projekt" onclick="location.href='@Url.Action("Insert", "Project", new {id = item.ProjectID})'" />
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ProjectID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ProjectID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ProjectID })
                 </td>
             }
-        
+            else if (ViewBag.Id != null && item.Creator != ViewBag.Id)
+            {
+                //kod att kontrollera om användaren är med i projektet eller inte
 
 
+                if (!ViewBag.Projects.Contains(item.ProjectID.ToString()))
+                {
 
-    }
+                    <td>
+                        <input type="button" value="Gå med i projekt" onclick="location.href='@Url.Action("Insert", "Project", new {id = item.ProjectID})'" />
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <input type="button" value="Gå ur projekt" onclick="location.href='@Url.Action("Remove", "Project", new {id = item.ProjectID})'" />
+                    </td>
+                }
 
 
-</tr>
+            }
+
+
+        </tr>
     }
 
 </table>

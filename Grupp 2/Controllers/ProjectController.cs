@@ -29,8 +29,20 @@ namespace Grupp_2.Controllers
 
             return RedirectToAction("Index");
         }
-        
-        
+        public ActionResult Remove(int id)
+        {
+            string loggedInUserMail = User.Identity.Name.ToString();
+            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+            var tempProjekt = db.Projects_Users.Where(pu => pu.ProjectID == id && pu.UserID == user.UserID).FirstOrDefault();
+
+            db.Projects_Users.Remove(tempProjekt);
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+
+
         // GET: Project
         public ActionResult Index()
         {
