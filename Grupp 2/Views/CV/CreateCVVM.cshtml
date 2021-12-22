@@ -5,101 +5,116 @@
 }
 
 
-@using (Html.BeginForm("UpdateCvVm", "Cv", FormMethod.Post)) { 
-<div>
-    <h3>Din profilbild:</h3>
-    <img src="F:/Foton/Bilder/Wall/912208.jpg" style="max-width: 400px; max-height: 400px" />
-</div>
-
-<h4>Tillagda Utbildningar i ditt cv:</h4>
-<ul>
-    @foreach (var item in  Model.Educations)
-    {
-    <li>
-        @item.Title   <input type="submit" name="actionType" value="Ta bort utbildning @item.Title"  class="btn btn-default" />
-    </li>
-
-    }
-</ul>
-
-<hr />
-
-<h4>Tillagda Arbets erfarenheter i ditt cv:</h4>
-<ul>
-    @foreach (var item in Model.Work_Experiences)
-    {
-    <li>
-        @item.Titel <input type="submit" name="actionType" value="Ta bort arbete @item.Titel" class="btn btn-default" />
-    </li>
-
-    }
-</ul>
-
-<hr />
-
-<h4>Tillagda färdigheter i ditt cv:</h4>
-<ul>
-    @foreach (var skills in Model.Skills)
-    {
-    <li>
-        @skills.Title <input type="submit" name="actionType" value="Ta bort erfarenhet @skills.Title" class="btn btn-default" />
-    </li>
-
-    }
-</ul>
-
-<hr />
-
-<tr>
-    <td> Lägg till en ny färdighet i ditt cv: </td>
-    <td>
+@using (Html.BeginForm("UpdateCvVm", "Cv", FormMethod.Post))
+{
+    <div>
+        <h3>Din profilbild:</h3>
+        <img src="F:/Foton/Bilder/Wall/912208.jpg" style="max-width: 400px; max-height: 400px" />
+    </div>
 
 
-        @Html.DropDownList("MySkills", (IEnumerable
-       <SelectListItem>)ViewData["DBMySkills"])
+    <asp:FileUpload ID="FileUpload1" runat="server" />
+    <asp:Button ID="btnUpload" runat="server" Text="Upload" OnClick="Upload" />
+    <hr />
+    <asp:GridView ID="gvImages" runat="server" AutoGenerateColumns="false">
+        <Columns>
+            <asp:BoundField DataField="FileId" HeaderText="Image Id" />
+            <asp:BoundField DataField="Name" HeaderText="Name" />
+            <asp:ImageField DataImageUrlField="Path" HeaderText="Image" />
+        </Columns>
+    </asp:GridView>
+    <div id="dialog" style="display: none">
+    </div>
 
-        <input type="submit" name="actionType" value="Lägg till färdighet på ditt cv" class="btn btn-default" />
+    <h4>Tillagda Utbildningar i ditt cv:</h4>
+    <ul>
+        @foreach (var item in Model.Educations)
+        {
+            <li>
+                @item.Title   <input type="submit" name="actionType" value="Ta bort utbildning @item.Title" class="btn btn-default" />
+            </li>
 
-       
+        }
+    </ul>
+
+    <hr />
+
+    <h4>Tillagda Arbets erfarenheter i ditt cv:</h4>
+    <ul>
+        @foreach (var item in Model.Work_Experiences)
+        {
+            <li>
+                @item.Titel <input type="submit" name="actionType" value="Ta bort arbete @item.Titel" class="btn btn-default" />
+            </li>
+
+        }
+    </ul>
+
+    <hr />
+
+    <h4>Tillagda färdigheter i ditt cv:</h4>
+    <ul>
+        @foreach (var skills in Model.Skills)
+        {
+            <li>
+                @skills.Title <input type="submit" name="actionType" value="Ta bort erfarenhet @skills.Title" class="btn btn-default" />
+            </li>
+
+        }
+    </ul>
+
+    <hr />
+
+    <tr>
+        <td> Lägg till en ny färdighet i ditt cv: </td>
+        <td>
 
 
-    </td>
+            @Html.DropDownList("MySkills", (IEnumerable
+           <SelectListItem>)ViewData["DBMySkills"])
 
-</tr>
-
-<hr />
-
-<tr>
-    <td> Lägg till en ny Arbets erfarenhet i ditt cv: </td>
-    <td>
-        @Html.DropDownList("WorkExp", (IEnumerable
-       <SelectListItem>)ViewData["DBMyWorkExp"]) 
+            <input type="submit" name="actionType" value="Lägg till färdighet på ditt cv" class="btn btn-default" />
 
 
-        <input type="submit" name="actionType" value="Lägg till arbete i cvet" class="btn btn-default" />
-
-    </td>
 
 
-</tr>
-<hr />
+        </td>
 
-<tr>
-    <td> Lägg till en ny Utbildning i ditt cv: </td>
-    <td>
-        @Html.DropDownList("MyEducations", (IEnumerable
-       <SelectListItem>)ViewData["DBMyEducations"])
+    </tr>
 
-        <input type="submit" name="actionType" value="Lägg till Utbildning i cvet" class="btn btn-default" />
-    </td>
-</tr>
+    <hr />
+
+    <tr>
+        <td> Lägg till en ny Arbets erfarenhet i ditt cv: </td>
+        <td>
+            @Html.DropDownList("WorkExp", (IEnumerable
+           <SelectListItem>)ViewData["DBMyWorkExp"])
+
+
+            <input type="submit" name="actionType" value="Lägg till arbete i cvet" class="btn btn-default" />
+
+        </td>
+
+
+    </tr>
+    <hr />
+
+    <tr>
+        <td> Lägg till en ny Utbildning i ditt cv: </td>
+        <td>
+            @Html.DropDownList("MyEducations", (IEnumerable
+           <SelectListItem>)ViewData["DBMyEducations"])
+
+            <input type="submit" name="actionType" value="Lägg till Utbildning i cvet" class="btn btn-default" />
+        </td>
+    </tr>
 
 }
-    
-    <p>
-        @Html.ActionLink("Lägg till ny Färdighet", "Create", "Skill")
-        @Html.ActionLink("Lägg till nytt Arbete", "Create", "Work_Experience")
-        @Html.ActionLink("Lägg till ny Utbildning", "Create","Education")
-    </p>
 
-   
+<p>
+    @Html.ActionLink("Lägg till ny Färdighet", "Create", "Skill")
+    @Html.ActionLink("Lägg till nytt Arbete", "Create", "Work_Experience")
+    @Html.ActionLink("Lägg till ny Utbildning", "Create", "Education")
+</p>
+
+

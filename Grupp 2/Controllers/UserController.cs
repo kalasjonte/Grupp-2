@@ -92,7 +92,7 @@ namespace Grupp_2.Controllers
             {
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details");
+                return RedirectToAction("Details", new { id = user.UserID });
             }
             return View(user);
         }

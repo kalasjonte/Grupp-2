@@ -20,9 +20,14 @@ namespace Grupp_2.Controllers
         
         public ActionResult Insert(int id)
         {
-            //kod för att inserta i sammansatta tabellen Users_Projects
-            
-            return RedirectToAction("index");
+
+            string loggedInUserMail = User.Identity.Name.ToString();
+            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+
+            db.Projects_Users.Add(new Projects_Users { ProjectID = id, UserID = user.UserID });
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
         
         
@@ -58,6 +63,15 @@ namespace Grupp_2.Controllers
 
             //ViewBag med users - alla med privata profiler
             ViewBag.UsersNoPrivate = usersNoPrivate;
+
+            //ViewBag med alla users från gemensamma tabellen
+            var userIdCommon = db.Projects_Users.Where(pu => pu.UserID == user.UserID).ToList();
+            List<int> projIds = new List<int>();
+            foreach(var item in userIdCommon)
+            {
+                projIds.Add(item.ProjectID);
+            }
+            ViewBag.Projects = projIds;
 
             var projects = db.Projects.Include(p => p.User);
             return View(projects.ToList());
