@@ -20,6 +20,7 @@ namespace Grupp_2.Controllers
                 ViewBag.Projectnamn = "Titel: " + project.Titel;
                 var creator = db.Users.Where(s => s.UserID == project.Creator).FirstOrDefault();
                 ViewBag.Creator = creator.Firstname;
+                ViewBag.ProjId = project.ProjectID;
             }
             var users = db.Users.ToList();
 
@@ -37,7 +38,23 @@ namespace Grupp_2.Controllers
                 }
                 ViewBag.UID = uID;
             }
-            
+            //----------------------------------------------------------------------------------------
+            string loggedInUserMail = User.Identity.Name.ToString();
+            User user2 = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+            if (user2 != null)
+            {
+                ViewBag.User2Id = user2.UserID;
+                var userIdCommon = db.Projects_Users.Where(pu => pu.UserID == user2.UserID).ToList();
+                List<string> projIds = new List<string>();
+                foreach (var item in userIdCommon)
+                {
+                    projIds.Add(item.ProjectID.ToString());
+
+                }
+                ViewBag.Projects = projIds;
+            }
+            //------------------------------------------------------------------------------------------
+
             return View();
         }
 
@@ -64,5 +81,29 @@ namespace Grupp_2.Controllers
 
             return View(db.Users.Where(x => x.Firstname.Contains(searchString) || searchString == null).ToList());
         }
+
+        public ActionResult JoinProject(int id)
+        {
+
+            string loggedInUserMail = User.Identity.Name.ToString();
+            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+
+            db.Projects_Users.Add(new Projects_Users { ProjectID = id, UserID = user.UserID });
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+        public ActionResult LeaveProject(int id)
+        {
+            string loggedInUserMail = User.Identity.Name.ToString();
+            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+            var tempProjekt = db.Projects_Users.Where(pu => pu.ProjectID == id && pu.UserID == user.UserID).FirstOrDefault();
+
+            db.Projects_Users.Remove(tempProjekt);
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
     }
+
 }

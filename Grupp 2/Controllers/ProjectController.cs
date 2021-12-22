@@ -99,7 +99,6 @@ namespace Grupp_2.Controllers
                 foreach (var item in userIdCommon)
                 {
                     projIds.Add(item.ProjectID.ToString());
-                    System.Diagnostics.Debug.WriteLine(item.ProjectID);
 
                 }
                 ViewBag.Projects = projIds;

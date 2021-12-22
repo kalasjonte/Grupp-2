@@ -35,10 +35,19 @@
     </div>
     <div class="col-md-4">
         <h2>Senaste projeketet</h2>
-        
+
         <a href=@Url.Action("Index", "Project" )> @ViewBag.Projectnamn</a>
-        
-        <button>Knapp för att gå med, anton har koden för detta typ bre</button>
+
+        @*if och else funkar här nedan men blir error vid start om det inte är en inloggad användare. Behöver fixas med en till IF*@
+        @*@if (!ViewBag.Projects.Contains(ViewBag.ProjId.ToString()))
+        {*@
+            <input type="button" value="Gå med i projekt" onclick="location.href='@Url.Action("JoinProject", "Home", new { id = ViewBag.ProjId })'" />
+        @*}
+        else
+        {*@
+            <input type="button" value="Gå ur projekt" onclick="location.href='@Url.Action("LeaveProject", "Home", new {id = ViewBag.ProjId})'" />
+        @*}*@
+
         <p> Skapad av :  @ViewBag.creator </p>
     </div>
 </div>
