@@ -48,7 +48,7 @@
             <td>
                 @if (ViewBag.Id != null)
                 {
-                    @Html.DropDownList("Deltagande", new SelectList(ViewBag.Users, "Firstname"))
+                    @Html.DropDownList("Deltagande", new SelectList(ViewBag.Project1, "Firstname"))
                 }
                 else if (ViewBag.Id == null)
                 {

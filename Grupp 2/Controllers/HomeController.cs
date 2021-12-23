@@ -13,7 +13,7 @@ namespace Grupp_2.Controllers
         Datacontext db = new Datacontext();
         public ActionResult Index()
         {
-            var projects  = db.Projects.ToList() ;
+            var projects = db.Projects.ToList();
             var project = projects.Last();
             if (project != null)
             {
@@ -53,7 +53,7 @@ namespace Grupp_2.Controllers
                 }
                 ViewBag.Projects = projIds;
             }
-            //------------------------------------------------------------------------------------------
+           // ------------------------------------------------------------------------------------------
 
             return View();
         }

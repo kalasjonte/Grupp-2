@@ -73,8 +73,38 @@ namespace Grupp_2.Controllers
             List<string> allUsers = new List<string>();
             List<string> usersNoPrivate = new List<string>();
 
-            List<int> tempList = new List<int>();
+            List<Project> projects = new List<Project>();
+            
 
+            projects = db.Projects.Include(p => p.Users).ToList();
+            using (var context = new Datacontext())
+            {
+                foreach (var item in projects)
+                {
+                    var projusers = context.Projects_Users.Where(u => u.ProjectID == item.ProjectID).ToList();
+                    List<string> namn = new List<string>();
+                    string vbnamn = "Project" + item.ProjectID;
+
+                    foreach (var projects_Users in projusers)
+                    {
+                        var anv = context.Users.Where(u => u.UserID == projects_Users.UserID).ToList();
+
+                        foreach (var anvItem in anv)
+                        {
+                            namn.Add(anvItem.Firstname);
+                        }
+                        ViewBag.Project1 = namn;
+
+                    }
+
+                    
+                }
+            }
+            
+            
+
+            //antons metod , visar alla användare som deltar i ANY project
+            List<int> tempList = new List<int>();
             foreach (var item in usersInProjects)
             {
 
@@ -104,7 +134,7 @@ namespace Grupp_2.Controllers
                 ViewBag.Projects = projIds;
             }
 
-            var projects = db.Projects.Include(p => p.User);
+            
             return View(projects.ToList());
         }
 
