@@ -25,6 +25,9 @@ namespace Grupp_2.Controllers
             {
                 var postedFile = Request.Files[file];
                 postedFile.SaveAs(Server.MapPath("~/UploadedFiles/") + Path.GetFileName(postedFile.FileName));
+               
+                db.Images.Add(new Image { Name = postedFile.FileName, Path = Server.MapPath("~/UploadedFiles/") + Path.GetFileName(postedFile.FileName) });
+                db.SaveChanges();
             }
             return RedirectToAction("Index");
         }
