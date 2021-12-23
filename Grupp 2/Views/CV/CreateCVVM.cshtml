@@ -3,17 +3,21 @@
     ViewBag.Title = "CreateCVVM";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using (Html.BeginForm("Upload", "Cv", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div>
+        Välj en fil: <input type="file" name="fileUpload" />
 
+        <input type="submit" value="Ladda upp" />
+    </div>
+    <div>
+        <h3>@ViewBag.Path</h3>
+        <img src="C:\Users\anton\OneDrive\Dokument\GitHub\Grupp2\Grupp 2\UploadedFiles\f8457627650bb706f11bc97f9c931e56.jpg"/>
+    </div>
+}
 
 @using (Html.BeginForm("UpdateCvVm", "Cv", FormMethod.Post))
 {
-
-    <div>
-        <h3>Din profilbild:</h3>
-        <img src="F:/Foton/Bilder/Wall/912208.jpg" style="max-width: 400px; max-height: 400px" />
-    </div>
-
-
     <h4>Tillagda Utbildningar i ditt cv:</h4>
     <ul>
         @foreach (var item in Model.Educations)

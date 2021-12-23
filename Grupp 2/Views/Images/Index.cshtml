@@ -1,11 +1,11 @@
-﻿@using (Html.BeginForm("Upload", "Images", FormMethod.Post,
-              new { enctype = "multipart/form-data" }))
+﻿@using (Html.BeginForm("Upload", "Images", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div>
-        Select a file: <input type="file" name="fileUpload" />
+        Välj en fil: <input type="file" name="fileUpload" />
 
         <input type="submit" value="Ladda upp" />
-    </div>      }
+    </div>      
+    }
 
 <br /><br /><br />
 

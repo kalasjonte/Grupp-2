@@ -18,19 +18,7 @@ namespace Grupp_2.Controllers
     {
         private Datacontext db = new Datacontext();
 
-        [HttpPost]
-        public ActionResult Upload()  
-        {
-            foreach (string file in Request.Files)
-            {
-                var postedFile = Request.Files[file];
-                postedFile.SaveAs(Server.MapPath("~/UploadedFiles/") + Path.GetFileName(postedFile.FileName));
-               
-                db.Images.Add(new Image { Name = postedFile.FileName, Path = Server.MapPath("~/UploadedFiles/") + Path.GetFileName(postedFile.FileName) });
-                db.SaveChanges();
-            }
-            return RedirectToAction("Index");
-        }
+        
         public ActionResult Index() 
         {
             var uploadedFiles = new List<Image>();

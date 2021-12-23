@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -47,7 +48,39 @@ namespace Grupp_2.Controllers
 
         public ActionResult CreateCVVM()
         {
+
+            var uploadedFiles = new List<Image>();
+
+            var files = Directory.GetFiles(Server.MapPath("~/UploadedFiles"));
             int cvId = GetLoggedInCvID();
+
+            foreach (var file in files)
+            {
+
+                var picture = new Image() { Name = Path.GetFileName(file) };
+                var cvs = from c in db.CVs
+                           where c.CVID == cvId
+                           select c;
+
+                foreach (CV c in cvs)
+                {
+                    picture.Path = ("~/UploadedFiles/") + Path.GetFileName(file);
+                    uploadedFiles.Add(picture);
+
+
+
+                    //var test = from i in db.Images
+                    //           where c.CVID == cvId
+                    //           select c;
+
+
+                    ViewBag.Path = picture.Path;
+                }
+            }
+
+
+            //.------------------------
+            
             var workExp = db.Work_Experiences.Where(we => we.CVs.Any(cv => cv.CVID == cvId)).ToList();
 
             var education = db.Educations.Where(ed => ed.CVs.Any(cv => cv.CVID == cvId)).ToList();
@@ -309,6 +342,37 @@ namespace Grupp_2.Controllers
             CV cv = db.CVs.Where(u => u.UserID == userid).FirstOrDefault();
             int id = cv.CVID;
             return id;
+        }
+        //Bildmetod
+        [HttpPost]
+        public ActionResult Upload()
+        {
+            foreach (string file in Request.Files)
+            {
+                var postedFile = Request.Files[file];
+                postedFile.SaveAs(Server.MapPath("~/UploadedFiles/") + Path.GetFileName(postedFile.FileName));
+
+                db.Images.Add(new Image { Name = postedFile.FileName, Path = Server.MapPath("~/UploadedFiles/") + Path.GetFileName(postedFile.FileName) });
+                db.SaveChanges();
+
+                //ViewBag.Path = Server.MapPath("~/UploadedFiles/") + Path.GetFileName(postedFile.FileName);
+                //System.Diagnostics.Debug.WriteLine(ViewBag.Path);
+
+                var imgId = db.Images.OrderByDescending(i => i.ImageID).FirstOrDefault();
+                int cvId = GetLoggedInCvID();
+
+                var tempCv = from c in db.CVs
+                             where c.CVID == cvId
+                             select c;
+
+                foreach(CV c in tempCv)
+                {
+                    c.ImageID = imgId.ImageID;
+                }
+
+                db.SaveChanges();
+            }
+            return RedirectToAction("CreateCVVM");
         }
     }
 }
