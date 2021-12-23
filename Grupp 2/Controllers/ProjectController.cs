@@ -77,6 +77,7 @@ namespace Grupp_2.Controllers
             
 
             projects = db.Projects.Include(p => p.Users).ToList();
+            //Jontes
             using (var context = new Datacontext())
             {
                 foreach (var item in projects)
@@ -100,6 +101,8 @@ namespace Grupp_2.Controllers
                     
                 }
             }
+
+            //Jontes slut
             
             
 
@@ -156,7 +159,10 @@ namespace Grupp_2.Controllers
         // GET: Project/Create
         public ActionResult Create()
         {
-            ViewBag.Creator = new SelectList(db.Users, "UserID", "Firstname");
+            
+            string loggedInUserMail = User.Identity.Name.ToString();
+            ViewBag.Creator = new SelectList(db.Users.Where(u => u.Email == loggedInUserMail).ToList(), "UserID", "Firstname");
+
             return View();
         }
 
@@ -177,6 +183,7 @@ namespace Grupp_2.Controllers
                     }
                 }
                 db.Projects.Add(project);
+                db.Projects_Users.Add(new Projects_Users { ProjectID = project.ProjectID, UserID = project.Creator });
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
