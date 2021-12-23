@@ -19,8 +19,7 @@ namespace Grupp_2.Controllers
         private Datacontext db = new Datacontext();
 
         [HttpPost]
-        public ActionResult Upload()  //Here just store 'Image' in a folder in Project Directory 
-                         //  name 'UplodedFiles'
+        public ActionResult Upload()  
         {
             foreach (string file in Request.Files)
             {
@@ -29,7 +28,7 @@ namespace Grupp_2.Controllers
             }
             return RedirectToAction("Index");
         }
-        public ActionResult Index() //I retrive Images List by using this Controller
+        public ActionResult Index() 
         {
             var uploadedFiles = new List<Image>();
 
