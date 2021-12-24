@@ -65,16 +65,21 @@ namespace Grupp_2.Controllers
                 foreach (CV c in cvs)
                 {
                     picture.Path = ("~/UploadedFiles/") + Path.GetFileName(file);
-                    uploadedFiles.Add(picture);
+                    if (picture.ImageID == c.ImageID)
+                    {
+
+                        uploadedFiles.Add(picture);
 
 
 
-                    //var test = from i in db.Images
-                    //           where c.CVID == cvId
-                    //           select c;
+                        //var test = from i in db.Images
+                        //           where c.CVID == cvId
+                        //           select c;
 
 
-                    ViewBag.Path = picture.Path;
+                        ViewBag.Path = ("/UploadedFiles/") + Path.GetFileName(file);
+                        ViewBag.PathName = Path.GetFileName(file);
+                    }
                 }
             }
 
