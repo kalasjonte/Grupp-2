@@ -65,8 +65,7 @@ namespace Grupp_2.Controllers
                 foreach (CV c in cvs)
                 {
                     picture.Path = ("~/UploadedFiles/") + Path.GetFileName(file);
-                    if (picture.ImageID == c.ImageID)
-                    {
+                    
 
                         uploadedFiles.Add(picture);
 
@@ -79,7 +78,7 @@ namespace Grupp_2.Controllers
 
                         ViewBag.Path = ("/UploadedFiles/") + Path.GetFileName(file);
                         ViewBag.PathName = Path.GetFileName(file);
-                    }
+                    
                 }
             }
 
