@@ -15,15 +15,15 @@
         <p>
             @if (ViewBag.Count >= 1)
             {
-                <a>@Html.RouteLink("Kolla på COOLANVÄNDARE1S CV ", "ShowUserCv", new { userid = ViewBag.Uid[0] })  </a> <hr>
+                <a>@Html.RouteLink("Kolla på " + (string)(ViewBag.Name[0]) + "s CV", "ShowUserCv", new { userid = ViewBag.Uid[0] })  </a> <hr>
             }
             @if (ViewBag.Count >= 2)
             {
-                <a>@Html.RouteLink("Kolla på COOLANVÄNDARE1S CV ", "ShowUserCv", new { userid = ViewBag.Uid[1] })  </a> <hr>
+                <a>@Html.RouteLink("Kolla på " + (string)(ViewBag.Name[1]) + "s CV", "ShowUserCv", new { userid = ViewBag.Uid[1] })  </a> <hr>
             }
             @if (ViewBag.Count >= 3)
             {
-                <a>@Html.RouteLink("Kolla på COOLANVÄNDARE1S CV ", "ShowUserCv", new { userid = ViewBag.Uid[2] })  </a> <hr>
+                <a>@Html.RouteLink("Kolla på " + (string)(ViewBag.Name[2]) + "s CV", "ShowUserCv", new { userid = ViewBag.Uid[2] })  </a> <hr>
             }
 
         </p>

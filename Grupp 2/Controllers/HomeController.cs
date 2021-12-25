@@ -30,13 +30,18 @@ namespace Grupp_2.Controllers
                 ViewBag.Count = users.Count();
 
                 List<int> uID = new List<int>();
+                List<string> name = new List<string>();
                 for (int i = 0; i < 3 && i < check; i++)
                 {
                     var user = users.Last();
                     uID.Add(user.UserID);
+                    name.Add(user.Firstname + " " + user.Lastname);
                     users.Remove(user);
+
+                    
                 }
                 ViewBag.UID = uID;
+                ViewBag.Name = name;
             }
             //----------------------------------------------------------------------------------------
             string loggedInUserMail = User.Identity.Name.ToString();
