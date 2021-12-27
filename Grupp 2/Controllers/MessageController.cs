@@ -8,7 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using Data;
 using Data.Models;
-using Grupp_2.Models;
 
 namespace Grupp_2.Controllers
 {
@@ -19,31 +18,7 @@ namespace Grupp_2.Controllers
         // GET: Message
         public ActionResult Index()
         {
-            string loggedInUserMail = User.Identity.Name.ToString();
-            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
-
-            var UserMessages = db.User_Messages.Where(m => m.RecievingUser == user.UserID).ToList();
-            List<MessagesViewModel> listMsgViewModels = new List<MessagesViewModel>();
-
-            foreach (var item in UserMessages)
-            {
-                var MsgViewModel = new MessagesViewModel
-                {
-                    Reciver = user.UserID,
-                    Read = item.Read,
-                    Sender = item.Sender,
-                    MessageID = item.MessageID
-
-
-                };
-                var msg = db.Messages.Where(m => m.MessageID == item.MessageID).FirstOrDefault();
-                MsgViewModel.Content = msg.Content;
-                listMsgViewModels.Add(MsgViewModel);
-
-            }
-
-           
-            return View(listMsgViewModels);
+            return View(db.Messages.ToList());
         }
 
         // GET: Message/Details/5
