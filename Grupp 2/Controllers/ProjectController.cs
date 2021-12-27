@@ -63,18 +63,18 @@ namespace Grupp_2.Controllers
             //ändra linq mot den sammansatta tabellen istället
             var tempIdList = db.Projects_Users.ToList();
             List<int> idList = new List<int>();
-            foreach(var item in tempIdList)
+            foreach (var item in tempIdList)
             {
                 idList.Add(item.UserID);
 
             }
-            
+
             var usersInProjects = db.Users.Where(u => idList.Contains(u.UserID)).ToList();
             List<string> allUsers = new List<string>();
             List<string> usersNoPrivate = new List<string>();
 
             List<Project> projects = new List<Project>();
-            
+
 
             projects = db.Projects.Include(p => p.Users).ToList();
             //Jontes
@@ -98,47 +98,47 @@ namespace Grupp_2.Controllers
 
                     }
 
-                    
+
                 }
-            }
 
-            //Jontes slut
-            
-            
+                //Jontes slut
 
-            //antons metod , visar alla användare som deltar i ANY project
-            List<int> tempList = new List<int>();
-            foreach (var item in usersInProjects)
-            {
 
-                allUsers.Add(item.Firstname);
 
-                if (item.PrivateProfile == false)
+                //antons metod , visar alla användare som deltar i ANY project
+                List<int> tempList = new List<int>();
+                foreach (var item in usersInProjects)
                 {
-                    usersNoPrivate.Add(item.Firstname);
+
+                    allUsers.Add(item.Firstname);
+
+                    if (item.PrivateProfile == false)
+                    {
+                        usersNoPrivate.Add(item.Firstname);
+                    }
                 }
-            }
-            //ViewBag med alla users, ska visas när personen som kollar är inloggad
-            ViewBag.Users = allUsers;
+                //ViewBag med alla users, ska visas när personen som kollar är inloggad
+                ViewBag.Users = allUsers;
 
-            //ViewBag med users - alla med privata profiler
-            ViewBag.UsersNoPrivate = usersNoPrivate;
+                //ViewBag med users - alla med privata profiler
+                ViewBag.UsersNoPrivate = usersNoPrivate;
 
-            //ViewBag med alla projektId som inloggade användaren är med i
-            if (user != null)
-            {
-                var userIdCommon = db.Projects_Users.Where(pu => pu.UserID == user.UserID).ToList();
-                List<string> projIds = new List<string>();
-                foreach (var item in userIdCommon)
+                //ViewBag med alla projektId som inloggade användaren är med i
+                if (user != null)
                 {
-                    projIds.Add(item.ProjectID.ToString());
+                    var userIdCommon = db.Projects_Users.Where(pu => pu.UserID == user.UserID).ToList();
+                    List<string> projIds = new List<string>();
+                    foreach (var item in userIdCommon)
+                    {
+                        projIds.Add(item.ProjectID.ToString());
 
+                    }
+                    ViewBag.Projects = projIds;
                 }
-                ViewBag.Projects = projIds;
-            }
 
-            
-            return View(projects.ToList());
+
+                return View(projects.ToList());
+            }
         }
 
         // GET: Project/Details/5
