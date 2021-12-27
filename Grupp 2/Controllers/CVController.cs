@@ -347,6 +347,9 @@ namespace Grupp_2.Controllers
             int id = cv.CVID;
             return id;
         }
+
+        
+
         //Bildmetod
         [HttpPost]
         public ActionResult Upload()
@@ -356,11 +359,20 @@ namespace Grupp_2.Controllers
                 var postedFile = Request.Files[file];
                 postedFile.SaveAs(Server.MapPath("~/UploadedFiles/") + Path.GetFileName(postedFile.FileName));
 
+                //----
+
+                //var relativePath = ("~/UploadedFiles/") + Path.GetFileName(postedFile.FileName);
+                //var absolutePath = HttpContext.Server.MapPath(relativePath);
+                //if (System.IO.File.Exists(absolutePath))
+                //{
+                //    Duplicate();
+                //}
+
+
+                //---
+
                 db.Images.Add(new Image { Name = postedFile.FileName, Path = Server.MapPath("~/UploadedFiles/") + Path.GetFileName(postedFile.FileName) });
                 db.SaveChanges();
-
-                //ViewBag.Path = Server.MapPath("~/UploadedFiles/") + Path.GetFileName(postedFile.FileName);
-                //System.Diagnostics.Debug.WriteLine(ViewBag.Path);
 
                 var imgId = db.Images.OrderByDescending(i => i.ImageID).FirstOrDefault();
                 int cvId = GetLoggedInCvID();

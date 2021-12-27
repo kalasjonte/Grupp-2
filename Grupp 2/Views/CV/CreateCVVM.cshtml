@@ -13,8 +13,15 @@
     </div>
     <div>
         <h3>Din profilbild:</h3>
-        <img src="@ViewBag.Path" alt="Profilbild kunde inte laddas" style="border-radius: 50%", width="300px"/>
+        <img src="@ViewBag.Path" alt="Profilbild kunde inte laddas" style="border-radius: 50%" , width="300px" />
     </div>
+}
+
+@if (null != TempData["alertMessage"])
+{
+    <script type="text/javascript">
+    alert('@TempData["alertMessage"]');
+    </script>
 }
 
 @using (Html.BeginForm("UpdateCvVm", "Cv", FormMethod.Post))
