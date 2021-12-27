@@ -16,5 +16,7 @@ namespace Grupp_2.Models
         public List<Education> Educations { get; set; }
         public List<Skill> Skills { get; set; }
         public List<Work_Experience> Work_Experiences { get; set; }
+
+        public List<Project> Projects { get; set; }
     }
 }

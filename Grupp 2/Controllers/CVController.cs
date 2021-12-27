@@ -211,14 +211,36 @@ namespace Grupp_2.Controllers
             var education = db.Educations.Where(ed => ed.CVs.Any(cv => cv.CVID == cvId)).ToList();
 
             var skills = db.Skills.Where(s => s.CVs.Any(cv => cv.CVID == cvId)).ToList();
+            CV tempCv = db.CVs.Where(u => u.UserID == user.UserID).FirstOrDefault();
+
+            //------
+            var img = db.Images.Where(i => i.ImageID == tempCv.ImageID).FirstOrDefault();
+
+            var projects = db.Projects.ToList();
+
+            var projectUsers = db.Projects_Users.Where(pu => pu.UserID == user.UserID).ToList();
+
+            List<Project> tempList = new List<Project>();
+
+            foreach (var item in projects)
+            {
+                foreach (var item2 in projectUsers)
+                {
+                    if (item.ProjectID == item2.ProjectID)
+                    {
+                        tempList.Add(item);
+                    }
+                }
+            }
 
             var CreateCVViewModel = new CreateCVViewModel //skapa viewmodel i  klassen istället -> släng ut den i shared
             {
                 Användare = user.Firstname,
-                imgpath = "",
+                imgpath = ("/UploadedFiles/") + Path.GetFileName(img.Name),
                 Educations = education,
                 Skills = skills,
-                Work_Experiences = workExp
+                Work_Experiences = workExp,
+                Projects = tempList
             };
 
             return View(CreateCVViewModel);
@@ -238,13 +260,34 @@ namespace Grupp_2.Controllers
 
             var skills = db.Skills.Where(s => s.CVs.Any(cv => cv.CVID == cvId)).ToList();
 
+            var img = db.Images.Where(i => i.ImageID == cvet.ImageID).FirstOrDefault();
+
+            var projects = db.Projects.ToList();
+
+            var projectUsers = db.Projects_Users.Where(pu => pu.UserID == userid).ToList();
+
+            List<Project> tempList = new List<Project>();
+
+            foreach (var item in projects)
+            {
+                foreach (var item2 in projectUsers)
+                {
+                    if(item.ProjectID == item2.ProjectID)
+                    {
+                        tempList.Add(item);
+                    }
+                }
+            }
+
+
             var CreateCVViewModel = new CreateCVViewModel
             {
                 Användare = user.Firstname,
-                imgpath = "",
+                imgpath = ("/UploadedFiles/") + Path.GetFileName(img.Name),
                 Educations = education,
                 Skills = skills,
-                Work_Experiences = workExp
+                Work_Experiences = workExp,
+                Projects = tempList
             };
 
             return View(CreateCVViewModel);

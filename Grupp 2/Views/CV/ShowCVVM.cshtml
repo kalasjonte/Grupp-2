@@ -15,7 +15,7 @@
     @foreach (var item in Model.Educations)
     {
         <li>
-            @item.Title  
+            @item.Title
         </li>
 
     }
@@ -28,7 +28,7 @@
     @foreach (var item in Model.Work_Experiences)
     {
         <li>
-            @item.Titel 
+            @item.Titel
         </li>
 
     }
@@ -41,7 +41,7 @@
     @foreach (var skills in Model.Skills)
     {
         <li>
-            @skills.Title 
+            @skills.Title
         </li>
 
     }
@@ -50,3 +50,13 @@
 <hr />
 
 
+<h4>Projekt:</h4>
+<ul>
+    @foreach (var item in Model.Projects)
+    {
+        <li>
+            @item.Titel
+        </li>
+
+    }
+</ul>
