@@ -36,7 +36,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Creator, "Creator", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("Creator", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("Creator", null, htmlAttributes: new { @class = "form-control",  @readonly = "readonly" })
                 @Html.ValidationMessageFor(model => model.Creator, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -50,7 +50,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "ProjectVM")
 </div>
 
 @section Scripts {
