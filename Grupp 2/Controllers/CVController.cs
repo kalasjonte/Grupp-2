@@ -48,24 +48,9 @@ namespace Grupp_2.Controllers
 
         public ActionResult CreateCVVM()
         {
-            // -------------------------------
-
-
-            
-
-            //    ViewBag.PathName = Path.GetFileName(path);
-            //    ViewBag.Path = ("~/UploadedFiles/") + image.Name;
-            //    System.Diagnostics.Debug.WriteLine(("~/UploadedFiles/") + image.Name);
-            //ViewBag.PathName = Path.GetFileName(path);
-
-            //-----------------------------------------
-
-            // ---------------------------
-            
-
             var files = Directory.GetFiles(Server.MapPath("~/UploadedFiles"));
             int cvId = GetLoggedInCvID();
-
+            
             
 
                 var tempCv = db.CVs.Where(e => e.CVID == cvId).FirstOrDefault();
@@ -73,15 +58,8 @@ namespace Grupp_2.Controllers
                 var image = db.Images.Where(i => i.ImageID == tempCv.ImageID).FirstOrDefault();
 
                 string path = image.Path;
-
                 
-                
-                
-                ViewBag.Path = ("/UploadedFiles/") + Path.GetFileName(image.Name);
-                    
-                
-            
-
+            ViewBag.Path = ("/UploadedFiles/") + Path.GetFileName(image.Name);
 
             //.------------------------
             
@@ -90,12 +68,39 @@ namespace Grupp_2.Controllers
             var education = db.Educations.Where(ed => ed.CVs.Any(cv => cv.CVID == cvId)).ToList();
 
             var skills = db.Skills.Where(s => s.CVs.Any(cv => cv.CVID == cvId)).ToList();
+            // ---------------
 
+
+            string loggedInUserMail = User.Identity.Name.ToString();
+            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+
+            ViewBag.Id = user.UserID;
+
+            var projects = db.Projects.ToList();
+
+            var projectUsers = db.Projects_Users.Where(pu => pu.UserID == user.UserID).ToList();
+
+            List<Project> tempList = new List<Project>();
+
+            foreach (var item in projects)
+            {
+                foreach (var item2 in projectUsers)
+                {
+                    if (item.ProjectID == item2.ProjectID)
+                    {
+                        tempList.Add(item);
+                    }
+                }
+            }
+
+
+            //-------
             var CreateCVViewModel = new CreateCVViewModel
             {
                 Educations = education,
                 Skills = skills,
-                Work_Experiences = workExp
+                Work_Experiences = workExp,
+                Projects = tempList
             };
             var skillsList = new SelectList(db.Skills.ToList(), "SkillID", "Title");
             ViewData["DBMySkills"] = skillsList;
@@ -109,7 +114,17 @@ namespace Grupp_2.Controllers
             return View(CreateCVViewModel);
     }
 
-        
+        public ActionResult Remove(int id)
+        {
+            string loggedInUserMail = User.Identity.Name.ToString();
+            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+            var tempProjekt = db.Projects_Users.Where(pu => pu.ProjectID == id && pu.UserID == user.UserID).FirstOrDefault();
+
+            db.Projects_Users.Remove(tempProjekt);
+            db.SaveChanges();
+
+            return RedirectToAction("CreateCVVM");
+        }
         public ActionResult UpdateCvVm(string actionType)
         {
             int cvId = GetLoggedInCvID();

@@ -117,4 +117,54 @@
     @Html.ActionLink("Lägg till ny Utbildning", "Create", "Education")
 </p>
 
+<table class="table">
+    <tr>
+        <th>
+            Skapare
 
+        </th>
+        <th>
+            Titel
+        </th>
+        <th>
+            Beskrvining
+        </th>
+    </tr>
+    @using (Html.BeginForm("CreateCVVM", "Cv", FormMethod.Post))
+    {
+
+
+
+        foreach (var item in Model.Projects)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.User.Firstname)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Titel)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Description)
+    </td>
+    @if (item.Creator != ViewBag.Id)
+    {
+        <td>
+            <input type="button" value="Gå ur projekt" onclick="location.href='@Url.Action("Remove", "Cv", new { id = item.ProjectID })'" />
+        </td>
+    }
+    @if (item.Creator == ViewBag.Id) // hejsvejs här ska det läggas till attributroutes
+    {
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ProjectID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ProjectID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ProjectID })
+        </td>
+    }
+</tr>
+
+        }
+
+
+
+    }
