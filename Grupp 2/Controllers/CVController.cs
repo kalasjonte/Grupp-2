@@ -48,25 +48,38 @@ namespace Grupp_2.Controllers
 
         public ActionResult CreateCVVM()
         {
+            // -------------------------------
 
-            var uploadedFiles = new List<Image>();
 
             
+
+            //    ViewBag.PathName = Path.GetFileName(path);
+            //    ViewBag.Path = ("~/UploadedFiles/") + image.Name;
+            //    System.Diagnostics.Debug.WriteLine(("~/UploadedFiles/") + image.Name);
+            //ViewBag.PathName = Path.GetFileName(path);
+
+            //-----------------------------------------
+
+            // ---------------------------
+            
+
+            var files = Directory.GetFiles(Server.MapPath("~/UploadedFiles"));
             int cvId = GetLoggedInCvID();
-               
 
-                var test = db.CVs.Where(e => e.CVID == cvId).FirstOrDefault();
+            
 
-                var image = db.Images.Where(i => i.ImageID == test.ImageID).FirstOrDefault();
+                var tempCv = db.CVs.Where(e => e.CVID == cvId).FirstOrDefault();
+
+                var image = db.Images.Where(i => i.ImageID == tempCv.ImageID).FirstOrDefault();
 
                 string path = image.Path;
 
-                ViewBag.PathName = Path.GetFileName(path);
-                ViewBag.Path = path;
-                System.Diagnostics.Debug.WriteLine(path);
-                ViewBag.PathName = Path.GetFileName(path);
-
-               
+                
+                
+                
+                ViewBag.Path = ("/UploadedFiles/") + Path.GetFileName(image.Name);
+                    
+                
             
 
 
@@ -83,8 +96,6 @@ namespace Grupp_2.Controllers
                 Educations = education,
                 Skills = skills,
                 Work_Experiences = workExp
-                
-                
             };
             var skillsList = new SelectList(db.Skills.ToList(), "SkillID", "Title");
             ViewData["DBMySkills"] = skillsList;
