@@ -187,7 +187,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\ProjectsViewModel.cs" />
     <Compile Include="Models\CreateSchoolViewModel.cs" />
     <Compile Include="Models\CreateCVViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -315,7 +314,6 @@
     <Content Include="Views\Images\Details.cshtml" />
     <Content Include="Views\Images\Edit.cshtml" />
     <Content Include="Views\Images\Index.cshtml" />
-    <Content Include="Views\Project\ProjectVM.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
