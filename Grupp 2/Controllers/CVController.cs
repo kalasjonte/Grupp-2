@@ -51,36 +51,23 @@ namespace Grupp_2.Controllers
 
             var uploadedFiles = new List<Image>();
 
-            var files = Directory.GetFiles(Server.MapPath("~/UploadedFiles"));
+            
             int cvId = GetLoggedInCvID();
+               
 
-            foreach (var file in files)
-            {
+                var test = db.CVs.Where(e => e.CVID == cvId).FirstOrDefault();
 
-                var picture = new Image() { Name = Path.GetFileName(file) };
-                var cvs = from c in db.CVs
-                           where c.CVID == cvId
-                           select c;
+                var image = db.Images.Where(i => i.ImageID == test.ImageID).FirstOrDefault();
 
-                foreach (CV c in cvs)
-                {
-                    picture.Path = ("~/UploadedFiles/") + Path.GetFileName(file);
-                    
+                string path = image.Path;
 
-                        uploadedFiles.Add(picture);
+                ViewBag.PathName = Path.GetFileName(path);
+                ViewBag.Path = path;
+                System.Diagnostics.Debug.WriteLine(path);
+                ViewBag.PathName = Path.GetFileName(path);
 
-
-
-                        //var test = from i in db.Images
-                        //           where c.CVID == cvId
-                        //           select c;
-
-
-                        ViewBag.Path = ("/UploadedFiles/") + Path.GetFileName(file);
-                        ViewBag.PathName = Path.GetFileName(file);
-                    
-                }
-            }
+               
+            
 
 
             //.------------------------
@@ -96,6 +83,8 @@ namespace Grupp_2.Controllers
                 Educations = education,
                 Skills = skills,
                 Work_Experiences = workExp
+                
+                
             };
             var skillsList = new SelectList(db.Skills.ToList(), "SkillID", "Title");
             ViewData["DBMySkills"] = skillsList;
