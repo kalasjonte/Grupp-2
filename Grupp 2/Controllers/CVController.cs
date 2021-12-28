@@ -133,39 +133,47 @@ namespace Grupp_2.Controllers
 
             if (actionType == "Lägg till färdighet på ditt cv")
             {
-
-                int skill = Int32.Parse(Request.Form["MySkills"]);
-                var skillAdd = db.Skills.Where(s => s.SkillID == skill).FirstOrDefault();
-
-                
-
-                cv.Skills.Add(skillAdd);
-                db.SaveChanges();
-
+                try
+                {
+                    int skill = Int32.Parse(Request.Form["MySkills"]);
+                    var skillAdd = db.Skills.Where(s => s.SkillID == skill).FirstOrDefault();
+                    cv.Skills.Add(skillAdd);
+                    db.SaveChanges();
+                }
+                catch(Exception e) { ErrorMessage("Please add a skill to the database before doing this!"); }
                 
                 return RedirectToAction("CreateCVVM");
 
             }
             else if (actionType == "Lägg till arbete i cvet")
             {
+                try
+                {
 
-                int workxp = Int32.Parse(Request.Form["WorkExp"]);
-                var workadd = db.Work_Experiences.Where(s => s.WorkExpID == workxp).FirstOrDefault();
-                
+                    int workxp = Int32.Parse(Request.Form["WorkExp"]);
+                    var workadd = db.Work_Experiences.Where(s => s.WorkExpID == workxp).FirstOrDefault();
 
-                cv.Work_Experiences.Add(workadd);
-                db.SaveChanges();
+
+                    cv.Work_Experiences.Add(workadd);
+                    db.SaveChanges();
+                }
+                catch(Exception e) { ErrorMessage("Please add a work experience to the database before doing this!"); }
                 return RedirectToAction("CreateCVVM");
             }
             else if (actionType == "Lägg till Utbildning i cvet")
             {
-                int educ = Int32.Parse(Request.Form["MyEducations"]);
-                
-                var eduadd = db.Educations.Where(s => s.EduID == educ).FirstOrDefault();
-                
+                try
+                {
 
-                cv.Educations.Add(eduadd);
-                db.SaveChanges();
+                    int educ = Int32.Parse(Request.Form["MyEducations"]);
+
+                    var eduadd = db.Educations.Where(s => s.EduID == educ).FirstOrDefault();
+
+
+                    cv.Educations.Add(eduadd);
+                    db.SaveChanges();
+                }
+                catch(Exception e) { ErrorMessage("Please add an education to the database before doing this!"); }
 
                 return RedirectToAction("CreateCVVM");
             }
@@ -260,6 +268,7 @@ namespace Grupp_2.Controllers
 
             return View(CreateCVViewModel);
         }
+
         [Route("Cv/{userid:int}/ShowUserCv", Name = "ShowUserCv")]
         public ActionResult ShowUserCV(int userid)
         {
@@ -326,7 +335,7 @@ namespace Grupp_2.Controllers
             return View(cV);
         }
 
-        // GET: CV/Edit/5
+        
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -406,7 +415,11 @@ namespace Grupp_2.Controllers
             return id;
         }
 
-        
+        public ActionResult ErrorMessage(string message)
+        {
+            TempData["alertMessage"] = message;
+            return RedirectToAction("CreateCVVM");
+        }
 
         //Bildmetod
         [HttpPost]
@@ -415,7 +428,13 @@ namespace Grupp_2.Controllers
             foreach (string file in Request.Files)
             {
                 var postedFile = Request.Files[file];
-                postedFile.SaveAs(Server.MapPath("~/UploadedFiles/") + Path.GetFileName(postedFile.FileName));
+                try
+                {
+                    postedFile.SaveAs(Server.MapPath("~/UploadedFiles/") + Path.GetFileName(postedFile.FileName));
+                    db.Images.Add(new Image { Name = postedFile.FileName, Path = Server.MapPath("~/UploadedFiles/") + Path.GetFileName(postedFile.FileName) });
+                    db.SaveChanges();
+                }
+                catch (Exception e) { ErrorMessage("Please select a file first!");  }
 
                 //----
 
@@ -429,8 +448,7 @@ namespace Grupp_2.Controllers
 
                 //---
 
-                db.Images.Add(new Image { Name = postedFile.FileName, Path = Server.MapPath("~/UploadedFiles/") + Path.GetFileName(postedFile.FileName) });
-                db.SaveChanges();
+                
 
                 var imgId = db.Images.OrderByDescending(i => i.ImageID).FirstOrDefault();
                 int cvId = GetLoggedInCvID();

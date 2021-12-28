@@ -49,7 +49,7 @@ namespace Grupp_2.Controllers
             return View();
         }
 
-        // GET: Project/Details/5
+        [Route("Project/Details/{projectid:int?}", Name = "ProjectDetails")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -106,7 +106,7 @@ namespace Grupp_2.Controllers
         }
 
 
-        // GET: Project/Edit/5
+        [Route("Project/Edit/{projectid:int?}", Name = "ProjectEdit")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -139,7 +139,7 @@ namespace Grupp_2.Controllers
             return View(project);
         }
 
-        // GET: Project/Delete/5
+        [Route("Project/Delete/{projectid:int?}", Name = "ProjectDelete")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

@@ -4,6 +4,13 @@
     ViewBag.Title = "Din CV-sida";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@if (null != TempData["alertMessage"])
+{
+    <script type="text/javascript">
+    alert('@TempData["alertMessage"]');
+    </script>
+}
 @using (Html.BeginForm("Upload", "Cv", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div>
@@ -17,12 +24,7 @@
     </div>
 }
 
-@if (null != TempData["alertMessage"])
-{
-    <script type="text/javascript">
-    alert('@TempData["alertMessage"]');
-    </script>
-}
+
 
 @using (Html.BeginForm("UpdateCvVm", "Cv", FormMethod.Post))
 {
@@ -156,9 +158,9 @@
     @if (item.Creator == ViewBag.Id) // hejsvejs här ska det läggas till attributroutes
     {
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ProjectID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ProjectID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ProjectID })
+            @Html.RouteLink("Edit", "ProjectEdit", new { projectid = item.ProjectID }) |
+            @Html.RouteLink("Details", "ProjectDetails", new { id = item.ProjectID }) |
+            @Html.RouteLink("Delete", "ProjectDelete", new { id = item.ProjectID })
         </td>
     }
 </tr>
