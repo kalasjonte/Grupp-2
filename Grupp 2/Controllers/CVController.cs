@@ -258,8 +258,8 @@ namespace Grupp_2.Controllers
 
             var CreateCVViewModel = new CreateCVViewModel //skapa viewmodel i  klassen istället -> släng ut den i shared
             {
-                Användare = user.Firstname,
-                imgpath = ("/UploadedFiles/") + Path.GetFileName(img.Name),
+                User = user.Firstname,
+                Imgpath = ("/UploadedFiles/") + Path.GetFileName(img.Name),
                 Educations = education,
                 Skills = skills,
                 Work_Experiences = workExp,
@@ -306,8 +306,10 @@ namespace Grupp_2.Controllers
 
             var CreateCVViewModel = new CreateCVViewModel
             {
-                Användare = user.Firstname,
-                imgpath = ("/UploadedFiles/") + Path.GetFileName(img.Name),
+                User = user.Firstname + " " + user.Lastname,
+                Email = user.Email,
+                Adress = user.Adress,
+                Imgpath = ("/UploadedFiles/") + Path.GetFileName(img.Name),
                 Educations = education,
                 Skills = skills,
                 Work_Experiences = workExp,

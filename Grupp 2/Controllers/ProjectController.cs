@@ -93,7 +93,7 @@ namespace Grupp_2.Controllers
                 db.Projects.Add(project);
                 db.Projects_Users.Add(new Projects_Users { ProjectID = project.ProjectID, UserID = project.Creator });
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("ProjectVM");
             }
 
             ViewBag.Creator = new SelectList(db.Users, "UserID", "Firstname", project.Creator);
@@ -133,11 +133,13 @@ namespace Grupp_2.Controllers
             {
                 db.Entry(project).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("ProjectVM");
             }
             ViewBag.Creator = new SelectList(db.Users, "UserID", "Firstname", project.Creator);
             return View(project);
         }
+
+        
 
         [Route("Project/Delete/{projectid:int?}", Name = "ProjectDelete")]
         public ActionResult Delete(int? id)
