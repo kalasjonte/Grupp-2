@@ -157,11 +157,12 @@
     }
     @if (item.Creator == ViewBag.Id) // hejsvejs här ska det läggas till attributroutes
     {
-        <td>
-            @Html.RouteLink("Edit", "ProjectEdit", new { projectid = item.ProjectID }) |
-            @Html.RouteLink("Details", "ProjectDetails", new { id = item.ProjectID }) |
-            @Html.RouteLink("Delete", "ProjectDelete", new { id = item.ProjectID })
-        </td>
+<td>
+    
+    @Html.ActionLink("Edit", "Edit", "Project" , new { id = item.ProjectID} , null) |
+    @Html.ActionLink("Details", "Details", "Project", new { id = item.ProjectID } , null) |
+    @Html.ActionLink("Delete", "Delete","Project", new { id = item.ProjectID } , null)
+</td>
     }
 </tr>
 

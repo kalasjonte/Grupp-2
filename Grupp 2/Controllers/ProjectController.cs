@@ -49,7 +49,7 @@ namespace Grupp_2.Controllers
             return View();
         }
 
-        [Route("Project/Details/{projectid:int?}", Name = "ProjectDetails")]
+        
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -106,7 +106,7 @@ namespace Grupp_2.Controllers
         }
 
 
-        [Route("Project/Edit/{projectid:int?}", Name = "ProjectEdit")]
+        
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -118,7 +118,8 @@ namespace Grupp_2.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Creator = new SelectList(db.Users, "UserID", "Firstname", project.Creator);
+            string loggedInUserMail = User.Identity.Name.ToString();
+            ViewBag.Creator = new SelectList(db.Users.Where(u => u.Email == loggedInUserMail).ToList(), "UserID", "Firstname");
             return View(project);
         }
 
@@ -141,7 +142,7 @@ namespace Grupp_2.Controllers
 
         
 
-        [Route("Project/Delete/{projectid:int?}", Name = "ProjectDelete")]
+        
         public ActionResult Delete(int? id)
         {
             if (id == null)
