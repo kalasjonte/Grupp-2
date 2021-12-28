@@ -23,7 +23,7 @@
 
 <hr />
 
-<h4>Arbets erfarenheter:</h4>
+<h4>Arbetserfarenheter:</h4>
 <ul>
     @foreach (var item in Model.Work_Experiences)
     {
@@ -50,15 +50,35 @@
 <hr />
 
 <h4>Projekt:</h4>
-<ul>
+
+<table class="table">
+    <tr>
+        <th>
+            Skapare
+
+        </th>
+        <th>
+            Titel
+        </th>
+        <th>
+            Beskrvining
+        </th>
+    </tr>
     @foreach (var item in Model.Projects)
     {
-        <li>
-            @item.Titel
-        </li>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Firstname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
 
+        </tr>
     }
-</ul>
 
 
 
