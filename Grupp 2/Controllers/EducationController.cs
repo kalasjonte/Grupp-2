@@ -69,18 +69,7 @@ namespace Grupp_2.Controllers
 
         public ActionResult CreateEduVM()
         {
-            var st = db.School_Types.ToList();
-            
-            var CreateEduViewModel = new CreateSchoolViewModel
-            {
-                School_Types = st,
-            };
-
-            var stList = new SelectList(db.School_Types.ToList(), "School_TypeID", "Type");
-            ViewData["DBMySchool_Types"] = stList;
-
-
-            return View(CreateEduViewModel);
+            return View();
         }
 
         public ActionResult DuplicateErrorEdu()

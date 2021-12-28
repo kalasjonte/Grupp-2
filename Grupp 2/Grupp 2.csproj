@@ -177,8 +177,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
-    <Compile Include="Controllers\SchoolController.cs" />
-    <Compile Include="Controllers\School_TypeController.cs" />
     <Compile Include="Controllers\SkillController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\User_MessageController.cs" />
@@ -188,7 +186,6 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\MessagesViewModel.cs" />
-    <Compile Include="Models\CreateSchoolViewModel.cs" />
     <Compile Include="Models\CreateCVViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -251,11 +248,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\School_Type\Create.cshtml" />
-    <Content Include="Views\School_Type\Delete.cshtml" />
-    <Content Include="Views\School_Type\Details.cshtml" />
-    <Content Include="Views\School_Type\Edit.cshtml" />
-    <Content Include="Views\School_Type\Index.cshtml" />
     <Content Include="Views\CV\Create.cshtml" />
     <Content Include="Views\CV\Delete.cshtml" />
     <Content Include="Views\CV\Details.cshtml" />
@@ -276,11 +268,6 @@
     <Content Include="Views\Project\Details.cshtml" />
     <Content Include="Views\Project\Edit.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
-    <Content Include="Views\School\Create.cshtml" />
-    <Content Include="Views\School\Delete.cshtml" />
-    <Content Include="Views\School\Details.cshtml" />
-    <Content Include="Views\School\Edit.cshtml" />
-    <Content Include="Views\School\Index.cshtml" />
     <Content Include="Views\Skill\Create.cshtml" />
     <Content Include="Views\Skill\Delete.cshtml" />
     <Content Include="Views\Skill\Details.cshtml" />
@@ -305,11 +292,9 @@
     <Content Include="Views\Home\Project.cshtml" />
     <Content Include="Views\CV\CreateCVVM.cshtml" />
     <Content Include="Views\Project\DuplicateErrorProj.cshtml" />
-    <Content Include="Views\School\DuplicateErrorSchool.cshtml" />
     <Content Include="Views\Education\DuplicateErrorEdu.cshtml" />
     <Content Include="Views\CV\ShowCVVM.cshtml" />
     <Content Include="Views\CV\ShowUserCV.cshtml" />
-    <Content Include="Views\School\CreateSchoolVM.cshtml" />
     <Content Include="Views\Images\Create.cshtml" />
     <Content Include="Views\Images\Delete.cshtml" />
     <Content Include="Views\Images\Details.cshtml" />

@@ -19,8 +19,6 @@ namespace Data
         public DbSet<Education> Educations { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<School> Schools { get; set; }
-        public DbSet<School_Type> School_Types { get; set; }
         public DbSet<Image> Images { get; set; }
 
         public DbSet<Skill> Skills { get; set; }
