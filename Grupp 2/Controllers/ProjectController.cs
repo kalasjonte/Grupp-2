@@ -27,7 +27,7 @@ namespace Grupp_2.Controllers
             db.Projects_Users.Add(new Projects_Users { ProjectID = id, UserID = user.UserID });
             db.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("ProjectVM");
         }
         public ActionResult Remove(int id)
         {
@@ -38,7 +38,7 @@ namespace Grupp_2.Controllers
             db.Projects_Users.Remove(tempProjekt);
             db.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("ProjectVM");
         }
 
 
@@ -46,102 +46,10 @@ namespace Grupp_2.Controllers
         // GET: Project
         public ActionResult Index()
         {
-
-            string loggedInUserMail = User.Identity.Name.ToString();
-            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
-
-            if (user != null)
-            {
-                int userId = user.UserID;
-                ViewBag.Id = userId;
-            }
-
-
-            //var userProfiles = _dataContext.UserProfile
-            //                   .Where(t => idList.Contains(t.Id));
-
-            //ändra linq mot den sammansatta tabellen istället
-            var tempIdList = db.Projects_Users.ToList();
-            List<int> idList = new List<int>();
-            foreach (var item in tempIdList)
-            {
-                idList.Add(item.UserID);
-
-            }
-
-            var usersInProjects = db.Users.Where(u => idList.Contains(u.UserID)).ToList();
-            List<string> allUsers = new List<string>();
-            List<string> usersNoPrivate = new List<string>();
-
-            List<Project> projects = new List<Project>();
-
-
-            projects = db.Projects.Include(p => p.Users).ToList();
-            //Jontes
-            using (var context = new Datacontext())
-            {
-                foreach (var item in projects)
-                {
-                    var projusers = context.Projects_Users.Where(u => u.ProjectID == item.ProjectID).ToList();
-                    List<string> namn = new List<string>();
-                    string vbnamn = "Project" + item.ProjectID;
-
-                    foreach (var projects_Users in projusers)
-                    {
-                        var anv = context.Users.Where(u => u.UserID == projects_Users.UserID).ToList();
-
-                        foreach (var anvItem in anv)
-                        {
-                            namn.Add(anvItem.Firstname);
-                        }
-                        ViewBag.Project1 = namn;
-
-                    }
-
-
-                }
-
-                //Jontes slut
-
-
-
-                //antons metod , visar alla användare som deltar i ANY project
-                List<int> tempList = new List<int>();
-                foreach (var item in usersInProjects)
-                {
-
-                    allUsers.Add(item.Firstname);
-
-                    if (item.PrivateProfile == false)
-                    {
-                        usersNoPrivate.Add(item.Firstname);
-                    }
-                }
-                //ViewBag med alla users, ska visas när personen som kollar är inloggad
-                ViewBag.Users = allUsers;
-
-                //ViewBag med users - alla med privata profiler
-                ViewBag.UsersNoPrivate = usersNoPrivate;
-
-                //ViewBag med alla projektId som inloggade användaren är med i
-                if (user != null)
-                {
-                    var userIdCommon = db.Projects_Users.Where(pu => pu.UserID == user.UserID).ToList();
-                    List<string> projIds = new List<string>();
-                    foreach (var item in userIdCommon)
-                    {
-                        projIds.Add(item.ProjectID.ToString());
-
-                    }
-                    ViewBag.Projects = projIds;
-                }
-
-
-                return View(projects.ToList());
-            }
+            return View();
         }
 
-        // GET: Project/Details/5
+        [Route("Project/Details/{projectid:int?}", Name = "ProjectDetails")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -185,7 +93,7 @@ namespace Grupp_2.Controllers
                 db.Projects.Add(project);
                 db.Projects_Users.Add(new Projects_Users { ProjectID = project.ProjectID, UserID = project.Creator });
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("ProjectVM");
             }
 
             ViewBag.Creator = new SelectList(db.Users, "UserID", "Firstname", project.Creator);
@@ -198,7 +106,7 @@ namespace Grupp_2.Controllers
         }
 
 
-        // GET: Project/Edit/5
+        [Route("Project/Edit/{projectid:int?}", Name = "ProjectEdit")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -225,13 +133,15 @@ namespace Grupp_2.Controllers
             {
                 db.Entry(project).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("ProjectVM");
             }
             ViewBag.Creator = new SelectList(db.Users, "UserID", "Firstname", project.Creator);
             return View(project);
         }
 
-        // GET: Project/Delete/5
+        
+
+        [Route("Project/Delete/{projectid:int?}", Name = "ProjectDelete")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -252,9 +162,16 @@ namespace Grupp_2.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Project project = db.Projects.Find(id);
+
+            var projects_Users = db.Projects_Users.Where(e => e.ProjectID == id);
+            foreach (var item in projects_Users)
+            {
+                db.Projects_Users.Remove(item);
+            }
+
             db.Projects.Remove(project);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("ProjectVM");
         }
 
         protected override void Dispose(bool disposing)
@@ -264,6 +181,87 @@ namespace Grupp_2.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public ActionResult ProjectVM()
+        {
+            string loggedInUserMail = User.Identity.Name.ToString();
+            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+
+            if (user != null)
+            {
+                int userId = user.UserID;
+                ViewBag.Id = userId;
+            }
+
+
+
+
+            List<Project> projects = new List<Project>();
+
+
+            projects = db.Projects.Include(p => p.Users).ToList();
+            List<ProjectsViewModel> ProjectViews = new List<ProjectsViewModel>();
+            //Jontes
+            using (var context = new Datacontext())
+            {
+                foreach (var item in projects)
+                {
+                    var ProjectsViewModel = new ProjectsViewModel
+                    {
+                        Creator = item.User.Firstname + " " + item.User.Lastname,
+                        CreatorID = item.Creator,
+                        Titel = item.Titel,
+                        Description = item.Description,
+                        ProjectID = item.ProjectID
+
+
+                    };
+                    var projusers = context.Projects_Users.Where(u => u.ProjectID == item.ProjectID).ToList();
+                    List<string> namn = new List<string>();
+                    List<string> namnNonHidden = new List<string>();
+
+                    foreach (var projects_Users in projusers)
+                    {
+                        var anv = context.Users.Where(u => u.UserID == projects_Users.UserID).ToList();
+
+                        foreach (var anvItem in anv)
+                        {
+                            namn.Add(anvItem.Firstname);
+                            if (anvItem.PrivateProfile == false)
+                            {
+                                namnNonHidden.Add(anvItem.Firstname);
+                            }
+                        }
+
+                    }
+                    ProjectsViewModel.Users = namn;
+                    ProjectsViewModel.UsersNotHidden = namnNonHidden;
+
+                    ProjectViews.Add(ProjectsViewModel);
+                }
+
+                //Jontes slut
+
+
+
+
+
+                //ViewBag med alla projektId som inloggade användaren är med i
+                if (user != null)
+                {
+                    var userIdCommon = db.Projects_Users.Where(pu => pu.UserID == user.UserID).ToList();
+                    List<string> projIds = new List<string>();
+                    foreach (var item in userIdCommon)
+                    {
+                        projIds.Add(item.ProjectID.ToString());
+
+                    }
+                    ViewBag.Projects = projIds;
+                }
+
+
+                return View(ProjectViews);
+            }
         }
     }
 }

@@ -4,11 +4,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Cv för @Model.Användare</h2>
+<h2>Cv för @Model.User</h2>
 <div>
     <h3>Profilbild:</h3>
-    <img src=@Model.imgpath alt="Profilbild kunde inte laddas" style="border-radius: 50%" , width="300px" />
+    <img src=@Model.Imgpath alt="Profilbild kunde inte laddas" style="border-radius: 50%" , width="300px" />
 </div>
+
+<br />
+<h4>Kontaktinformation:</h4>
+<p>Adress: @Model.Adress</p>
+<p>Epost: @Model.Email</p>
+<br />
+
+<hr />
 
 <h4>Utbildningar:</h4>
 <ul>
@@ -23,7 +31,7 @@
 
 <hr />
 
-<h4>Arbets erfarenheter:</h4>
+<h4>Arbetserfarenheter:</h4>
 <ul>
     @foreach (var item in Model.Work_Experiences)
     {
@@ -50,15 +58,35 @@
 <hr />
 
 <h4>Projekt:</h4>
-<ul>
+
+<table class="table">
+    <tr>
+        <th>
+            Skapare
+
+        </th>
+        <th>
+            Titel
+        </th>
+        <th>
+            Beskrvining
+        </th>
+    </tr>
     @foreach (var item in Model.Projects)
     {
-        <li>
-            @item.Titel
-        </li>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Firstname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
 
+        </tr>
     }
-</ul>
 
 
 
