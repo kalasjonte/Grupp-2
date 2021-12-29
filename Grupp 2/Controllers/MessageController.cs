@@ -62,9 +62,17 @@ namespace Grupp_2.Controllers
         }
 
         // GET: Message/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            return View();
+            var User = db.Users.Where(u => u.UserID == id).FirstOrDefault();
+            var model = new MessagesViewModel
+            {
+                Reciver = id,
+                ReciverName = User.Firstname + User.Lastname
+             };
+            
+            
+            return View(model);
         }
 
         // POST: Message/Create
