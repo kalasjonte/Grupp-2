@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using Grupp_2.Models;
 using Data;
 using Data.Models;
+using Data.Respositories;
 
 namespace Grupp_2.Controllers
 {
@@ -19,6 +20,7 @@ namespace Grupp_2.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        
 
         public AccountController()
         {
@@ -157,29 +159,38 @@ namespace Grupp_2.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    var DBuser = new UserRespository();
+
+                    var DBCV = new CVRespository();
 
                     var db = new Datacontext();
-                    db.Users.Add(new Data.Models.User { Email = model.Email, Adress = model.Adress, Firstname = model.Firstname,
-                                                        Lastname = model.Lastname });
+                    DBuser.RegisterUser(model.Email, model.Adress, model.Firstname, model.Lastname);
+                    //db.Users.Add(new Data.Models.User { Email = model.Email, Adress = model.Adress, Firstname = model.Firstname,
+                    //                                    Lastname = model.Lastname });
 
-                    db.SaveChanges();
+                    //db.SaveChanges();
 
-                    string loggedInUserMail = model.Email;
-                    User user1 = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
-                    int id = user1.UserID;
+                    int id = DBuser.GetUserIDByEmail(model.Email);
+
+                    //string loggedInUserMail = model.Email;
+                    //User user1 = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+                    //int id = user1.UserID;
 
                     //Lägger till en "template" profilbild för nya användare
+
+
+                    //kan ej bryta ut denna i repos ? server?
                     var tempImg = db.Images.Where(i => i.ImageID == 1).FirstOrDefault();
                     if (tempImg == null)
                     {
                         db.Images.Add(new Image { ImageID = 1, Name = "profilepicture.jpg", Path = Server.MapPath("~/UploadedFiles/") + "profilepicture.jpg"});
                     }
 
+                    DBCV.CreateCV(id);
 
-
-                    db.CVs.Add(new Data.Models.CV { UserID = id, ImageID = 1 });
-                    db.SaveChanges();
-                    //Ska detta flyttas ut?
+                    //db.CVs.Add(new Data.Models.CV { UserID = id, ImageID = 1 });
+                    //db.SaveChanges();
+                    
 
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
