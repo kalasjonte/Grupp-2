@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -87,7 +88,16 @@ namespace Grupp_2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "UserID,Firstname,Lastname,Adress,Email,PrivateProfile")] User user)
         {
-            if (ModelState.IsValid)
+            var regex = @"^(([A-za-z]+[\s]{1}[A-za-z]+)|([A-Za-z]+))$";
+            var matchFirst = Regex.Match(user.Firstname, regex, RegexOptions.IgnoreCase);
+            var matchLast = Regex.Match(user.Lastname, regex, RegexOptions.IgnoreCase);
+
+            if (!matchFirst.Success || !matchLast.Success)
+            {
+                TempData["alertMessage"] = "One of your name-fields contains invalid characters!";
+            }
+
+                else if (ModelState.IsValid)
             {
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();

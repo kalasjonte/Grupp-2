@@ -72,7 +72,7 @@ namespace Grupp_2.Models
 
     public class RegisterViewModel
     {
-        private const string regEx = @"^[A-Za-z]+[\s][A-Za-z]+[.][A-Za-z]+$";
+       
 
         [Required]
         [EmailAddress]
