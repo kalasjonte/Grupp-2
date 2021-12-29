@@ -54,11 +54,10 @@ namespace Grupp_2.Controllers
                 foreach (var item in userIdCommon)
                 {
                     projIds.Add(item.ProjectID.ToString());
-
+                    
                 }
                 ViewBag.Projects = projIds;
             }
-           // ------------------------------------------------------------------------------------------
 
             return View();
         }
