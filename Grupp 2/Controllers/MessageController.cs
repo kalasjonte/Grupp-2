@@ -64,14 +64,26 @@ namespace Grupp_2.Controllers
         // GET: Message/Create
         public ActionResult Create(int id)
         {
-            var User = db.Users.Where(u => u.UserID == id).FirstOrDefault();
+            string loggedInUserMail = User.Identity.Name.ToString();
+            User userSend = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+            string name = null;
+            if (userSend != null)
+            {
+                name = userSend.Firstname + " " +  userSend.Lastname;
+                //ViewBag.name = name;
+            }
+
+            var UserRec = db.Users.Where(u => u.UserID == id).FirstOrDefault();
             var model = new MessagesViewModel
             {
+                Sender = name,
                 Reciver = id,
-                ReciverName = User.Firstname + User.Lastname
+                ReciverName = UserRec.Firstname + " " + UserRec.Lastname
              };
+
             
-            
+
+
             return View(model);
         }
 

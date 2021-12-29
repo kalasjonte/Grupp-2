@@ -155,7 +155,7 @@
             <input type="button" value="Gå ur projekt" onclick="location.href='@Url.Action("Remove", "Cv", new { id = item.ProjectID })'" />
         </td>
     }
-    @if (item.Creator == ViewBag.Id) // hejsvejs här ska det läggas till attributroutes
+    @if (item.Creator == ViewBag.Id) 
     {
 <td>
     

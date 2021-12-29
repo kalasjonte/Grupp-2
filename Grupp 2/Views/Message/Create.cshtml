@@ -17,7 +17,7 @@
 
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
-        @Html.LabelFor(model => model.Content,  htmlAttributes: new {  @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @ID = "CONTENT", @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
@@ -32,13 +32,26 @@
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Sender, htmlAttributes: new {  @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Sender, new { htmlAttributes = new { @ID = "SENDER", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Sender, "", new { @class = "text-danger" })
+    @if (Model.Sender != null)
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.Sender, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Sender, new { htmlAttributes = new { @ID = "SENDER", @class = "form-control" , @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Sender, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.Sender, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Sender, new { htmlAttributes = new { @ID = "SENDER", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Sender, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
 
     <div class="form-group">
 
@@ -47,11 +60,7 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
-    </div>
+
 </div>
     
 }
@@ -75,10 +84,6 @@
                 window.alert('Meddelandet har skickats');
             })
         });
-
-           
-        
-
 
     </script>
     @Scripts.Render("~/bundles/jqueryval")

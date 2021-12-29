@@ -14,6 +14,8 @@ namespace Grupp_2.Models
         [Required]
         public string Imgpath { get; set; }
 
+        public int UserID { get; set; }
+
         public string Email { get; set; }
 
         public string Adress { get; set; }

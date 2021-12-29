@@ -48,7 +48,23 @@ namespace Grupp_2.Controllers
             }
         }
 
-        
+        [Route("api/GetApi/")]
+        [HttpGet]
+        public int GetUnreadMessages()
+        {
+            string loggedInUserMail = User.Identity.Name.ToString();
+            using ( var db = new Datacontext())
+            {
+                User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+                int id = user.UserID;
+                int unreadcount = db.User_Messages.Where(um => um.Read == false && um.RecievingUser == id).Count();
+                return unreadcount;
+            }
+
+        }
+
+
+
 
 
     }

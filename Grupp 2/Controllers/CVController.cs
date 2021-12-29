@@ -306,6 +306,7 @@ namespace Grupp_2.Controllers
 
             var CreateCVViewModel = new CreateCVViewModel
             {
+                UserID = user.UserID,
                 User = user.Firstname + " " + user.Lastname,
                 Email = user.Email,
                 Adress = user.Adress,

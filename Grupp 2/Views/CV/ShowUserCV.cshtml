@@ -18,6 +18,8 @@
 
 <hr />
 
+@Html.ActionLink("Skicka ett meddelande till " + Model.User, "Create", "Message", new { id = Model.UserID }, null)
+
 <h4>Utbildningar:</h4>
 <ul>
     @foreach (var item in Model.Educations)
