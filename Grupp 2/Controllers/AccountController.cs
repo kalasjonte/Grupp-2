@@ -159,17 +159,23 @@ namespace Grupp_2.Controllers
                 {
 
                     var db = new Datacontext();
-                    db.Users.Add(new Data.Models.User { Email = model.Email });
+                    db.Users.Add(new Data.Models.User { Email = model.Email, Adress = model.Adress, Firstname = model.Firstname,
+                                                        Lastname = model.Lastname });
+
                     db.SaveChanges();
 
                     string loggedInUserMail = model.Email;
                     User user1 = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
                     int id = user1.UserID;
+
+                    //Lägger till en "template" profilbild för nya användare
                     var tempImg = db.Images.Where(i => i.ImageID == 1).FirstOrDefault();
                     if (tempImg == null)
                     {
                         db.Images.Add(new Image { ImageID = 1, Name = "profilepicture.jpg", Path = Server.MapPath("~/UploadedFiles/") + "profilepicture.jpg"});
                     }
+
+
 
                     db.CVs.Add(new Data.Models.CV { UserID = id, ImageID = 1 });
                     db.SaveChanges();

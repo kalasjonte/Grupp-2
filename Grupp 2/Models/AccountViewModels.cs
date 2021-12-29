@@ -72,6 +72,8 @@ namespace Grupp_2.Models
 
     public class RegisterViewModel
     {
+       
+
         [Required]
         [EmailAddress]
         [Display(Name = "Epost")]
@@ -87,6 +89,20 @@ namespace Grupp_2.Models
         [Display(Name = "Bekräfta lösenord")]
         [Compare("Password", ErrorMessage = "Lösenorden stämmer inte överens.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Adress")]
+        public string Adress { get; set; }
+
+        [Required]
+        [RegularExpression(@"^(([A-za-z]+[\s]{1}[A-za-z]+)|([A-Za-z]+))$", ErrorMessage = "Förnamnet innehåller tecken som inte tillåts.")]
+        [Display(Name = "Förnamn")]
+        public string Firstname { get; set; }
+
+        [Required]
+        [RegularExpression(@"^(([A-za-z]+[\s]{1}[A-za-z]+)|([A-Za-z]+))$", ErrorMessage = "Efternamnet innehåller tecken som inte tillåts.")]
+        [Display(Name = "Efternamn")]
+        public string Lastname { get; set; }
     }
 
     public class ResetPasswordViewModel
@@ -116,21 +132,6 @@ namespace Grupp_2.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
-        
-    }
-
-    public static class IdentityExtensions
-    {
-        public static string GetEmailAdress(this IIdentity identity)
-        {
-            var userId = identity.GetUserId();
-            using (var context = new Datacontext())
-            {
-                var user = context.Users.FirstOrDefault(u => u.UserID.ToString() == userId);
-                return user.Email;
-            }
-        }
-
         
     }
 }

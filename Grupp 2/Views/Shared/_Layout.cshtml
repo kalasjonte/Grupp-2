@@ -23,8 +23,12 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Sökning", "Search", "Home")</li>
                     <li>@Html.ActionLink("Projekt", "ProjectVM", "Project")</li>
-                    <li>@Html.ActionLink("Meddelanden", "Index", "Message")</li>
-                    <li>@Html.ActionLink("Ditt CV", "CreateCVVM", "CV")</li>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Ditt CV", "CreateCVVM", "CV")</li>
+                        <li>@Html.ActionLink("Meddelanden", "Index", "Message")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

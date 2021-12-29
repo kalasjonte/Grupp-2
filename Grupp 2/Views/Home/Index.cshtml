@@ -4,14 +4,14 @@
 }
 
 <div class="jumbotron">
-    <h1>Grupp 2's Cv Site</h1>
+    <h1>Grupp 2's CV sida</h1>
     <p class="lead"> Skapad av Anton Lyrberg, Noel Lindgren, Jonathan Gabrielsson</p>
 </div>
 
 <div class="row">
     <div class="col-md-4">
         <h2>Urval av cv's:</h2>
-        
+
         <p>
             @if (ViewBag.Count >= 1)
             {
@@ -28,21 +28,17 @@
 
         </p>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
+
     <div class="col-md-4">
         <h2>Senaste projeketet</h2>
 
         <a href=@Url.Action("ProjectVM", "Project" )> @ViewBag.Projectnamn</a>
 
-        @*if och else funkar här nedan men blir error vid start om det inte är en inloggad användare. Behöver fixas med en till IF*@
-        @if(ViewBag.Projects == null)
-            {
-                <p>Logga in om du vill gå med i detta projekt!</p>
-            }
+
+        @if (ViewBag.Projects == null)
+        {
+            <p>Logga in om du vill gå med i detta projekt!</p>
+        }
 
         else if (!ViewBag.Projects.Contains(ViewBag.ProjId.ToString()))
         {
@@ -50,9 +46,18 @@
         }
         else
         {
-            <input type = "button" value = "Gå ur projekt" onclick = "location.href='@Url.Action("LeaveProject", "Home", new {id = ViewBag.ProjId})'" />
+            <input type="button" value="Gå ur projekt" onclick="location.href='@Url.Action("LeaveProject", "Home", new {id = ViewBag.ProjId})'" />
         }
 
         <p> Skapad av :  @ViewBag.creator </p>
+    </div>
+
+    <div class="col-md-4">
+        <h2>Om hemsidan</h2>
+        <p>
+            Denna ASPNET-sida utvecklades under kursen: Informatik, Webbsystem med .NET, fortsättningskurs, HT21, IK204G. Syftet var att få en grundläggande förståelse hur en ASPNET-sida fungerar tillsammans med
+            MVC och Entity Framework (code first).
+        </p>
+        <p><a class="btn btn-default" href="http://lily.oru.se/studieinformation/VisaKursplan?kurskod=IK204G&termin=20182&format=xml&sprak=sv">Läs mer &raquo;</a></p>
     </div>
 </div>
