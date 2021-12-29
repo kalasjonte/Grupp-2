@@ -72,6 +72,8 @@ namespace Grupp_2.Models
 
     public class RegisterViewModel
     {
+        private const string regEx = @"^[A-Za-z]+[\s][A-Za-z]+[.][A-Za-z]+$";
+
         [Required]
         [EmailAddress]
         [Display(Name = "Epost")]
@@ -93,11 +95,13 @@ namespace Grupp_2.Models
         public string Adress { get; set; }
 
         [Required]
-        [Display(Name = "Firstname")]
+        [RegularExpression(@"^(([A-za-z]+[\s]{1}[A-za-z]+)|([A-Za-z]+))$", ErrorMessage = "Förnamnet innehåller tecken som inte tillåts.")]
+        [Display(Name = "Förnamn")]
         public string Firstname { get; set; }
 
         [Required]
-        [Display(Name = "Lastname")]
+        [RegularExpression(@"^(([A-za-z]+[\s]{1}[A-za-z]+)|([A-Za-z]+))$", ErrorMessage = "Efternamnet innehåller tecken som inte tillåts.")]
+        [Display(Name = "Efternamn")]
         public string Lastname { get; set; }
     }
 
@@ -128,21 +132,6 @@ namespace Grupp_2.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
-        
-    }
-
-    public static class IdentityExtensions
-    {
-        public static string GetEmailAdress(this IIdentity identity)
-        {
-            var userId = identity.GetUserId();
-            using (var context = new Datacontext())
-            {
-                var user = context.Users.FirstOrDefault(u => u.UserID.ToString() == userId);
-                return user.Email;
-            }
-        }
-
         
     }
 }

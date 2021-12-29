@@ -73,7 +73,6 @@ namespace Grupp_2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            /*User user = db.Users.Find(id)*/;
             if (user == null)
             {
                 return HttpNotFound();
