@@ -89,20 +89,23 @@ namespace Grupp_2.Controllers
         public ActionResult Edit([Bind(Include = "UserID,Firstname,Lastname,Adress,Email,PrivateProfile")] User user)
         {
             var regex = @"^(([A-za-z]+[\s]{1}[A-za-z]+)|([A-Za-z]+))$";
-            var matchFirst = Regex.Match(user.Firstname, regex, RegexOptions.IgnoreCase);
-            var matchLast = Regex.Match(user.Lastname, regex, RegexOptions.IgnoreCase);
-
-            if (!matchFirst.Success || !matchLast.Success)
+            if(user.Firstname != null && user.Lastname != null && user.Adress != null)
             {
-                TempData["alertMessage"] = "One of your name-fields contains invalid characters!";
-            }
+                var matchFirst = Regex.Match(user.Firstname, regex, RegexOptions.IgnoreCase);
+                var matchLast = Regex.Match(user.Lastname, regex, RegexOptions.IgnoreCase);
 
+                if (!matchFirst.Success || !matchLast.Success)
+                {
+                    TempData["alertMessage"] = "One of your name-fields contains invalid characters!";
+                }
                 else if (ModelState.IsValid)
-            {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Details", new { id = user.UserID });
+                {
+                    db.Entry(user).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Details", new { id = user.UserID });
+                }
             }
+            else TempData["alertMessage"] = "One of your fields is empty!";
             return View(user);
         }
 
