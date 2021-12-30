@@ -39,5 +39,17 @@ namespace Data.Respositories
             db.Projects_Users.Remove(delProjekt);
             db.SaveChanges();
         }
+
+        public void AddNewProjectUser(int projectID, int userID)
+        {
+            db.Projects_Users.Add(new Projects_Users { ProjectID = projectID, UserID = userID });
+            db.SaveChanges();
+        }
+
+        public void DeleteProjectUser(Projects_Users projects_User)
+        {
+            db.Projects_Users.Remove(projects_User);
+            db.SaveChanges();
+        }
     }
 }

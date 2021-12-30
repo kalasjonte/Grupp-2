@@ -16,6 +16,16 @@ namespace Data.Respositories
             db = new Datacontext();
         }
 
+        public List<User> GetAllUsers()
+        {
+            return db.Users.ToList();
+        }
+
+        public List<User> GetUsersByString(string searchString)
+        {
+            return db.Users.Where(x => x.Firstname.Contains(searchString) || searchString == null).ToList();
+        }
+
         public void RegisterUser(string email,string adress,string firstname , string lastname) 
         {
             db.Users.Add(new Data.Models.User

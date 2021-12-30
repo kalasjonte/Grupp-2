@@ -1,5 +1,6 @@
 ﻿using Data;
 using Data.Models;
+using Data.Respositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,18 +12,20 @@ namespace Grupp_2.Controllers
     public class HomeController : Controller
     {
         Datacontext db = new Datacontext();
+        private ProjectRespository projectRespository = new ProjectRespository();
+        private UserRespository userRespository = new UserRespository();
         public ActionResult Index()
         {
-            var projects = db.Projects.ToList();
+            var projects = projectRespository.GetAllProjects();
             var project = projects.Last();
             if (project != null)
             {
                 ViewBag.Projectnamn = "Titel: " + project.Titel;
-                var creator = db.Users.Where(s => s.UserID == project.Creator).FirstOrDefault();
+                var creator = userRespository.GetUserByUserID(project.Creator);
                 ViewBag.Creator = creator.Firstname;
                 ViewBag.ProjId = project.ProjectID;
             }
-            var users = db.Users.ToList();
+            var users = userRespository.GetAllUsers();
 
             if (users.Count() > 0)
             {
@@ -45,7 +48,7 @@ namespace Grupp_2.Controllers
             }
             //----------------------------------------------------------------------------------------
             string loggedInUserMail = User.Identity.Name.ToString();
-            User user2 = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+            User user2 = userRespository.GetUserByEmail(loggedInUserMail);
             if (user2 != null)
             {
                 ViewBag.User2Id = user2.UserID;
@@ -74,7 +77,7 @@ namespace Grupp_2.Controllers
         public ActionResult Search(string searchString)
         {
             string loggedInUserMail = User.Identity.Name.ToString();
-            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+            User user = userRespository.GetUserByEmail(loggedInUserMail);
 
             if (user != null)
             {
@@ -83,28 +86,26 @@ namespace Grupp_2.Controllers
             }
 
 
-            return View(db.Users.Where(x => x.Firstname.Contains(searchString) || searchString == null).ToList());
+            return View(userRespository.GetUsersByString(searchString));
         }
 
         public ActionResult JoinProject(int id)
         {
 
             string loggedInUserMail = User.Identity.Name.ToString();
-            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+            User user = userRespository.GetUserByEmail(loggedInUserMail);
 
-            db.Projects_Users.Add(new Projects_Users { ProjectID = id, UserID = user.UserID });
-            db.SaveChanges();
+            projectRespository.AddNewProjectUser(id, user.UserID);
 
             return RedirectToAction("Index");
         }
         public ActionResult LeaveProject(int id)
         {
             string loggedInUserMail = User.Identity.Name.ToString();
-            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
-            var tempProjekt = db.Projects_Users.Where(pu => pu.ProjectID == id && pu.UserID == user.UserID).FirstOrDefault();
+            User user = userRespository.GetUserByEmail(loggedInUserMail);
+            var tempProjekt = projectRespository.GetProjectUsersByProjectIDAndUserID(id, user.UserID);
 
-            db.Projects_Users.Remove(tempProjekt);
-            db.SaveChanges();
+            projectRespository.DeleteProjectUser(tempProjekt);
 
             return RedirectToAction("Index");
         }
