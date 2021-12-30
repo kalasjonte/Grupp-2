@@ -33,5 +33,15 @@ namespace Data.Respositories
         {
             return db.User_Messages.Where(um => um.Read == false && um.RecievingUser == id).Count();
         }
+
+        public List<User_Message> GetUserMessagesByUserID(int id)
+        {
+            return db.User_Messages.Where(m => m.RecievingUser == id).ToList();
+        }
+
+        public Message GetMessageByMessageID(int id )
+        {
+            return db.Messages.Where(m => m.MessageID == id).FirstOrDefault();
+        } 
     }
 }

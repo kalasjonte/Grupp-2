@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Data;
 using Data.Models;
+using Data.Respositories;
 using Grupp_2.Models;
 
 namespace Grupp_2.Controllers
@@ -15,14 +16,16 @@ namespace Grupp_2.Controllers
     public class MessageController : Controller
     {
         private Datacontext db = new Datacontext();
+        private UserRespository userRespository = new UserRespository();
+        private MessageRepository messageRepository = new MessageRepository();
 
         // GET: Message
         public ActionResult Index()
         {
             string loggedInUserMail = User.Identity.Name.ToString();
-            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+            User user = userRespository.GetUserByEmail(loggedInUserMail);
 
-            var UserMessages = db.User_Messages.Where(m => m.RecievingUser == user.UserID).ToList();
+            var UserMessages = messageRepository.GetUserMessagesByUserID(user.UserID);
             List<MessagesViewModel> listMsgViewModels = new List<MessagesViewModel>();
 
             foreach (var item in UserMessages)
@@ -36,7 +39,7 @@ namespace Grupp_2.Controllers
 
 
                 };
-                var msg = db.Messages.Where(m => m.MessageID == item.MessageID).FirstOrDefault();
+                var msg = messageRepository.GetMessageByMessageID(item.MessageID);
                 MsgViewModel.Content = msg.Content;
                 listMsgViewModels.Add(MsgViewModel);
 
@@ -47,7 +50,7 @@ namespace Grupp_2.Controllers
         }
 
         // GET: Message/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id) //används inte?
         {
             if (id == null)
             {
@@ -65,7 +68,7 @@ namespace Grupp_2.Controllers
         public ActionResult Create(int id)
         {
             string loggedInUserMail = User.Identity.Name.ToString();
-            User userSend = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+            User userSend = userRespository.GetUserByEmail(loggedInUserMail);
             string name = null;
             if (userSend != null)
             {
@@ -73,7 +76,7 @@ namespace Grupp_2.Controllers
                 //ViewBag.name = name;
             }
 
-            var UserRec = db.Users.Where(u => u.UserID == id).FirstOrDefault();
+            var UserRec = userRespository.GetUserByUserID(id);
             var model = new MessagesViewModel
             {
                 Sender = name,
@@ -92,7 +95,7 @@ namespace Grupp_2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MessageID,Content")] Message message)
+        public ActionResult Create([Bind(Include = "MessageID,Content")] Message message) //denna körs aldrig, går t api ist
         {
             if (ModelState.IsValid)
             {
@@ -105,7 +108,7 @@ namespace Grupp_2.Controllers
         }
 
         // GET: Message/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id) //används inte
         {
             if (id == null)
             {
@@ -136,7 +139,7 @@ namespace Grupp_2.Controllers
         }
 
         // GET: Message/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id) //-> används i vg, vi kan fixa
         {
             if (id == null)
             {
