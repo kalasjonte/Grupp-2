@@ -1,5 +1,6 @@
 ﻿using Data;
 using Data.Models;
+using Data.Respositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +13,17 @@ namespace Grupp_2.Controllers
     public class MessageApiController : ApiController
     {
 
+        private UserRespository userRespository = new UserRespository();
+        private MessageRepository messageRepository = new MessageRepository();
+
+
         [Route("api/SendAPI/{id}/{content}/{sender}")]
         [HttpGet]
         public IHttpActionResult SendMessage(int id, string content, string sender)
         {
             using (var db = new Datacontext())
             {
-                var reciver = db.Users.Where(u => u.UserID == id).FirstOrDefault();
+                var reciver = userRespository.GetUserByUserID(id);
                 var msg = new Message
                 {
                     Content = content
@@ -30,8 +35,7 @@ namespace Grupp_2.Controllers
                 }
                 else
                 {
-                    db.Messages.Add(msg);
-                    db.SaveChanges();
+                    messageRepository.SaveMessage(msg);
 
                     var usermsg = new User_Message
                     {
@@ -41,8 +45,7 @@ namespace Grupp_2.Controllers
                         Sender = sender,
                         
                     };
-                    db.User_Messages.Add(usermsg);
-                    db.SaveChanges();
+                    messageRepository.SaveUserMessage(usermsg);
                     return Ok();
                 }
             }
@@ -55,9 +58,9 @@ namespace Grupp_2.Controllers
             string loggedInUserMail = User.Identity.Name.ToString();
             using ( var db = new Datacontext())
             {
-                User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+                User user = userRespository.GetUserByEmail(loggedInUserMail);
                 int id = user.UserID;
-                int unreadcount = db.User_Messages.Where(um => um.Read == false && um.RecievingUser == id).Count();
+                int unreadcount = messageRepository.GetUnreadMessagesCount(id);
                 return unreadcount;
             }
 
