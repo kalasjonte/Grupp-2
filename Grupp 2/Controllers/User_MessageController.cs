@@ -11,7 +11,7 @@ using Data.Models;
 
 namespace Grupp_2.Controllers
 {
-    public class User_MessageController : Controller
+    public class User_MessageController : Controller //tror inte den används alls
     {
         private Datacontext db = new Datacontext();
 

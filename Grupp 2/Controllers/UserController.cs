@@ -10,23 +10,25 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Data;
 using Data.Models;
+using Data.Respositories;
 
 namespace Grupp_2.Controllers
 {
     public class UserController : Controller
     {
         private Datacontext db = new Datacontext();
+        private UserRespository userRespository = new UserRespository();
 
         // GET: User
 
-        public ActionResult Index()
+        public ActionResult Index() //används inte va?
         {   
             return View(db.Users.ToList());
 
         }
 
         // GET: User/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id) //ej används tror
         {
             
             if (id == null)
@@ -68,7 +70,7 @@ namespace Grupp_2.Controllers
         public ActionResult Edit()
         {
             string loggedInUserMail = User.Identity.Name.ToString();
-            User user = db.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
+            User user = userRespository.GetUserByEmail(loggedInUserMail);
             int ? id = user.UserID;
             if (id == null)
             {
@@ -100,7 +102,7 @@ namespace Grupp_2.Controllers
                 }
                 else if (ModelState.IsValid)
                 {
-                    db.Entry(user).State = EntityState.Modified;
+                    db.Entry(user).State = EntityState.Modified; //vafan e detta
                     db.SaveChanges();
                     return RedirectToAction("Details", new { id = user.UserID });
                 }
@@ -124,16 +126,7 @@ namespace Grupp_2.Controllers
             return View(user);
         }
 
-        public  int GetLoggedInId()
-        {
-
-            Datacontext ct = new Datacontext();
-
-            string loggedInUserMail = User.Identity.Name.ToString();
-            User user = ct.Users.Where(u => u.Email == loggedInUserMail).FirstOrDefault();
-            int id = user.UserID;
-            return id;
-        }
+        
 
             // POST: User/Delete/5
             [HttpPost, ActionName("Delete")]
