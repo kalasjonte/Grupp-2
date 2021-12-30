@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace Data.Respositories
 {
@@ -22,6 +23,11 @@ namespace Data.Respositories
 
         }
 
+        public List<Project> GetAllProjectIncludeUser()
+        {
+            return  db.Projects.Include(p => p.Users).ToList();
+        }
+
         public List<Projects_Users> GetProjectUsersFromUserID(int id)
         {
             return db.Projects_Users.Where(pu => pu.UserID == id).ToList(); ;
@@ -30,6 +36,10 @@ namespace Data.Respositories
        public Projects_Users GetProjectUsersByProjectIDAndUserID (int projectID, int userID)
         {
             return db.Projects_Users.Where(pu => pu.ProjectID == projectID && pu.UserID == userID).FirstOrDefault();
+        }
+        public List<Projects_Users> GetProjectUsersByProjectID(int id)
+        {
+            return db.Projects_Users.Where(u => u.ProjectID == id).ToList();
         }
 
         public void DeleteProjectUserByProjectIDAndUserID(int projectID, int userID)
@@ -49,6 +59,27 @@ namespace Data.Respositories
         public void DeleteProjectUser(Projects_Users projects_User)
         {
             db.Projects_Users.Remove(projects_User);
+            db.SaveChanges();
+        }
+
+        public void AddNewProject(Project project) //skapar även deltagande hos creator
+        {
+            db.Projects.Add(project);
+            db.Projects_Users.Add(new Projects_Users { ProjectID = project.ProjectID, UserID = project.Creator });
+            db.SaveChanges();
+        }
+
+        public void DeleteProjectById(int id)
+        {
+            Project project = db.Projects.Find(id);
+
+            var projects_Users = db.Projects_Users.Where(e => e.ProjectID == id); //bryta ännumera?
+            foreach (var item in projects_Users)
+            {
+                db.Projects_Users.Remove(item);
+            }
+
+            db.Projects.Remove(project);
             db.SaveChanges();
         }
     }
