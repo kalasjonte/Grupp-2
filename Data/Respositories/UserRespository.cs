@@ -28,6 +28,11 @@ namespace Data.Respositories
             db.SaveChanges();
         }
         
+        public User GetUserByUserID(int id)
+        {
+            return db.Users.Where(u => u.UserID == id).FirstOrDefault();
+        }
+
         public User GetUserByEmail(string email)
         {
             return db.Users.Where(u => u.Email == email).FirstOrDefault();
