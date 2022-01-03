@@ -18,9 +18,9 @@ namespace Data.Respositories
             db = new Datacontext();
         }
 
-        
-        
-        //public void SetDefaultImage() -> om den inte existrerar
+
+
+        //public void SetDefaultImage() //-> om den inte existrerar
         //{
         //    var tempImg = db.Images.Where(i => i.ImageID == 1).FirstOrDefault();
         //    if (tempImg == null)
