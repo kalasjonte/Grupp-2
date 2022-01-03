@@ -53,10 +53,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Datacontext.cs" />
-    <Compile Include="Migrations\202201031315060_init.cs" />
-    <Compile Include="Migrations\202201031315060_init.designer.cs">
-      <DependentUpon>202201031315060_init.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\202201031509526_test.cs" />
     <Compile Include="Migrations\202201031509526_test.designer.cs">
       <DependentUpon>202201031509526_test.cs</DependentUpon>
@@ -84,9 +80,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202201031315060_init.resx">
-      <DependentUpon>202201031315060_init.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202201031509526_test.resx">
       <DependentUpon>202201031509526_test.cs</DependentUpon>
     </EmbeddedResource>

@@ -241,7 +241,7 @@ namespace Grupp_2.Controllers
                 }
             }
 
-            var CreateCVViewModel = new CreateCVViewModel //skapa viewmodel i  klassen istället -> släng ut den i shared
+            var CreateCVViewModel = new CreateCVViewModel //skapa viewmodel i  klassen istället -> släng ut den i shared -> gör om till 2 konstruktörer, en med anonym användare
             {
                 User = user.Firstname,
                 Imgpath = ("/UploadedFiles/") + Path.GetFileName(img.Name),
