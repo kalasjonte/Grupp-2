@@ -24,6 +24,7 @@ namespace Grupp_2.Controllers
                     ViewBag.Projectnamn = "Titel: " + project.Titel;
                     var creator = userRespository.GetUserByUserID(project.Creator);
                     ViewBag.Creator = creator.Firstname;
+                    ViewBag.CreatorId = creator.UserID;
                     ViewBag.ProjId = project.ProjectID;
                 }
                 var users = userRespository.GetAllUsers();
@@ -41,8 +42,6 @@ namespace Grupp_2.Controllers
                         uID.Add(user.UserID);
                         name.Add(user.Firstname + " " + user.Lastname);
                         users.Remove(user);
-
-
                     }
                     ViewBag.UID = uID;
                     ViewBag.Name = name;
@@ -50,6 +49,7 @@ namespace Grupp_2.Controllers
                 //----------------------------------------------------------------------------------------
                 string loggedInUserMail = User.Identity.Name.ToString();
                 User user2 = userRespository.GetUserByEmail(loggedInUserMail);
+                ViewBag.User2Id = null;
                 if (user2 != null)
                 {
                     ViewBag.User2Id = user2.UserID;

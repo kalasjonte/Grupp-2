@@ -53,9 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Datacontext.cs" />
-    <Compile Include="Migrations\202201031243259_init.cs" />
-    <Compile Include="Migrations\202201031243259_init.designer.cs">
-      <DependentUpon>202201031243259_init.cs</DependentUpon>
+    <Compile Include="Migrations\202201031315060_init.cs" />
+    <Compile Include="Migrations\202201031315060_init.designer.cs">
+      <DependentUpon>202201031315060_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CV.cs" />
@@ -80,8 +80,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202201031243259_init.resx">
-      <DependentUpon>202201031243259_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202201031315060_init.resx">
+      <DependentUpon>202201031315060_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

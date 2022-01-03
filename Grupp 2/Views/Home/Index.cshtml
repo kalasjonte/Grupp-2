@@ -17,14 +17,16 @@
             {
                 <a>@Html.RouteLink("Kolla på " + (string)(ViewBag.Name[0]) + "s CV", "ShowUserCv", new { userid = ViewBag.Uid[0] })  </a> <hr>
             }
-            @if (ViewBag.Count >= 2)
+            else if (ViewBag.Count >= 2)
             {
                 <a>@Html.RouteLink("Kolla på " + (string)(ViewBag.Name[1]) + "s CV", "ShowUserCv", new { userid = ViewBag.Uid[1] })  </a> <hr>
             }
-            @if (ViewBag.Count >= 3)
+            else if (ViewBag.Count >= 3)
             {
                 <a>@Html.RouteLink("Kolla på " + (string)(ViewBag.Name[2]) + "s CV", "ShowUserCv", new { userid = ViewBag.Uid[2] })  </a> <hr>
             }
+            else
+            { <p>Finns för nuvarande inga CV's inlagda i systemet.</p>}
 
         </p>
     </div>
@@ -34,29 +36,28 @@
 
         <a href=@Url.Action("ProjectVM", "Project" )> @ViewBag.Projectnamn</a>
 
+        @if(ViewBag.creator != null)
+        {
+        <p> Skapad av :  @ViewBag.creator </p>
+        }
+
         @if (ViewBag.Projects == null)
         {
-        <p>Logga in om du vill gå med i detta projekt!</p>
-        <p> Skapad av :  @ViewBag.creator </p>
+            <p>Logga in för att kunna delta i ett projekt.</p>
         }
 
         else if (ViewBag.Projects.Count < 1)
         {
             <p>Inga projekt finns i databasen</p>
         }
-
-
         
-
         else if (!ViewBag.Projects.Contains(ViewBag.ProjId.ToString()))
         {
             <input type="button" value="Gå med i projekt" onclick="location.href='@Url.Action("JoinProject", "Home", new { id = ViewBag.ProjId })'" />
-            <p> Skapad av :  @ViewBag.creator </p>
         }
-        else
+        else if (ViewBag.User2Id != ViewBag.CreatorId)
         {
             <input type="button" value="Gå ur projekt" onclick="location.href='@Url.Action("LeaveProject", "Home", new {id = ViewBag.ProjId})'" />
-            <p> Skapad av :  @ViewBag.creator </p>
         }
 
 
