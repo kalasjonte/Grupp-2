@@ -24,6 +24,7 @@ namespace Grupp_2.Controllers
         {
             string loggedInUserMail = User.Identity.Name.ToString();
             User user = userRespository.GetUserByEmail(loggedInUserMail);
+            ViewBag.userID = user.UserID;
 
             var UserMessages = messageRepository.GetUserMessagesByUserID(user.UserID);
             List<MessagesViewModel> listMsgViewModels = new List<MessagesViewModel>();
@@ -48,6 +49,19 @@ namespace Grupp_2.Controllers
 
             return View(listMsgViewModels);
         }
+
+        public ActionResult MarkAsRead(int id)
+        {
+            messageRepository.MarkAsRead(id);
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult MarkAllAsRead(int userID)
+        {
+            messageRepository.MarkAllAsRead(userID);
+            return RedirectToAction("Index");
+        }
+
 
         // GET: Message/Details/5
         public ActionResult Details(int? id) //används inte?

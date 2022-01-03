@@ -43,5 +43,22 @@ namespace Data.Respositories
         {
             return db.Messages.Where(m => m.MessageID == id).FirstOrDefault();
         } 
+
+        public void MarkAsRead(int id)
+        {
+            User_Message message = db.User_Messages.Where(um => um.MessageID == id).FirstOrDefault();
+            message.Read = true;
+            db.SaveChanges();
+        }
+
+        public void MarkAllAsRead(int userID)
+        {
+            List<User_Message> user_Messages = GetUserMessagesByUserID(userID);
+            foreach (var item in user_Messages)
+            {
+                item.Read = true;
+            }
+            db.SaveChanges();
+        }
     }
 }

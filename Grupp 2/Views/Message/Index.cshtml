@@ -7,51 +7,46 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Mark all as read", "MarkAllAsRead", new { userID = ViewBag.userID })
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.MessageID)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Content)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Reciver)
+            @Html.DisplayNameFor(model => model.Reciver) 
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Read)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Sender)
+            @Html.DisplayNameFor(model => model.Sender) 
         </th>
-        <th></th>
+        
     </tr>
 
-    @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.MessageID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Content)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Reciver)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Read)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Sender)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.MessageID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.MessageID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.MessageID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reciver)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Read)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sender)
+            </td>
+            <td>
+                @Html.ActionLink("Mark as read", "MarkAsRead", new { id = item.MessageID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.MessageID })
+            </td>
+        </tr>
+    }
 
 </table>
