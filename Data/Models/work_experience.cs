@@ -11,6 +11,11 @@ namespace Data.Models
     {
         [Key]
         public int WorkExpID { get; set; }
+
+
+        [Required]
+        [StringLength(100, ErrorMessage = "Erfarenheten måste minst vara {2} karaktärer långt.", MinimumLength = 3)]
+        [Display(Name = "Titel:")]
         public string Titel { get; set; }
 
         public virtual ICollection<CV> CVs { get; set; }

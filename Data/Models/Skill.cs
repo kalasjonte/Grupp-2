@@ -11,6 +11,11 @@ namespace Data.Models
     {
         [Key]
         public int SkillID { get; set; }
+
+
+        [Required]
+        [StringLength(100, ErrorMessage = "Färdigheten måste minst vara {2} karaktärer långt.", MinimumLength = 3)]
+        [Display(Name = "Titel:")]
         public string Title { get; set; }
 
         public virtual ICollection<CV> CVs { get; set; }
