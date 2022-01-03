@@ -16,18 +16,55 @@ namespace Grupp_2.Controllers
         private UserRespository userRespository = new UserRespository();
         public ActionResult Index()
         {
-                var projects = projectRespository.GetAllProjects();
+            string loggedInUserMail = User.Identity.Name.ToString();
+            User user2 = userRespository.GetUserByEmail(loggedInUserMail);
+
+            List<Project> projects = projectRespository.GetAllProjects();
+
+            ViewBag.User2Id = null;
+            if (user2 != null)
+            {
+                
+                ViewBag.User2Id = user2.UserID;
+                var userIdCommon = db.Projects_Users.Where(pu => pu.UserID == user2.UserID).ToList();
+                List<string> projIds = new List<string>();
+                foreach (var item in userIdCommon)
+                {
+                    projIds.Add(item.ProjectID.ToString());
+
+                }
+                ViewBag.Projects = projIds;
+            }
+            
                 
                 if (projects.Count() > 0)
                 {
                      var project = projects.Last();
                     ViewBag.Projectnamn = "Titel: " + project.Titel;
                     var creator = userRespository.GetUserByUserID(project.Creator);
+                if (user2 == null && creator.PrivateProfile == true)
+                {
+                    ViewBag.Creator = "Anonym Användare";
+                }
+                else
+                {
                     ViewBag.Creator = creator.Firstname;
                     ViewBag.CreatorId = creator.UserID;
                     ViewBag.ProjId = project.ProjectID;
                 }
-                var users = userRespository.GetAllUsers();
+                }
+
+
+
+                List<User> users = null;
+                if (user2 == null)
+                {
+                    users = userRespository.GetAllUserNotPrivate();
+                }
+                else
+                {
+                    users = userRespository.GetAllUsers();
+                }
 
                 if (users.Count() > 0)
                 {
@@ -47,21 +84,7 @@ namespace Grupp_2.Controllers
                     ViewBag.Name = name;
                 }
                 //----------------------------------------------------------------------------------------
-                string loggedInUserMail = User.Identity.Name.ToString();
-                User user2 = userRespository.GetUserByEmail(loggedInUserMail);
-                ViewBag.User2Id = null;
-                if (user2 != null)
-                {
-                    ViewBag.User2Id = user2.UserID;
-                    var userIdCommon = db.Projects_Users.Where(pu => pu.UserID == user2.UserID).ToList();
-                    List<string> projIds = new List<string>();
-                    foreach (var item in userIdCommon)
-                    {
-                        projIds.Add(item.ProjectID.ToString());
-
-                    }
-                    ViewBag.Projects = projIds;
-                }
+                
 
                 return View();
             

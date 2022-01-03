@@ -23,6 +23,8 @@ namespace Data.Respositories
 
         }
 
+        
+
         public List<Project> GetAllProjectIncludeUser()
         {
             return  db.Projects.Include(p => p.Users).ToList();

@@ -21,6 +21,22 @@ namespace Data.Respositories
             return db.Users.ToList();
         }
 
+        public List<User> GetAllUserNotPrivate() //kunde ej köra foreach loop remove för att konstigts
+        {
+            List<User> users = db.Users.ToList();
+            List<User> templist = new List<User>();
+
+            foreach (var item in users)
+            {
+                if (item.PrivateProfile == false)
+                {
+                    templist.Add(item);
+                }
+            }
+            return templist;
+
+        }
+
         public List<User> GetUsersByString(string searchString)
         {
             return db.Users.Where(x => x.Firstname.Contains(searchString) || searchString == null).ToList();

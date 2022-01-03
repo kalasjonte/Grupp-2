@@ -199,16 +199,16 @@ namespace Grupp_2.Controllers
             {
                 foreach (var item in projects)
                 {
-                    var ProjectsViewModel = new ProjectsViewModel
+                    ProjectsViewModel ProjectsViewModel = null;
+                    if (user == null)
                     {
-                        Creator = item.User.Firstname + " " + item.User.Lastname,
-                        CreatorID = item.Creator,
-                        Titel = item.Titel,
-                        Description = item.Description,
-                        ProjectID = item.ProjectID
-
-
-                    };
+                        ProjectsViewModel = new ProjectsViewModel( item.Creator, item.Titel, item.Description, item.ProjectID);
+                    }
+                    else
+                    {
+                        string creatorname = item.User.Firstname + " " + item.User.Lastname;
+                        ProjectsViewModel = new ProjectsViewModel(creatorname, item.Creator, item.Titel, item.Description, item.ProjectID);
+                    }
                     var projusers = ProjectRespository.GetProjectUsersByProjectID(item.ProjectID);
                     List<string> namn = new List<string>();
                     List<string> namnNonHidden = new List<string>();

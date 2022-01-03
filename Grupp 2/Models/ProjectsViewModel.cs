@@ -16,5 +16,25 @@ namespace Grupp_2.Models
         public List<string> Users { get; set; }
         public List<string> UsersNotHidden { get; set; }
 
+
+        public ProjectsViewModel(string creatorName, int creatorID, string titel, string description, int projectID)
+        {
+            Creator = creatorName;
+            CreatorID = creatorID;
+            Titel = titel;
+            Description = description;
+            ProjectID = projectID;
+        }
+
+
+        public ProjectsViewModel(int creatorID, string titel, string description, int projectID)
+        {
+            Creator = "Anonym Användare";
+            CreatorID = creatorID;
+            Titel = titel;
+            Description = description;
+            ProjectID = projectID;
+        }
+
     }
 }
