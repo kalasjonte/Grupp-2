@@ -67,9 +67,7 @@
 
 <button class="MessageSend" data-id="@Model.Reciver" > Skicka meddelande </button>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
 
 @section Scripts {
 
@@ -82,6 +80,7 @@
 
             $.get('/api/SendAPI/' + ReciverID + '/' + content + '/' + sender, function () {
                 window.alert('Meddelandet har skickats');
+                
             })
         });
 
