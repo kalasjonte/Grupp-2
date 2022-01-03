@@ -34,22 +34,32 @@
 
         <a href=@Url.Action("ProjectVM", "Project" )> @ViewBag.Projectnamn</a>
 
-
         @if (ViewBag.Projects == null)
         {
-            <p>Logga in om du vill gå med i detta projekt!</p>
+        <p>Logga in om du vill gå med i detta projekt!</p>
+        <p> Skapad av :  @ViewBag.creator </p>
         }
+
+        else if (ViewBag.Projects.Count < 1)
+        {
+            <p>Inga projekt finns i databasen</p>
+        }
+
+
+        
 
         else if (!ViewBag.Projects.Contains(ViewBag.ProjId.ToString()))
         {
             <input type="button" value="Gå med i projekt" onclick="location.href='@Url.Action("JoinProject", "Home", new { id = ViewBag.ProjId })'" />
+            <p> Skapad av :  @ViewBag.creator </p>
         }
         else
         {
             <input type="button" value="Gå ur projekt" onclick="location.href='@Url.Action("LeaveProject", "Home", new {id = ViewBag.ProjId})'" />
+            <p> Skapad av :  @ViewBag.creator </p>
         }
 
-        <p> Skapad av :  @ViewBag.creator </p>
+
     </div>
 
     <div class="col-md-4">

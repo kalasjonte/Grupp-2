@@ -16,53 +16,56 @@ namespace Grupp_2.Controllers
         private UserRespository userRespository = new UserRespository();
         public ActionResult Index()
         {
-            var projects = projectRespository.GetAllProjects();
-            var project = projects.Last();
-            if (project != null)
-            {
-                ViewBag.Projectnamn = "Titel: " + project.Titel;
-                var creator = userRespository.GetUserByUserID(project.Creator);
-                ViewBag.Creator = creator.Firstname;
-                ViewBag.ProjId = project.ProjectID;
-            }
-            var users = userRespository.GetAllUsers();
-
-            if (users.Count() > 0)
-            {
-                int check = users.Count();
-                ViewBag.Count = users.Count();
-
-                List<int> uID = new List<int>();
-                List<string> name = new List<string>();
-                for (int i = 0; i < 3 && i < check; i++)
+                var projects = projectRespository.GetAllProjects();
+                
+                if (projects.Count() > 0)
                 {
-                    var user = users.Last();
-                    uID.Add(user.UserID);
-                    name.Add(user.Firstname + " " + user.Lastname);
-                    users.Remove(user);
-
-                    
+                     var project = projects.Last();
+                    ViewBag.Projectnamn = "Titel: " + project.Titel;
+                    var creator = userRespository.GetUserByUserID(project.Creator);
+                    ViewBag.Creator = creator.Firstname;
+                    ViewBag.ProjId = project.ProjectID;
                 }
-                ViewBag.UID = uID;
-                ViewBag.Name = name;
-            }
-            //----------------------------------------------------------------------------------------
-            string loggedInUserMail = User.Identity.Name.ToString();
-            User user2 = userRespository.GetUserByEmail(loggedInUserMail);
-            if (user2 != null)
-            {
-                ViewBag.User2Id = user2.UserID;
-                var userIdCommon = db.Projects_Users.Where(pu => pu.UserID == user2.UserID).ToList();
-                List<string> projIds = new List<string>();
-                foreach (var item in userIdCommon)
+                var users = userRespository.GetAllUsers();
+
+                if (users.Count() > 0)
                 {
-                    projIds.Add(item.ProjectID.ToString());
-                    
-                }
-                ViewBag.Projects = projIds;
-            }
+                    int check = users.Count();
+                    ViewBag.Count = users.Count();
 
-            return View();
+                    List<int> uID = new List<int>();
+                    List<string> name = new List<string>();
+                    for (int i = 0; i < 3 && i < check; i++)
+                    {
+                        var user = users.Last();
+                        uID.Add(user.UserID);
+                        name.Add(user.Firstname + " " + user.Lastname);
+                        users.Remove(user);
+
+
+                    }
+                    ViewBag.UID = uID;
+                    ViewBag.Name = name;
+                }
+                //----------------------------------------------------------------------------------------
+                string loggedInUserMail = User.Identity.Name.ToString();
+                User user2 = userRespository.GetUserByEmail(loggedInUserMail);
+                if (user2 != null)
+                {
+                    ViewBag.User2Id = user2.UserID;
+                    var userIdCommon = db.Projects_Users.Where(pu => pu.UserID == user2.UserID).ToList();
+                    List<string> projIds = new List<string>();
+                    foreach (var item in userIdCommon)
+                    {
+                        projIds.Add(item.ProjectID.ToString());
+
+                    }
+                    ViewBag.Projects = projIds;
+                }
+
+                return View();
+            
+
         }
 
         

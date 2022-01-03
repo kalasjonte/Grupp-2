@@ -22,7 +22,7 @@ namespace Data.Respositories
             db.CVs.Add(new Data.Models.CV 
             { 
                 UserID = id,
-                ImageID = 5 
+                ImageID = 1 
             });
             db.SaveChanges();
         }
