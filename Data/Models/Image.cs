@@ -11,6 +11,7 @@ namespace Data.Models
     {
         public int ImageID { get; set; }
         public IEnumerable<HttpPostedFile> Picture { get; set; }
+
         public string Name { get; set; }
         public string Path { get; set; }
 

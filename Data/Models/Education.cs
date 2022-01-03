@@ -11,6 +11,10 @@ namespace Data.Models
     {
         [Key]
         public int EduID { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "Vänligen lägg till en utbildning med minst {2} karaktärer.", MinimumLength = 3)]
+        [Display(Name = "Titel:")]
         public string Title { get; set; }
         public virtual ICollection<CV> CVs { get; set; }
     }
