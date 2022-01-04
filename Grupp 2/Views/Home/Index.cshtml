@@ -3,6 +3,9 @@
 
 }
 
+
+
+
 <div class="jumbotron">
     <h1>Grupp 2's CV sida</h1>
     <p class="lead"> Skapad av Anton Lyrberg, Noel Lindgren & Jonathan Gabrielsson</p>
@@ -25,50 +28,51 @@
             {
                 <a>@Html.RouteLink("Kolla på " + (string)(ViewBag.Name[2]) + "s CV", "ShowUserCv", new { userid = ViewBag.Uid[2] })  </a> <hr>
             }
-            else if(ViewBag.Count == 0)
-            { <p>Finns för nuvarande inga CV's inlagda i systemet.</p>}
+            else if (ViewBag.Count == 0)
+            {
+            <p>Finns för nuvarande inga CV's inlagda i systemet.</p>}
 
-        </p>
+            </p>
+        </div>
+
+        <div class="col-md-4">
+            <h2>Senaste projeketet</h2>
+
+            <a href=@Url.Action("ProjectVM", "Project" )> @ViewBag.Projectnamn</a>
+
+            @if (ViewBag.creator != null)
+            {
+                <p> Skapad av :  @ViewBag.creator </p>
+            }
+
+            @if (ViewBag.Projects == null)
+            {
+                <p>Logga in för att kunna delta i ett projekt.</p>
+            }
+
+            else if (ViewBag.test == 0)
+            {
+                <p>Inga projekt finns i databasen</p>
+            }
+
+            else if (!ViewBag.Projects.Contains(ViewBag.ProjId.ToString()))
+            {
+                <input type="button" value="Gå med i projekt" onclick="location.href='@Url.Action("JoinProject", "Home", new { id = ViewBag.ProjId })'" />
+            }
+            else if (ViewBag.User2Id != ViewBag.CreatorId)
+            {
+                <input type="button" value="Gå ur projekt" onclick="location.href='@Url.Action("LeaveProject", "Home", new {id = ViewBag.ProjId})'" />
+            }
+
+
+        </div>
+
+        <div class="col-md-4">
+            <h2>Om hemsidan</h2>
+            <p>
+                Denna ASPNET-sida utvecklades under kursen: Informatik, Webbsystem med .NET, fortsättningskurs, HT21, IK204G. Syftet var att få en grundläggande förståelse hur en ASPNET-sida fungerar tillsammans med
+                MVC och Entity Framework (code first).
+            </p>
+            <p><a class="btn btn-default" href="https://www.oru.se/utbildning/kurser/kurs/informatik-webbsystem-med-net-fortsattningskurs-ik204g" target="_blank">Läs mer &raquo;</a></p>
+        </div>
     </div>
-
-    <div class="col-md-4">
-        <h2>Senaste projeketet</h2>
-
-        <a href=@Url.Action("ProjectVM", "Project" )> @ViewBag.Projectnamn</a>
-
-        @if(ViewBag.creator != null)
-        {
-        <p> Skapad av :  @ViewBag.creator </p>
-        }
-
-        @if (ViewBag.Projects == null)
-        {
-            <p>Logga in för att kunna delta i ett projekt.</p>
-        }
-
-        else if (ViewBag.test == 0)
-        {
-            <p>Inga projekt finns i databasen</p>
-        }
-        
-        else if (!ViewBag.Projects.Contains(ViewBag.ProjId.ToString()))
-        {
-            <input type="button" value="Gå med i projekt" onclick="location.href='@Url.Action("JoinProject", "Home", new { id = ViewBag.ProjId })'" />
-        }
-        else if (ViewBag.User2Id != ViewBag.CreatorId)
-        {
-            <input type="button" value="Gå ur projekt" onclick="location.href='@Url.Action("LeaveProject", "Home", new {id = ViewBag.ProjId})'" />
-        }
-
-
-    </div>
-
-    <div class="col-md-4">
-        <h2>Om hemsidan</h2>
-        <p>
-            Denna ASPNET-sida utvecklades under kursen: Informatik, Webbsystem med .NET, fortsättningskurs, HT21, IK204G. Syftet var att få en grundläggande förståelse hur en ASPNET-sida fungerar tillsammans med
-            MVC och Entity Framework (code first).
-        </p>
-        <p><a class="btn btn-default" href="https://www.oru.se/utbildning/kurser/kurs/informatik-webbsystem-med-net-fortsattningskurs-ik204g" target="_blank">Läs mer &raquo;</a></p>
-    </div>
-</div>

@@ -81,7 +81,7 @@
 body {
   margin: 0;
   font-family: var(--bs-body-font-family);
-  font-size: var(--bs-body-font-size);
+  font-size: 14px;
   font-weight: var(--bs-body-font-weight);
   line-height: var(--bs-body-line-height);
   color: var(--bs-body-color);
@@ -4234,8 +4234,8 @@ fieldset:disabled .btn {
 }
 
 .navbar-brand {
-  padding-top: 0.3125rem;
-  padding-bottom: 0.3125rem;
+
+  
   margin-right: 1rem;
   font-size: 1.25rem;
   text-decoration: none;
@@ -4245,8 +4245,6 @@ fieldset:disabled .btn {
 .navbar-nav {
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-direction: column;
-  flex-direction: column;
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
