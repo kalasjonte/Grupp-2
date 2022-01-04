@@ -14,9 +14,9 @@
 @using (Html.BeginForm("Upload", "Cv", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div>
-        Välj en fil: <input type="file" name="fileUpload" />
+        Välj en fil: <input type="file" name="fileUpload"  accept="image/png, image/gif, image/jpeg" />
 
-        <input type="submit" value="Ladda upp" />
+        <input type="submit" value="Ladda upp"/>
     </div>
     <div>
         <h3>Din profilbild:</h3>

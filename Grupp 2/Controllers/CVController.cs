@@ -419,20 +419,6 @@ namespace Grupp_2.Controllers
                 }
                 catch (Exception e) { ErrorMessage("Please select a file first!");  }
 
-                //----
-
-                //var relativePath = ("~/UploadedFiles/") + Path.GetFileName(postedFile.FileName);
-                //var absolutePath = HttpContext.Server.MapPath(relativePath);
-                //if (System.IO.File.Exists(absolutePath))
-                //{
-                //    Duplicate();
-                //}
-
-
-                //---
-
-                
-
                 var imgId = db.Images.OrderByDescending(i => i.ImageID).FirstOrDefault();
                 int cvId = DBCV.GetCVIDByEmail(User.Identity.Name.ToString());
 

@@ -102,7 +102,7 @@ namespace Grupp_2.Controllers
                 }
                 else if (ModelState.IsValid)
                 {
-                    db.Entry(user).State = EntityState.Modified; 
+                    db.Entry(user).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Details", new { id = user.UserID });
                 }

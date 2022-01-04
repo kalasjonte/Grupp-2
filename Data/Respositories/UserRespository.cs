@@ -39,7 +39,16 @@ namespace Data.Respositories
 
         public List<User> GetUsersByString(string searchString)
         {
-            return db.Users.Where(x => x.Firstname.Contains(searchString) || searchString == null).ToList();
+            List<string> tempList = new List<string>();
+            if (searchString != null && searchString.Contains(" "))
+            {
+                tempList = searchString.Split().ToList();
+                string firstName = tempList.ElementAt(0);
+                string lastName = tempList.ElementAt(1);
+                return db.Users.Where(x => x.Firstname.Contains(firstName) || x.Lastname.Contains(lastName)).ToList();
+            }
+
+            return db.Users.Where(x => x.Firstname.Contains(searchString) || x.Lastname.Contains(searchString) || searchString == null).ToList();
         }
 
         public void RegisterUser(string email,string adress,string firstname , string lastname) 
