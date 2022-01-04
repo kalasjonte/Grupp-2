@@ -175,6 +175,7 @@ namespace Grupp_2.Controllers
             }
             base.Dispose(disposing);
         }
+
         public ActionResult ProjectVM()
         {
             string loggedInUserMail = User.Identity.Name.ToString();
@@ -200,7 +201,7 @@ namespace Grupp_2.Controllers
                 foreach (var item in projects)
                 {
                     ProjectsViewModel ProjectsViewModel = null;
-                    if (user == null)
+                    if (user == null && item.User.PrivateProfile == true)
                     {
                         ProjectsViewModel = new ProjectsViewModel( item.Creator, item.Titel, item.Description, item.ProjectID);
                     }

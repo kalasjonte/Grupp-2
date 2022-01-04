@@ -24,5 +24,46 @@ namespace Grupp_2.Models
         public List<Work_Experience> Work_Experiences { get; set; }
 
         public List<Project> Projects { get; set; }
+
+        public CreateCVViewModel(string name, string path, List<Education> educations, List<Skill> skills, List<Work_Experience> work_Experiences, List<Project> projects )
+        {
+            User = name;
+            Imgpath = path;
+            Educations = educations;
+            Skills = skills;
+            Work_Experiences = work_Experiences;
+            Projects = projects;
+        }
+
+        public CreateCVViewModel( string path, List<Education> educations, List<Skill> skills, List<Work_Experience> work_Experiences, List<Project> projects)
+        {
+            User = "Anonym Användare";
+            Imgpath = path;
+            Educations = educations;
+            Skills = skills;
+            Work_Experiences = work_Experiences;
+            Projects = projects;
+        }
+
+        public CreateCVViewModel(List<Education> educations, List<Skill> skills, List<Work_Experience> work_Experiences, List<Project> projects)
+        {
+            Educations = educations;
+            Skills = skills;
+            Work_Experiences = work_Experiences;
+            Projects = projects;
+        }
+
+        public CreateCVViewModel(int id, string name, string path, string email, string adress, List<Education> educations, List<Skill> skills, List<Work_Experience> work_Experiences, List<Project> projects)
+        {
+            UserID = id;
+            User = name;
+            Imgpath = path;
+            Email = email;
+            Adress = adress;
+            Educations = educations;
+            Skills = skills;
+            Work_Experiences = work_Experiences;
+            Projects = projects;
+        }
     }
 }
