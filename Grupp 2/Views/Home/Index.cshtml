@@ -17,15 +17,15 @@
             {
                 <a>@Html.RouteLink("Kolla på " + (string)(ViewBag.Name[0]) + "s CV", "ShowUserCv", new { userid = ViewBag.Uid[0] })  </a> <hr>
             }
-            @if (ViewBag.Count >= 2)
+            else if (ViewBag.Count >= 2)
             {
                 <a>@Html.RouteLink("Kolla på " + (string)(ViewBag.Name[1]) + "s CV", "ShowUserCv", new { userid = ViewBag.Uid[1] })  </a> <hr>
             }
-            @if (ViewBag.Count >= 3)
+            else if (ViewBag.Count >= 3)
             {
                 <a>@Html.RouteLink("Kolla på " + (string)(ViewBag.Name[2]) + "s CV", "ShowUserCv", new { userid = ViewBag.Uid[2] })  </a> <hr>
             }
-            else if(ViewBag.Count == 0)
+            else
             { <p>Finns för nuvarande inga CV's inlagda i systemet.</p>}
 
         </p>
