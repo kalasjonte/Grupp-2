@@ -100,13 +100,9 @@ namespace Grupp_2.Controllers
 
 
             //-------
-            var CreateCVViewModel = new CreateCVViewModel
-            {
-                Educations = education,
-                Skills = skills,
-                Work_Experiences = workExp,
-                Projects = tempList
-            };
+            var CreateCVViewModel = new CreateCVViewModel(education, skills, workExp, tempList);
+            
+          
             var skillsList = new SelectList(DBCV.GetAllSkills(), "SkillID", "Title");
             ViewData["DBMySkills"] = skillsList;
 
@@ -240,16 +236,21 @@ namespace Grupp_2.Controllers
                     }
                 }
             }
+            string path = ("/UploadedFiles/") + Path.GetFileName(img.Name);
+            string namn = user.Firstname + " " + user.Lastname;
 
-            var CreateCVViewModel = new CreateCVViewModel //skapa viewmodel i  klassen istället -> släng ut den i shared -> gör om till 2 konstruktörer, en med anonym användare
-            {
-                User = user.Firstname,
-                Imgpath = ("/UploadedFiles/") + Path.GetFileName(img.Name),
-                Educations = education,
-                Skills = skills,
-                Work_Experiences = workExp,
-                Projects = tempList
-            };
+            var CreateCVViewModel = new CreateCVViewModel(namn, path, education, skills, workExp, tempList);  //skapa viewmodel i  klassen istället -> släng ut den i shared -> gör om till 2 konstruktörer, en med anonym användare
+            //{
+            //    User = user.Firstname,
+            //    Imgpath = ("/UploadedFiles/") + Path.GetFileName(img.Name),
+            //    Educations = education,
+            //    Skills = skills,
+            //    Work_Experiences = workExp,
+            //    Projects = tempList
+            //};
+
+
+            
 
             return View(CreateCVViewModel);
         }
@@ -288,21 +289,25 @@ namespace Grupp_2.Controllers
                 }
             }
 
+            string path = ("/UploadedFiles/") + Path.GetFileName(img.Name);
+            string namn = user.Firstname + " " + user.Lastname;
+            CreateCVViewModel model =  new CreateCVViewModel(user.UserID, namn, path, user.Email, user.Adress, education, skills, workExp, tempList);
 
-            var CreateCVViewModel = new CreateCVViewModel
+            if (!User.Identity.IsAuthenticated)
             {
-                UserID = user.UserID,
-                User = user.Firstname + " " + user.Lastname,
-                Email = user.Email,
-                Adress = user.Adress,
-                Imgpath = ("/UploadedFiles/") + Path.GetFileName(img.Name),
-                Educations = education,
-                Skills = skills,
-                Work_Experiences = workExp,
-                Projects = tempList
-            };
+                foreach (var item in model.Projects)
+                {
+                    if (item.User.PrivateProfile == true)
+                    {
+                        item.User.Firstname = "Anonym användare";
+                    }
+                    }
 
-            return View(CreateCVViewModel);
+                }
+            
+            
+
+            return View(model);
         }
 
         // POST: CV/Create
