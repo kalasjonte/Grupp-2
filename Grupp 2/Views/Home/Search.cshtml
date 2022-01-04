@@ -45,7 +45,7 @@
                 {
                     <tr>
 
-                        <td>@item.Firstname + " " + @item.Lastname</td>
+                        <td>@item.Firstname @item.Lastname</td>
                         <td> @Html.RouteLink("Klicka för att visa CV", "ShowUserCV", new { userid = item.UserID })</td>
                     </tr>
                 }
