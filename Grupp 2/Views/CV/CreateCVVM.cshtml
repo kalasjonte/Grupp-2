@@ -13,17 +13,22 @@
 }
 @using (Html.BeginForm("Upload", "Cv", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <div>
-        Välj en fil: <input type="file" name="fileUpload"  accept="image/png, image/gif, image/jpeg" />
 
-        <input type="submit" value="Ladda upp"/>
-    </div>
+    <br />
     <div>
         <h3>Din profilbild:</h3>
+        <br />
         <img src="@ViewBag.Path" alt="Profilbild kunde inte laddas" style="border-radius: 50%" , width="300px" />
     </div>
-}
+    <br />
+    <div style="display: inline-block">
+        Välj en fil: <input type="file" name="fileUpload" accept="image/png, image/gif, image/jpeg" />
 
+        <input type="submit" value="Ladda upp" />
+    </div>
+}
+<br />
+<br />
 
 
 @using (Html.BeginForm("UpdateCvVm", "Cv", FormMethod.Post))
@@ -33,9 +38,8 @@
         @foreach (var item in Model.Educations)
         {
             <li>
-                @item.Title   <input type="submit" name="actionType" value="Ta bort utbildning @item.Title"  />
+                @item.Title   <input type="submit" name="actionType" value="Ta bort utbildning @item.Title" />
             </li>
-
         }
     </ul>
 
@@ -46,7 +50,7 @@
         @foreach (var item in Model.Work_Experiences)
         {
             <li>
-                @item.Titel <input type="submit" name="actionType" value="Ta bort arbete @item.Titel"  />
+                @item.Titel <input type="submit" name="actionType" value="Ta bort arbete @item.Titel" />
             </li>
 
         }
@@ -61,7 +65,6 @@
             <li>
                 @skills.Title <input type="submit" name="actionType" value="Ta bort erfarenhet @skills.Title" class="btn btn-primary" />
             </li>
-
         }
     </ul>
 
@@ -75,7 +78,7 @@
             @Html.DropDownList("MySkills", (IEnumerable
            <SelectListItem>)ViewData["DBMySkills"])
 
-            <input type="submit" name="actionType" value="Lägg till färdighet på ditt cv"  />
+            <input type="submit" name="actionType" value="Lägg till färdighet på ditt cv" />
 
 
 
@@ -93,7 +96,7 @@
            <SelectListItem>)ViewData["DBMyWorkExp"])
 
 
-            <input type="submit" name="actionType" value="Lägg till arbete i cvet"  />
+            <input type="submit" name="actionType" value="Lägg till arbete i cvet" />
 
         </td>
 
@@ -107,18 +110,19 @@
             @Html.DropDownList("MyEducations", (IEnumerable
            <SelectListItem>)ViewData["DBMyEducations"])
 
-            <input type="submit" name="actionType" value="Lägg till Utbildning i cvet"  />
+            <input type="submit" name="actionType" value="Lägg till Utbildning i cvet" />
         </td>
     </tr>
 
 }
-
+<br /><br />
 <p>
     @Html.ActionLink("Lägg till ny Färdighet", "Create", "Skill")
     @Html.ActionLink("Lägg till nytt Arbete", "Create", "Work_Experience")
     @Html.ActionLink("Lägg till ny Utbildning", "Create", "Education")
 </p>
-
+<br />
+<h1>Dina projekt:</h1>
 <table class="table">
     <tr>
         <th>
@@ -134,37 +138,34 @@
     </tr>
     @using (Html.BeginForm("CreateCVVM", "Cv", FormMethod.Post))
     {
-
-
-
         foreach (var item in Model.Projects)
         {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.User.Firstname)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Titel)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Description)
-    </td>
-    @if (item.Creator != ViewBag.Id)
-    {
-        <td>
-            <input type="button" value="Gå ur projekt" onclick="location.href='@Url.Action("Remove", "Cv", new { id = item.ProjectID })'" />
-        </td>
-    }
-    @if (item.Creator == ViewBag.Id) 
-    {
-<td>
-    
-    @Html.ActionLink("Edit", "Edit", "Project" , new { id = item.ProjectID} , null) |
-    @Html.ActionLink("Details", "Details", "Project", new { id = item.ProjectID } , null) |
-    @Html.ActionLink("Delete", "Delete","Project", new { id = item.ProjectID } , null)
-</td>
-    }
-</tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Firstname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Titel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                @if (item.Creator != ViewBag.Id)
+                {
+                    <td>
+                        <input type="button" value="Gå ur projekt" onclick="location.href='@Url.Action("Remove", "Cv", new { id = item.ProjectID })'" />
+                    </td>
+                }
+                @if (item.Creator == ViewBag.Id)
+                {
+                    <td>
+
+                        @Html.ActionLink("Edit", "Edit", "Project", new { id = item.ProjectID }, null) |
+                        @Html.ActionLink("Details", "Details", "Project", new { id = item.ProjectID }, null) |
+                        @Html.ActionLink("Delete", "Delete", "Project", new { id = item.ProjectID }, null)
+                    </td>
+                }
+            </tr>
 
         }
 

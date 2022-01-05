@@ -5,7 +5,6 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Data;
 using Data.Models;
@@ -24,7 +23,6 @@ namespace Grupp_2.Controllers
         // GET: CV
         public ActionResult Index()
         {
-            
             return View(DBCV.GetAllCVS());
         }
 
@@ -44,7 +42,7 @@ namespace Grupp_2.Controllers
         }
 
         // GET: CV/Create
-        public ActionResult Create() //används inte va?
+        public ActionResult Create()
         {
             ViewBag.UserID = new SelectList(db.Users, "UserID", "Firstname");
             return View();
@@ -54,35 +52,22 @@ namespace Grupp_2.Controllers
         {
             var files = Directory.GetFiles(Server.MapPath("~/UploadedFiles"));
             int cvId = DBCV.GetCVIDByEmail(User.Identity.Name.ToString());
-
-
+            
             var tempCv = DBCV.GetCVById(cvId);
-            //var tempCv = db.CVs.Where(e => e.CVID == cvId).FirstOrDefault();
+            var image = db.Images.Where(i => i.ImageID == tempCv.ImageID).FirstOrDefault();
+            string path = image.Path;
 
-                var image = db.Images.Where(i => i.ImageID == tempCv.ImageID).FirstOrDefault();
-
-                string path = image.Path;
-                
             ViewBag.Path = ("/UploadedFiles/") + Path.GetFileName(image.Name);
 
-            //.------------------------
-
             var workExp = DBCV.GetWorkExpFromCVID(cvId);
-
             var education = DBCV.GetEducationsFromCVID(cvId);
-
             var skills = DBCV.GetSkillsFromCVID(cvId);
-            // ---------------
-
 
             string loggedInUserMail = User.Identity.Name.ToString();
-
             int userID = UserRespository.GetUserIDByEmail(loggedInUserMail);
-
             ViewBag.Id = userID;
 
             var projects = ProjectRespository.GetAllProjects();
-
             var projectUsers = ProjectRespository.GetProjectUsersFromUserID(userID);
 
             List<Project> tempList = new List<Project>();
@@ -98,11 +83,8 @@ namespace Grupp_2.Controllers
                 }
             }
 
-
-            //-------
             var CreateCVViewModel = new CreateCVViewModel(education, skills, workExp, tempList);
-            
-          
+
             var skillsList = new SelectList(DBCV.GetAllSkills(), "SkillID", "Title");
             ViewData["DBMySkills"] = skillsList;
 
@@ -113,14 +95,14 @@ namespace Grupp_2.Controllers
             ViewData["DBMyEducations"] = educations;
 
             return View(CreateCVViewModel);
-    }
+        }
 
         public ActionResult Remove(int id)
         {
             string loggedInUserMail = User.Identity.Name.ToString();
             int userID = UserRespository.GetUserIDByEmail(loggedInUserMail);
             ProjectRespository.DeleteProjectUserByProjectIDAndUserID(id, userID);
-           
+
             return RedirectToAction("CreateCVVM");
         }
         public ActionResult UpdateCvVm(string actionType)
@@ -128,17 +110,15 @@ namespace Grupp_2.Controllers
             int cvId = DBCV.GetCVIDByEmail(User.Identity.Name.ToString());
             CV cv = DBCV.GetCVById(cvId);
 
-
             if (actionType == "Lägg till färdighet på ditt cv")
             {
                 try
                 {
                     int skill = Int32.Parse(Request.Form["MySkills"]);
                     DBCV.AddSkillToCV(cv, skill);
-                   
                 }
-                catch(Exception e) { ErrorMessage("Please add a skill to the database before doing this!"); }
-                
+                catch (Exception e) { ErrorMessage("Please add a skill to the database before doing this!"); }
+
                 return RedirectToAction("CreateCVVM");
 
             }
@@ -146,30 +126,26 @@ namespace Grupp_2.Controllers
             {
                 try
                 {
-
                     int workxp = Int32.Parse(Request.Form["WorkExp"]);
-                    DBCV.AddWorkExpToCV(cv,workxp);
+                    DBCV.AddWorkExpToCV(cv, workxp);
                 }
-                catch(Exception e) { ErrorMessage("Please add a work experience to the database before doing this!"); }
+                catch (Exception e) { ErrorMessage("Please add a work experience to the database before doing this!"); }
                 return RedirectToAction("CreateCVVM");
             }
             else if (actionType == "Lägg till Utbildning i cvet")
             {
                 try
                 {
-
                     int educ = Int32.Parse(Request.Form["MyEducations"]);
-
                     DBCV.AddEducationToCV(cv, educ);
                 }
-                catch(Exception e) { ErrorMessage("Please add an education to the database before doing this!"); }
+                catch (Exception e) { ErrorMessage("Please add an education to the database before doing this!"); }
 
                 return RedirectToAction("CreateCVVM");
             }
 
             else if (actionType.Contains("Ta bort utbildning"))
             {
-                
                 string utbildning = actionType.Substring(19);
                 DBCV.RemoveEducationFromCV(cv, utbildning);
 
@@ -178,8 +154,6 @@ namespace Grupp_2.Controllers
 
             else if (actionType.Contains("Ta bort erfarenhet"))
             {
-                
-
                 string erfarenhet = actionType.Substring(19);
                 DBCV.RemoveSkillFromCV(cv, erfarenhet);
 
@@ -189,39 +163,31 @@ namespace Grupp_2.Controllers
             else if (actionType.Contains("Ta bort arbete"))
             {
                 string arbete = actionType.Substring(15);
-
                 DBCV.RemoveWorkExpFromCV(cv, arbete);
 
                 return RedirectToAction("CreateCVVM");
             }
-
             else
             {
                 return View("Index");
             }
-
-           
         }
 
-        public ActionResult ShowCVVM() //bryt ut till service, ha denna här men contenten i services
+        public ActionResult ShowCVVM()
         {
-            string loggedInUserMail = User.Identity.Name.ToString(); //KAN finnas här, eller ligga i services med hhtpcontext current (owin)
-            User user = UserRespository.GetUserByEmail(loggedInUserMail); //hämta user på inskickad id ist? -> in i user respository som ligger i data.
+            string loggedInUserMail = User.Identity.Name.ToString(); 
+            User user = UserRespository.GetUserByEmail(loggedInUserMail); 
 
-            int cvId = DBCV.GetCVIDByEmail(User.Identity.Name.ToString()); //göra ny, ändra till inskickad userid?
+            int cvId = DBCV.GetCVIDByEmail(User.Identity.Name.ToString());
+
             var workExp = DBCV.GetWorkExpFromCVID(cvId);
-
             var education = DBCV.GetEducationsFromCVID(cvId);
-
             var skills = DBCV.GetSkillsFromCVID(cvId);
+
             CV tempCv = DBCV.GetCVById(cvId);
 
-            //------
             var img = db.Images.Where(i => i.ImageID == tempCv.ImageID).FirstOrDefault();
-
             var projects = ProjectRespository.GetAllProjects();
-
-
             var projectUsers = ProjectRespository.GetProjectUsersFromUserID(user.UserID);
 
             List<Project> tempList = new List<Project>();
@@ -239,18 +205,7 @@ namespace Grupp_2.Controllers
             string path = ("/UploadedFiles/") + Path.GetFileName(img.Name);
             string namn = user.Firstname + " " + user.Lastname;
 
-            var CreateCVViewModel = new CreateCVViewModel(namn, path, education, skills, workExp, tempList);  //skapa viewmodel i  klassen istället -> släng ut den i shared -> gör om till 2 konstruktörer, en med anonym användare
-            //{
-            //    User = user.Firstname,
-            //    Imgpath = ("/UploadedFiles/") + Path.GetFileName(img.Name),
-            //    Educations = education,
-            //    Skills = skills,
-            //    Work_Experiences = workExp,
-            //    Projects = tempList
-            //};
-
-
-            
+            var CreateCVViewModel = new CreateCVViewModel(namn, path, education, skills, workExp, tempList);
 
             return View(CreateCVViewModel);
         }
@@ -258,7 +213,6 @@ namespace Grupp_2.Controllers
         [Route("Cv/{userid:int}/ShowUserCv", Name = "ShowUserCv")]
         public ActionResult ShowUserCV(int userid)
         {
-
             User user = UserRespository.GetUserByUserID(userid);
             //ifnotnull
             CV cvet = DBCV.GetCVByUserId(user.UserID);
@@ -282,7 +236,7 @@ namespace Grupp_2.Controllers
             {
                 foreach (var item2 in projectUsers)
                 {
-                    if(item.ProjectID == item2.ProjectID)
+                    if (item.ProjectID == item2.ProjectID)
                     {
                         tempList.Add(item);
                     }
@@ -291,7 +245,7 @@ namespace Grupp_2.Controllers
 
             string path = ("/UploadedFiles/") + Path.GetFileName(img.Name);
             string namn = user.Firstname + " " + user.Lastname;
-            CreateCVViewModel model =  new CreateCVViewModel(user.UserID, namn, path, user.Email, user.Adress, education, skills, workExp, tempList);
+            CreateCVViewModel model = new CreateCVViewModel(user.UserID, namn, path, user.Email, user.Adress, education, skills, workExp, tempList);
 
             if (!User.Identity.IsAuthenticated)
             {
@@ -301,12 +255,9 @@ namespace Grupp_2.Controllers
                     {
                         item.User.Firstname = "Anonym användare";
                     }
-                    }
-
                 }
-            
-            
 
+            }
             return View(model);
         }
 
@@ -328,8 +279,7 @@ namespace Grupp_2.Controllers
             return View(cV);
         }
 
-        
-        public ActionResult Edit(int? id) //används inte?
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -344,9 +294,6 @@ namespace Grupp_2.Controllers
             return View(cV);
         }
 
-        // POST: CV/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CVID,UserID,ImgPath")] CV cV)
@@ -396,7 +343,7 @@ namespace Grupp_2.Controllers
             base.Dispose(disposing);
         }
 
-        
+
 
         public ActionResult ErrorMessage(string message)
         {
@@ -417,7 +364,7 @@ namespace Grupp_2.Controllers
                     db.Images.Add(new Image { Name = postedFile.FileName, Path = Server.MapPath("~/UploadedFiles/") + Path.GetFileName(postedFile.FileName) });
                     db.SaveChanges();
                 }
-                catch (Exception e) { ErrorMessage("Please select a file first!");  }
+                catch (Exception e) { ErrorMessage("Please select a file first!"); }
 
                 var imgId = db.Images.OrderByDescending(i => i.ImageID).FirstOrDefault();
                 int cvId = DBCV.GetCVIDByEmail(User.Identity.Name.ToString());
@@ -426,7 +373,7 @@ namespace Grupp_2.Controllers
                              where c.CVID == cvId
                              select c;
 
-                foreach(CV c in tempCv)
+                foreach (CV c in tempCv)
                 {
                     c.ImageID = imgId.ImageID;
                 }
