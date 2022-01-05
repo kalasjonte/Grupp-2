@@ -45,32 +45,126 @@ namespace Data.Respositories
                 tempList = searchString.Split().ToList();
                 string firstName = tempList.ElementAt(0);
                 string lastName = tempList.ElementAt(1);
+                
                 return db.Users.Where(x => x.Firstname.Contains(firstName) || x.Lastname.Contains(lastName) && x.Deactivate == false).ToList();
             }
 
             return db.Users.Where(x => x.Firstname.Contains(searchString) || x.Lastname.Contains(searchString) || searchString == null && x.Deactivate == false).ToList();
         }
 
-        public List<User> GetUsersByStringVG(string searchString)
+        public List<User> GetUsersByStringVG(string searchString) //måste to lower på allt i think
         {
             List<string> tempList = new List<string>();
-            if (searchString != null && searchString.Contains(" "))
+            List<int> userids = new List<int>();
+            List<User> users = new List<User>();
+
+            List<User> returlist = new List<User>();
+            if (!String.IsNullOrWhiteSpace(searchString) && searchString.Contains(" "))
             {
                 tempList = searchString.Split().ToList();
-                int antalStrings = tempList.Count();
-                for (int i = 0; i <= antalStrings; i++)
+                List<Skill> skills = new List<Skill>();
+                
+                
+                foreach (var item in tempList)
                 {
-
+                    if (item != "") //måste ha då den splittar på mellanslag men får in tomma saker ändå
+                    {
+                        if (db.Users.Any(x => x.Firstname.Contains(item) || x.Lastname.Contains(item)))
+                        {
+                            foreach (var user in db.Users.ToList())
+                            {
+                                if (user.Firstname.Contains(item) || user.Lastname.Contains(item))
+                                {
+                                    users.Add(user);
+                                }
+                            }
+                        }
+                    }
                 }
-                string firstName = tempList.ElementAt(0);
-                string lastName = tempList.ElementAt(1);
-                return db.Users.Where(x => x.Firstname.Contains(firstName) || x.Lastname.Contains(lastName) && x.Deactivate == false).ToList();
-            }
 
-            return db.Users.Where(x => x.Firstname.Contains(searchString) || x.Lastname.Contains(searchString) || searchString == null && x.Deactivate == false).ToList();
+                userids = GetUserIDSBySkill(tempList);
+
+                foreach (var item in userids)
+                {
+                    users.Add(GetUserByUserID(item));
+                }
+                returlist = users.Distinct().ToList();
+                return returlist;
+            }
+            users = db.Users.Where(x => x.Firstname.Contains(searchString) || x.Lastname.Contains(searchString) || searchString == null && x.Deactivate == false).ToList();
+            userids = GetUserIDSBySkillstring(searchString);
+            foreach (var item in userids)
+            {
+                users.Add(GetUserByUserID(item));
+            }
+            
+            returlist = users.Distinct().ToList(); 
+            return returlist;
+            
         }
 
-        public void RegisterUser(string email,string adress,string firstname , string lastname) 
+        public List<int> GetUserIDSBySkill(List<string> searchStrings)
+        {
+            List<int> userids = new List<int>();
+            foreach (var skill in searchStrings)
+            {
+
+                if (db.Skills.Any(x => x.Title.Contains(skill))) //så vi inte loopar när den inte finns
+                {
+                    foreach (var item in db.Skills.ToList())
+                    {
+                        if (item.Title.Contains(skill))
+                        {
+                            foreach (var cv in db.CVs.ToList())
+                            {
+                                foreach (var cvSkill in cv.Skills.ToList())
+                                {
+                                    if (cvSkill.SkillID == item.SkillID)
+                                    {
+                                        userids.Add(cv.UserID);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            }
+            return userids;
+        }
+
+
+        public List<int> GetUserIDSBySkillstring(string skill)
+        {
+            List<int> userids = new List<int>();
+
+            if (db.Skills.Any(x => x.Title.Contains(skill))) //så vi inte loopar när den inte finns
+            {
+                foreach (var item in db.Skills.ToList())
+                {
+                    if (item.Title.Contains(skill))
+                    {
+                        foreach (var cv in db.CVs.ToList())
+                        {
+                            foreach (var cvSkill in cv.Skills.ToList())
+                            {
+                                if (cvSkill.SkillID == item.SkillID)
+                                {
+                                    userids.Add(cv.UserID);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return userids;
+        }
+            
+        
+
+
+
+    public void RegisterUser(string email,string adress,string firstname , string lastname) 
         {
             db.Users.Add(new Data.Models.User
             {

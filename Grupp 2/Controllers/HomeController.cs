@@ -119,7 +119,7 @@ namespace Grupp_2.Controllers
             }
 
 
-            return View(userRespository.GetUsersByString(searchString));
+            return View(userRespository.GetUsersByStringVG(searchString));
         }
 
         public ActionResult SearchKomp(string searchStringKomp)
@@ -134,7 +134,7 @@ namespace Grupp_2.Controllers
             }
 
 
-            return View(userRespository.GetUsersByString(searchStringKomp));
+            return View(userRespository.GetUsersByStringVG(searchStringKomp));
         }
 
         public ActionResult JoinProject(int id)
