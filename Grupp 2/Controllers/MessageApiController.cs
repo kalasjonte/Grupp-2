@@ -12,10 +12,8 @@ namespace Grupp_2.Controllers
 {
     public class MessageApiController : ApiController
     {
-
         private UserRespository userRespository = new UserRespository();
         private MessageRepository messageRepository = new MessageRepository();
-
 
         [Route("api/SendAPI/{id}/{content}/{sender}")]
         [HttpGet]
@@ -43,7 +41,7 @@ namespace Grupp_2.Controllers
                         MessageID = msg.MessageID,
                         Read = false,
                         Sender = sender,
-                        
+
                     };
                     messageRepository.SaveUserMessage(usermsg);
                     return Ok();
@@ -56,7 +54,7 @@ namespace Grupp_2.Controllers
         public int GetUnreadMessages()
         {
             string loggedInUserMail = User.Identity.Name.ToString();
-            using ( var db = new Datacontext())
+            using (var db = new Datacontext())
             {
                 User user = userRespository.GetUserByEmail(loggedInUserMail);
                 int id = user.UserID;
@@ -65,10 +63,5 @@ namespace Grupp_2.Controllers
             }
 
         }
-
-
-
-
-
     }
 }

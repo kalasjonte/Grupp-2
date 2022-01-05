@@ -37,15 +37,12 @@ namespace Grupp_2.Controllers
                     Read = item.Read,
                     Sender = item.Sender,
                     MessageID = item.MessageID
-
-
                 };
                 var msg = messageRepository.GetMessageByMessageID(item.MessageID);
                 MsgViewModel.Content = msg.Content;
                 listMsgViewModels.Add(MsgViewModel);
 
             }
-
 
             return View(listMsgViewModels);
         }
@@ -61,7 +58,6 @@ namespace Grupp_2.Controllers
             messageRepository.MarkAllAsRead(userID);
             return RedirectToAction("Index");
         }
-
 
         // GET: Message/Details/5
         public ActionResult Details(int? id) //används inte?
