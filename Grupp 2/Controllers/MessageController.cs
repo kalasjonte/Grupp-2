@@ -178,6 +178,16 @@ namespace Grupp_2.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        [Route("Message/Delete/DeleteAjax/{id}")]
+        public ActionResult DeleteAjax(int id)
+        {
+            Message message = db.Messages.Find(id);
+            db.Messages.Remove(message);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
