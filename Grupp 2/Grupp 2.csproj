@@ -189,7 +189,6 @@
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\SkillController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\User_MessageController.cs" />
     <Compile Include="Controllers\Work_ExperienceController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -267,15 +266,8 @@
     <Content Include="Views\Project\Details.cshtml" />
     <Content Include="Views\Project\Edit.cshtml" />
     <Content Include="Views\Skill\Create.cshtml" />
-    <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\Delete.cshtml" />
-    <Content Include="Views\User\Details.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
-    <Content Include="Views\User_Message\Create.cshtml" />
-    <Content Include="Views\User_Message\Delete.cshtml" />
-    <Content Include="Views\User_Message\Details.cshtml" />
-    <Content Include="Views\User_Message\Edit.cshtml" />
-    <Content Include="Views\User_Message\Index.cshtml" />
     <Content Include="Views\Work_Experience\Create.cshtml" />
     <Content Include="Views\Work_Experience\Delete.cshtml" />
     <Content Include="Views\Work_Experience\Details.cshtml" />

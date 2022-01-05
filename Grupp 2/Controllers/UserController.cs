@@ -14,34 +14,6 @@ namespace Grupp_2.Controllers
         private Datacontext db = new Datacontext();
         private UserRespository userRespository = new UserRespository();
 
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            User user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserID,Firstname,Lastname,Password,Adress,Email,PrivateProfile")] User user)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Users.Add(user);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(user);
-        }
-
         // GET: User/Edit/5
         public ActionResult Edit()
         {
