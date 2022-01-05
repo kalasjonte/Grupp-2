@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
 using Data;
 using Data.Models;
 using Data.Respositories;
@@ -19,23 +14,16 @@ namespace Grupp_2.Controllers
         private Datacontext db = new Datacontext();
         private UserRespository userRespository = new UserRespository();
 
-        // GET: User
-
-        public ActionResult Index() //används inte va?
-        {   
-            return View(db.Users.ToList());
-
-        }
 
         // GET: User/Details/5
         public ActionResult Details(int? id) //ej används tror
         {
-            
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-           User user = db.Users.Find(id);
+            User user = db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -49,9 +37,6 @@ namespace Grupp_2.Controllers
             return View();
         }
 
-        // POST: User/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "UserID,Firstname,Lastname,Password,Adress,Email,PrivateProfile")] User user)
@@ -71,7 +56,7 @@ namespace Grupp_2.Controllers
         {
             string loggedInUserMail = User.Identity.Name.ToString();
             User user = userRespository.GetUserByEmail(loggedInUserMail);
-            int ? id = user.UserID;
+            int? id = user.UserID;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -91,7 +76,7 @@ namespace Grupp_2.Controllers
         public ActionResult Edit([Bind(Include = "UserID,Firstname,Lastname,Adress,Email,PrivateProfile")] User user)
         {
             var regex = @"^(([A-za-z]+[\s]{1}[A-za-z]+)|([A-Za-z]+))$";
-            if(user.Firstname != null && user.Lastname != null && user.Adress != null)
+            if (user.Firstname != null && user.Lastname != null && user.Adress != null)
             {
                 var matchFirst = Regex.Match(user.Firstname, regex, RegexOptions.IgnoreCase);
                 var matchLast = Regex.Match(user.Lastname, regex, RegexOptions.IgnoreCase);
@@ -126,10 +111,10 @@ namespace Grupp_2.Controllers
             return View(user);
         }
 
-        
 
-            // POST: User/Delete/5
-            [HttpPost, ActionName("Delete")]
+
+        // POST: User/Delete/5
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
