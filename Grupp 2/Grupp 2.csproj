@@ -261,10 +261,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Education\Create.cshtml" />
-    <Content Include="Views\Education\Delete.cshtml" />
-    <Content Include="Views\Education\Details.cshtml" />
-    <Content Include="Views\Education\Edit.cshtml" />
-    <Content Include="Views\Education\Index.cshtml" />
     <Content Include="Views\Message\Create.cshtml" />
     <Content Include="Views\Message\Delete.cshtml" />
     <Content Include="Views\Message\Details.cshtml" />
@@ -299,7 +295,6 @@
     <Content Include="Views\Home\Project.cshtml" />
     <Content Include="Views\CV\CreateCVVM.cshtml" />
     <Content Include="Views\Project\DuplicateErrorProj.cshtml" />
-    <Content Include="Views\Education\DuplicateErrorEdu.cshtml" />
     <Content Include="Views\CV\ShowUserCV.cshtml" />
     <Content Include="Views\Images\Create.cshtml" />
     <Content Include="Views\Images\Delete.cshtml" />
