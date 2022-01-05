@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Data;
 using Data.Models;
@@ -18,19 +16,17 @@ namespace Grupp_2.Controllers
         private Datacontext db = new Datacontext();
         private UserRespository userRespository = new UserRespository();
         private ProjectRespository ProjectRespository = new ProjectRespository();
-        
-        
+
         public ActionResult Insert(int id)
         {
-
             string loggedInUserMail = User.Identity.Name.ToString();
             User user = userRespository.GetUserByEmail(loggedInUserMail);
 
             ProjectRespository.AddNewProjectUser(id, user.UserID);
-            
 
             return RedirectToAction("ProjectVM");
         }
+
         public ActionResult Remove(int id)
         {
             string loggedInUserMail = User.Identity.Name.ToString();
@@ -38,21 +34,12 @@ namespace Grupp_2.Controllers
             var tempProjekt = ProjectRespository.GetProjectUsersByProjectIDAndUserID(id, user.UserID);
 
             ProjectRespository.DeleteProjectUser(tempProjekt);
-         
 
             return RedirectToAction("ProjectVM");
         }
 
 
-
-        // GET: Project
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        
-        public ActionResult Details(int? id) //används den? bryta ut i repooo
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -66,48 +53,36 @@ namespace Grupp_2.Controllers
             return View(project);
         }
 
-        // GET: Project/Create
-        public ActionResult Create() //ska denna selectlisten (ENDAST EN CREATOR) brytas?
+
+        public ActionResult Create()
         {
-            
             string loggedInUserMail = User.Identity.Name.ToString();
             ViewBag.Creator = new SelectList(db.Users.Where(u => u.Email == loggedInUserMail).ToList(), "UserID", "Firstname");
 
             return View();
         }
 
-        // POST: Project/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ProjectID,Titel,Description,Creator")] Project project)
         {
             if (ModelState.IsValid)
             {
-                foreach (var proj in db.Projects) 
-                { 
-                    if(proj.Titel.ToLower() == project.Titel.ToLower())
+                foreach (var proj in db.Projects)
+                {
+                    if (proj.Titel.ToLower() == project.Titel.ToLower())
                     {
                         return RedirectToAction("DuplicateErrorProj");
                     }
                 }
                 ProjectRespository.AddNewProject(project);
-                
+
                 return RedirectToAction("ProjectVM");
             }
-
             ViewBag.Creator = new SelectList(userRespository.GetAllUsers(), "UserID", "Firstname", project.Creator);
             return View(project);
         }
-        public ActionResult DuplicateErrorProj()
-        {
-            TempData["alertMessage"] = "Det finns redan ett projekt med denna titel i systemet!";
-            return View();
-        }
 
-
-        
         public ActionResult Edit(int? id) //ska denna selectlisten (ENDAST EN CREATOR) brytas? behöver ha den i en lista
         {
             if (id == null)
@@ -124,9 +99,6 @@ namespace Grupp_2.Controllers
             return View(project);
         }
 
-        // POST: Project/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ProjectID,Titel,Description,Creator")] Project project)
@@ -141,9 +113,6 @@ namespace Grupp_2.Controllers
             return View(project);
         }
 
-        
-
-        
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -158,7 +127,6 @@ namespace Grupp_2.Controllers
             return View(project);
         }
 
-        // POST: Project/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -186,12 +154,7 @@ namespace Grupp_2.Controllers
                 int userId = user.UserID;
                 ViewBag.Id = userId;
             }
-
-
-
-
             List<Project> projects = new List<Project>();
-
 
             projects = ProjectRespository.GetAllProjectIncludeUser();
             List<ProjectsViewModel> ProjectViews = new List<ProjectsViewModel>();
@@ -203,7 +166,7 @@ namespace Grupp_2.Controllers
                     ProjectsViewModel ProjectsViewModel = null;
                     if (user == null && item.User.PrivateProfile == true)
                     {
-                        ProjectsViewModel = new ProjectsViewModel( item.Creator, item.Titel, item.Description, item.ProjectID);
+                        ProjectsViewModel = new ProjectsViewModel(item.Creator, item.Titel, item.Description, item.ProjectID);
                     }
                     else
                     {
@@ -216,8 +179,7 @@ namespace Grupp_2.Controllers
 
                     foreach (var projects_Users in projusers)
                     {
-                        var anv = context.Users.Where(u => u.UserID == projects_Users.UserID).ToList(); //hur bryta? dynamiskt byter ut userid
-                        
+                        var anv = context.Users.Where(u => u.UserID == projects_Users.UserID).ToList();
 
                         foreach (var anvItem in anv)
                         {
@@ -227,19 +189,12 @@ namespace Grupp_2.Controllers
                                 namnNonHidden.Add(anvItem.Firstname);
                             }
                         }
-
                     }
                     ProjectsViewModel.Users = namn;
                     ProjectsViewModel.UsersNotHidden = namnNonHidden;
 
                     ProjectViews.Add(ProjectsViewModel);
                 }
-
-                //Jontes slut
-
-
-
-
 
                 //ViewBag med alla projektId som inloggade användaren är med i
                 if (user != null)
@@ -249,12 +204,9 @@ namespace Grupp_2.Controllers
                     foreach (var item in userIdCommon)
                     {
                         projIds.Add(item.ProjectID.ToString());
-
                     }
                     ViewBag.Projects = projIds;
                 }
-
-
                 return View(ProjectViews);
             }
         }

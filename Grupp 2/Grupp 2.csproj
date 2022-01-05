@@ -268,7 +268,6 @@
     <Content Include="Views\Project\Delete.cshtml" />
     <Content Include="Views\Project\Details.cshtml" />
     <Content Include="Views\Project\Edit.cshtml" />
-    <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Skill\Create.cshtml" />
     <Content Include="Views\Skill\Delete.cshtml" />
     <Content Include="Views\Skill\Details.cshtml" />
@@ -291,7 +290,6 @@
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\CV\CreateCVVM.cshtml" />
-    <Content Include="Views\Project\DuplicateErrorProj.cshtml" />
     <Content Include="Views\CV\ShowUserCV.cshtml" />
     <Content Include="Views\Project\ProjectVM.cshtml" />
   </ItemGroup>
