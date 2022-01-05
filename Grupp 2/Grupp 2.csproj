@@ -266,13 +266,8 @@
     <Content Include="Views\Project\Details.cshtml" />
     <Content Include="Views\Project\Edit.cshtml" />
     <Content Include="Views\Skill\Create.cshtml" />
-    <Content Include="Views\User\Delete.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Work_Experience\Create.cshtml" />
-    <Content Include="Views\Work_Experience\Delete.cshtml" />
-    <Content Include="Views\Work_Experience\Details.cshtml" />
-    <Content Include="Views\Work_Experience\Edit.cshtml" />
-    <Content Include="Views\Work_Experience\Index.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\CV\CreateCVVM.cshtml" />
     <Content Include="Views\CV\ShowUserCV.cshtml" />
