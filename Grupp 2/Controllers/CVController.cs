@@ -20,33 +20,6 @@ namespace Grupp_2.Controllers
         private UserRespository UserRespository = new UserRespository();
         private ProjectRespository ProjectRespository = new ProjectRespository();
 
-        // GET: CV
-        public ActionResult Index()
-        {
-            return View(DBCV.GetAllCVS());
-        }
-
-        // GET: CV/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CV cV = DBCV.GetCVById(id);
-            if (cV == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cV);
-        }
-
-        // GET: CV/Create
-        public ActionResult Create()
-        {
-            ViewBag.UserID = new SelectList(db.Users, "UserID", "Firstname");
-            return View();
-        }
 
         public ActionResult CreateCVVM()
         {
@@ -169,46 +142,10 @@ namespace Grupp_2.Controllers
             }
             else
             {
-                return View("Index");
+                return RedirectToAction("CreateCVVM");
             }
         }
 
-        public ActionResult ShowCVVM()
-        {
-            string loggedInUserMail = User.Identity.Name.ToString(); 
-            User user = UserRespository.GetUserByEmail(loggedInUserMail); 
-
-            int cvId = DBCV.GetCVIDByEmail(User.Identity.Name.ToString());
-
-            var workExp = DBCV.GetWorkExpFromCVID(cvId);
-            var education = DBCV.GetEducationsFromCVID(cvId);
-            var skills = DBCV.GetSkillsFromCVID(cvId);
-
-            CV tempCv = DBCV.GetCVById(cvId);
-
-            var img = db.Images.Where(i => i.ImageID == tempCv.ImageID).FirstOrDefault();
-            var projects = ProjectRespository.GetAllProjects();
-            var projectUsers = ProjectRespository.GetProjectUsersFromUserID(user.UserID);
-
-            List<Project> tempList = new List<Project>();
-
-            foreach (var item in projects)
-            {
-                foreach (var item2 in projectUsers)
-                {
-                    if (item.ProjectID == item2.ProjectID)
-                    {
-                        tempList.Add(item);
-                    }
-                }
-            }
-            string path = ("/UploadedFiles/") + Path.GetFileName(img.Name);
-            string namn = user.Firstname + " " + user.Lastname;
-
-            var CreateCVViewModel = new CreateCVViewModel(namn, path, education, skills, workExp, tempList);
-
-            return View(CreateCVViewModel);
-        }
 
         [Route("Cv/{userid:int}/ShowUserCv", Name = "ShowUserCv")]
         public ActionResult ShowUserCV(int userid)
@@ -261,79 +198,6 @@ namespace Grupp_2.Controllers
             return View(model);
         }
 
-        // POST: CV/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CVID,UserID,ImgPath")] CV cV) //används inte
-        {
-            if (ModelState.IsValid)
-            {
-                db.CVs.Add(cV);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.UserID = new SelectList(db.Users, "UserID", "Firstname", cV.UserID);
-            return View(cV);
-        }
-
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CV cV = db.CVs.Find(id);
-            if (cV == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.UserID = new SelectList(db.Users, "UserID", "Firstname", cV.UserID);
-            return View(cV);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CVID,UserID,ImgPath")] CV cV)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(cV).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.UserID = new SelectList(db.Users, "UserID", "Firstname", cV.UserID);
-            return View(cV);
-        }
-
-        // GET: CV/Delete/5
-        public ActionResult Delete(int? id) //används inte
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CV cV = db.CVs.Find(id);
-            if (cV == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cV);
-        }
-
-        // POST: CV/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            CV cV = db.CVs.Find(id);
-            db.CVs.Remove(cV);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -342,8 +206,6 @@ namespace Grupp_2.Controllers
             }
             base.Dispose(disposing);
         }
-
-
 
         public ActionResult ErrorMessage(string message)
         {
