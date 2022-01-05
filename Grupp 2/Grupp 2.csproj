@@ -183,7 +183,6 @@
     <Compile Include="Controllers\CVController.cs" />
     <Compile Include="Controllers\EducationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MessageApiController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
@@ -291,15 +290,9 @@
     <Content Include="Views\Work_Experience\Index.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\Home\Project.cshtml" />
     <Content Include="Views\CV\CreateCVVM.cshtml" />
     <Content Include="Views\Project\DuplicateErrorProj.cshtml" />
     <Content Include="Views\CV\ShowUserCV.cshtml" />
-    <Content Include="Views\Images\Create.cshtml" />
-    <Content Include="Views\Images\Delete.cshtml" />
-    <Content Include="Views\Images\Details.cshtml" />
-    <Content Include="Views\Images\Edit.cshtml" />
-    <Content Include="Views\Images\Index.cshtml" />
     <Content Include="Views\Project\ProjectVM.cshtml" />
   </ItemGroup>
   <ItemGroup>
