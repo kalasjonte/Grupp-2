@@ -122,6 +122,21 @@ namespace Grupp_2.Controllers
             return View(userRespository.GetUsersByString(searchString));
         }
 
+        public ActionResult SearchKomp(string searchStringKomp)
+        {
+            string loggedInUserMail = User.Identity.Name.ToString();
+            User user = userRespository.GetUserByEmail(loggedInUserMail);
+
+            if (user != null)
+            {
+                int userId = user.UserID;
+                ViewBag.Id = userId;
+            }
+
+
+            return View(userRespository.GetUsersByString(searchStringKomp));
+        }
+
         public ActionResult JoinProject(int id)
         {
 

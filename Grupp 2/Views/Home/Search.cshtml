@@ -13,6 +13,14 @@
     <input type="submit" value="Sök" />
 }
 
+<hr />
+@using (Html.BeginForm("SearchKomp", "Home", FormMethod.Get))
+{
+    @Html.TextBox("searchStringKomp")
+    <input type="submit" value="Sök på kompetens" />
+}
+
+
 <table class="table table-striped">
     <thead>
         <tr>
