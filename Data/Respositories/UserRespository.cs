@@ -18,12 +18,12 @@ namespace Data.Respositories
 
         public List<User> GetAllUsers()
         {
-            return db.Users.ToList();
+            return db.Users.Where(u => u.Deactivate == false).ToList();
         }
 
         public List<User> GetAllUserNotPrivate() //kunde ej köra foreach loop remove för att konstigts
         {
-            List<User> users = db.Users.ToList();
+            List<User> users = GetAllUsers();
             List<User> templist = new List<User>();
 
             foreach (var item in users)
@@ -45,10 +45,10 @@ namespace Data.Respositories
                 tempList = searchString.Split().ToList();
                 string firstName = tempList.ElementAt(0);
                 string lastName = tempList.ElementAt(1);
-                return db.Users.Where(x => x.Firstname.Contains(firstName) || x.Lastname.Contains(lastName)).ToList();
+                return db.Users.Where(x => x.Firstname.Contains(firstName) || x.Lastname.Contains(lastName) && x.Deactivate == false).ToList();
             }
 
-            return db.Users.Where(x => x.Firstname.Contains(searchString) || x.Lastname.Contains(searchString) || searchString == null).ToList();
+            return db.Users.Where(x => x.Firstname.Contains(searchString) || x.Lastname.Contains(searchString) || searchString == null && x.Deactivate == false).ToList();
         }
 
         public void RegisterUser(string email,string adress,string firstname , string lastname) 
@@ -77,6 +77,25 @@ namespace Data.Respositories
         {
             var user = db.Users.Where(u => u.Email == email).FirstOrDefault();
             return user.UserID;
+        }
+
+        public void DeactivateUser(string email)
+        {
+            User user = GetUserByEmail(email);
+            user.Deactivate = true;
+            db.SaveChanges();
+        }
+
+        public void ReActivateUserIfDeactive(string email)
+        {
+            User user = GetUserByEmail(email);
+            if (user.Deactivate == true)
+            {
+                user.Deactivate = false;
+                db.SaveChanges();
+            }
+            else
+                return;
         }
     }
 }

@@ -139,6 +139,15 @@ namespace Grupp_2.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult DeactivateUser()
+        {
+            string loggedInUserMail = User.Identity.Name.ToString();
+            userRespository.DeactivateUser(loggedInUserMail);
+            var AuthenticationManager = HttpContext.GetOwinContext().Authentication;
+            AuthenticationManager.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

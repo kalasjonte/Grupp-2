@@ -239,16 +239,7 @@ namespace Grupp_2.Controllers
             string path = ("/UploadedFiles/") + Path.GetFileName(img.Name);
             string namn = user.Firstname + " " + user.Lastname;
 
-            var CreateCVViewModel = new CreateCVViewModel(namn, path, education, skills, workExp, tempList);  //skapa viewmodel i  klassen istället -> släng ut den i shared -> gör om till 2 konstruktörer, en med anonym användare
-            //{
-            //    User = user.Firstname,
-            //    Imgpath = ("/UploadedFiles/") + Path.GetFileName(img.Name),
-            //    Educations = education,
-            //    Skills = skills,
-            //    Work_Experiences = workExp,
-            //    Projects = tempList
-            //};
-
+            var CreateCVViewModel = new CreateCVViewModel(namn, path, education, skills, workExp, tempList); 
 
             
 
@@ -260,7 +251,7 @@ namespace Grupp_2.Controllers
         {
 
             User user = UserRespository.GetUserByUserID(userid);
-            //ifnotnull
+            
             CV cvet = DBCV.GetCVByUserId(user.UserID);
             int cvId = cvet.CVID;
 
@@ -289,6 +280,7 @@ namespace Grupp_2.Controllers
                 }
             }
 
+            DBCV.AddClick(cvet);
             string path = ("/UploadedFiles/") + Path.GetFileName(img.Name);
             string namn = user.Firstname + " " + user.Lastname;
             CreateCVViewModel model =  new CreateCVViewModel(user.UserID, namn, path, user.Email, user.Adress, education, skills, workExp, tempList);

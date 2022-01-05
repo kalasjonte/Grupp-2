@@ -14,9 +14,9 @@
 @using (Html.BeginForm("Upload", "Cv", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div>
-        Välj en fil: <input type="file" name="fileUpload"  accept="image/png, image/gif, image/jpeg" />
+        Välj en fil: <input type="file" name="fileUpload" accept="image/png, image/gif, image/jpeg" />
 
-        <input type="submit" value="Ladda upp"/>
+        <input type="submit" value="Ladda upp" />
     </div>
     <div>
         <h3>Din profilbild:</h3>
@@ -24,150 +24,168 @@
     </div>
 }
 
+<p id="antalVisningar">Antal visningar:  </p>
 
 
-@using (Html.BeginForm("UpdateCvVm", "Cv", FormMethod.Post))
-{
-    <h4>Tillagda Utbildningar i ditt cv:</h4>
-    <ul>
-        @foreach (var item in Model.Educations)
-        {
-            <li>
-                @item.Title   <input type="submit" name="actionType" value="Ta bort utbildning @item.Title"  />
-            </li>
-
-        }
-    </ul>
-
-    <hr />
-
-    <h4>Tillagda Arbetserfarenheter i ditt cv:</h4>
-    <ul>
-        @foreach (var item in Model.Work_Experiences)
-        {
-            <li>
-                @item.Titel <input type="submit" name="actionType" value="Ta bort arbete @item.Titel"  />
-            </li>
-
-        }
-    </ul>
-
-    <hr />
-
-    <h4>Tillagda färdigheter i ditt cv:</h4>
-    <ul>
-        @foreach (var skills in Model.Skills)
-        {
-            <li>
-                @skills.Title <input type="submit" name="actionType" value="Ta bort erfarenhet @skills.Title" class="btn btn-primary" />
-            </li>
-
-        }
-    </ul>
-
-    <hr />
-
-    <tr>
-        <td> Lägg till en ny färdighet i ditt cv: </td>
-        <td>
-
-
-            @Html.DropDownList("MySkills", (IEnumerable
-           <SelectListItem>)ViewData["DBMySkills"])
-
-            <input type="submit" name="actionType" value="Lägg till färdighet på ditt cv"  />
-
-
-
-
-        </td>
-
-    </tr>
-
-    <hr />
-
-    <tr>
-        <td> Lägg till en ny Arbets erfarenhet i ditt cv: </td>
-        <td>
-            @Html.DropDownList("WorkExp", (IEnumerable
-           <SelectListItem>)ViewData["DBMyWorkExp"])
-
-
-            <input type="submit" name="actionType" value="Lägg till arbete i cvet"  />
-
-        </td>
-
-
-    </tr>
-    <hr />
-
-    <tr>
-        <td> Lägg till en ny Utbildning i ditt cv: </td>
-        <td>
-            @Html.DropDownList("MyEducations", (IEnumerable
-           <SelectListItem>)ViewData["DBMyEducations"])
-
-            <input type="submit" name="actionType" value="Lägg till Utbildning i cvet"  />
-        </td>
-    </tr>
-
-}
-
-<p>
-    @Html.ActionLink("Lägg till ny Färdighet", "Create", "Skill")
-    @Html.ActionLink("Lägg till nytt Arbete", "Create", "Work_Experience")
-    @Html.ActionLink("Lägg till ny Utbildning", "Create", "Education")
-</p>
-
-<table class="table">
-    <tr>
-        <th>
-            Skapare
-
-        </th>
-        <th>
-            Titel
-        </th>
-        <th>
-            Beskrvining
-        </th>
-    </tr>
-    @using (Html.BeginForm("CreateCVVM", "Cv", FormMethod.Post))
+    @using (Html.BeginForm("UpdateCvVm", "Cv", FormMethod.Post))
     {
+        <h4>Tillagda Utbildningar i ditt cv:</h4>
+        <ul>
+            @foreach (var item in Model.Educations)
+            {
+                <li>
+                    @item.Title   <input type="submit" name="actionType" value="Ta bort utbildning @item.Title" />
+                </li>
+
+            }
+        </ul>
+
+        <hr />
+
+        <h4>Tillagda Arbetserfarenheter i ditt cv:</h4>
+        <ul>
+            @foreach (var item in Model.Work_Experiences)
+            {
+                <li>
+                    @item.Titel <input type="submit" name="actionType" value="Ta bort arbete @item.Titel" />
+                </li>
+
+            }
+        </ul>
+
+        <hr />
+
+        <h4>Tillagda färdigheter i ditt cv:</h4>
+        <ul>
+            @foreach (var skills in Model.Skills)
+            {
+                <li>
+                    @skills.Title <input type="submit" name="actionType" value="Ta bort erfarenhet @skills.Title" class="btn btn-primary" />
+                </li>
+
+            }
+        </ul>
+
+        <hr />
+
+        <tr>
+            <td> Lägg till en ny färdighet i ditt cv: </td>
+            <td>
+
+
+                @Html.DropDownList("MySkills", (IEnumerable
+               <SelectListItem>)ViewData["DBMySkills"])
+
+                <input type="submit" name="actionType" value="Lägg till färdighet på ditt cv" class="btn btn-primary" />
 
 
 
-        foreach (var item in Model.Projects)
-        {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.User.Firstname)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Titel)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Description)
-    </td>
-    @if (item.Creator != ViewBag.Id)
-    {
-        <td>
-            <input type="button" value="Gå ur projekt" onclick="location.href='@Url.Action("Remove", "Cv", new { id = item.ProjectID })'" />
-        </td>
-    }
-    @if (item.Creator == ViewBag.Id) 
-    {
-<td>
-    
-    @Html.ActionLink("Edit", "Edit", "Project" , new { id = item.ProjectID} , null) |
-    @Html.ActionLink("Details", "Details", "Project", new { id = item.ProjectID } , null) |
-    @Html.ActionLink("Delete", "Delete","Project", new { id = item.ProjectID } , null)
-</td>
-    }
-</tr>
 
-        }
+            </td>
+
+        </tr>
+
+        <hr />
+
+        <tr>
+            <td> Lägg till en ny Arbets erfarenhet i ditt cv: </td>
+            <td>
+                @Html.DropDownList("WorkExp", (IEnumerable
+               <SelectListItem>)ViewData["DBMyWorkExp"])
 
 
+                <input type="submit" name="actionType" value="Lägg till arbete i cvet" class="btn btn-primary" />
+
+            </td>
+
+
+        </tr>
+        <hr />
+
+        <tr>
+            <td> Lägg till en ny Utbildning i ditt cv: </td>
+            <td>
+                @Html.DropDownList("MyEducations", (IEnumerable
+               <SelectListItem>)ViewData["DBMyEducations"])
+
+                <input type="submit" name="actionType" value="Lägg till Utbildning i cvet" class="btn btn-primary"/>
+            </td>
+        </tr>
 
     }
+
+    <p>
+        @Html.ActionLink("Lägg till ny Färdighet", "Create", "Skill")
+        @Html.ActionLink("Lägg till nytt Arbete", "Create", "Work_Experience")
+        @Html.ActionLink("Lägg till ny Utbildning", "Create", "Education")
+    </p>
+
+    <table class="table">
+        <tr>
+            <th>
+                Skapare
+
+            </th>
+            <th>
+                Titel
+            </th>
+            <th>
+                Beskrvining
+            </th>
+        </tr>
+        @using (Html.BeginForm("CreateCVVM", "Cv", FormMethod.Post))
+        {
+
+
+
+            foreach (var item in Model.Projects)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.Firstname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Titel)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    @if (item.Creator != ViewBag.Id)
+                    {
+                        <td>
+                            <input type="button" value="Gå ur projekt" onclick="location.href='@Url.Action("Remove", "Cv", new { id = item.ProjectID })' " />
+                        </td>
+                    }
+                    @if (item.Creator == ViewBag.Id)
+                    {
+                        <td>
+
+                            @Html.ActionLink("Edit", "Edit", "Project", new { id = item.ProjectID }, null) |
+                            @Html.ActionLink("Details", "Details", "Project", new { id = item.ProjectID }, null) |
+                            @Html.ActionLink("Delete", "Delete", "Project", new { id = item.ProjectID }, null)
+                        </td>
+                    }
+                </tr>
+
+            }
+
+
+
+        }
+
+
+
+
+
+
+        @section Scripts {
+
+            <script>
+
+                $.get('/api/GetApiVisning/', function (data) {
+                    $('#antalVisningar').append(data);
+                })
+
+            </script>
+            @Scripts.Render("~/bundles/jqueryval")
+        }

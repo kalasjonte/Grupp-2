@@ -51,6 +51,7 @@ namespace Grupp_2.Models
             Skills = skills;
             Work_Experiences = work_Experiences;
             Projects = projects;
+            
         }
 
         public CreateCVViewModel(int id, string name, string path, string email, string adress, List<Education> educations, List<Skill> skills, List<Work_Experience> work_Experiences, List<Project> projects)
@@ -64,6 +65,7 @@ namespace Grupp_2.Models
             Skills = skills;
             Work_Experiences = work_Experiences;
             Projects = projects;
+            
         }
     }
 }

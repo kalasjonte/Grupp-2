@@ -20,6 +20,8 @@ namespace Data.Models
         public int ImageID { get; set; }
         public virtual Image Image { get; set; }
 
+        public int Clicks { get; set; }
+
         public virtual ICollection<Skill> Skills { get; set; }
         public virtual ICollection<Education> Educations { get; set; }
         public virtual ICollection<Work_Experience> Work_Experiences { get; set; }

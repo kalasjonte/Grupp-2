@@ -76,11 +76,23 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </div>
     </div>
 }
+
+
+<hr />
+@using (Html.BeginForm("DeactivateUser", "User", FormMethod.Post))
+
+{
+    @Html.AntiForgeryToken()
+    <h2> Avaktivera ditt konto</h2>
+    <p>Du kommer inte längre synas på hemsidan, men om du loggar in igen kommer du att återaktiveras</p>
+    <input type="submit" value="Deactivate" class="btn btn-primary" />
+}
+
 
 <div>
     @Html.ActionLink("Visa din profil", "Details", new { id = Model.UserID })
