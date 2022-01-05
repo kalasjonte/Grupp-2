@@ -1,16 +1,22 @@
 ﻿@model Data.Models.Work_Experience
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Skapa ny arbetserfarenhet";
 }
 
-<h2>Create</h2>
+<h2>Arbetserfarenhet</h2>
 
+@if (null != TempData["alertMessage"])
+{
+    <script type="text/javascript">
+    alert('@TempData["alertMessage"]');
+    </script>
+}
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Work_Experience</h4>
         <hr />
@@ -32,7 +38,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Tillbaka till CV", "CreateCVVM", "CV")
 </div>
 
 @section Scripts {

@@ -49,11 +49,24 @@ namespace Grupp_2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "WorkExpID,Titel")] Work_Experience work_Experience)
         {
-            if (ModelState.IsValid)
+            Work_Experience tempWe = db.Work_Experiences.Where(x => x.Titel == work_Experience.Titel).FirstOrDefault();
+
+            if (tempWe == null)
             {
-                db.Work_Experiences.Add(work_Experience);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+
+                    db.Work_Experiences.Add(work_Experience);
+                    db.SaveChanges();
+                    return RedirectToAction("Create");
+                }
+            }
+
+            else if (tempWe.Titel.ToLower() == work_Experience.Titel.ToLower())
+
+            {
+                TempData["alertMessage"] = "Denna arbetserfarenhet existerar redan i systemet!";
+                return RedirectToAction("Create");
             }
 
             return View(work_Experience);

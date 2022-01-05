@@ -42,21 +42,31 @@ namespace Grupp_2.Controllers
             return View();
         }
 
-        // POST: Skill/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "SkillID,Title")] Skill skill)
         {
-            if (ModelState.IsValid)
+            Skill tempSkill = db.Skills.Where(x => x.Title == skill.Title).FirstOrDefault();
+
+            if (tempSkill == null)
             {
-                
-                db.Skills.Add(skill);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+
+                    db.Skills.Add(skill);
+                    db.SaveChanges();
+                    return RedirectToAction("Create");
+                }
             }
 
+            else if (tempSkill.Title.ToLower() == skill.Title.ToLower())
+
+            {
+                TempData["alertMessage"] = "Denna färdighet existerar redan i systemet!";
+                return RedirectToAction("Create");
+            }
+            
             return View(skill);
         }
 

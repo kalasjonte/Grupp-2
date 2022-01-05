@@ -43,25 +43,29 @@ namespace Grupp_2.Controllers
             return View();
         }
 
-        // POST: Education/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "EduID,Title")] Education education)
         {
-            if (ModelState.IsValid)
+            Education tempEdu = db.Educations.Where(x => x.Title == education.Title).FirstOrDefault();
+
+            if (tempEdu == null)
             {
-                foreach(var item in db.Educations)
+                if (ModelState.IsValid)
                 {
-                    if(item.Title.ToLower() == education.Title.ToLower())
-                    {
-                        return RedirectToAction("DuplicateErrorEdu");
-                    }
+
+                    db.Educations.Add(education);
+                    db.SaveChanges();
+                    return RedirectToAction("Create");
                 }
-                db.Educations.Add(education);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+            }
+
+            else if (tempEdu.Title.ToLower() == education.Title.ToLower())
+
+            {
+                TempData["alertMessage"] = "Denna utbildning existerar redan i systemet!";
+                return RedirectToAction("Create");
             }
 
             return View(education);
@@ -72,13 +76,6 @@ namespace Grupp_2.Controllers
             return View();
         }
 
-        public ActionResult DuplicateErrorEdu()
-        {
-            TempData["alertMessage"] = "Det finns redan en utbildning med denna titel i systemet!";
-            return View();
-        }
-
-        // GET: Education/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -93,9 +90,6 @@ namespace Grupp_2.Controllers
             return View(education);
         }
 
-        // POST: Education/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "EduID,Title")] Education education)
@@ -109,7 +103,7 @@ namespace Grupp_2.Controllers
             return View(education);
         }
 
-        // GET: Education/Delete/5
+        
         public ActionResult Delete(int? id)
         {
             if (id == null)

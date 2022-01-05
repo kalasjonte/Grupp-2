@@ -1,18 +1,24 @@
 ﻿@model Data.Models.Skill
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Lägg till ny färdighet";
 }
 
 <h2>Create</h2>
 
+@if (null != TempData["alertMessage"])
+{
+    <script type="text/javascript">
+    alert('@TempData["alertMessage"]');
+    </script>
+}
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>Skill</h4>
+        <h4>Färdighet</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -32,7 +38,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Tillbaka till CV", "CreateCVVM", "CV")
 </div>
 
 @section Scripts {
