@@ -1,10 +1,8 @@
 ﻿using Data;
 using Data.Models;
 using Data.Respositories;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Grupp_2.Controllers
@@ -17,93 +15,69 @@ namespace Grupp_2.Controllers
         public ActionResult Index()
         {
             string loggedInUserMail = User.Identity.Name.ToString();
-            User user2 = userRespository.GetUserByEmail(loggedInUserMail);
-
+            User loggedInUser = userRespository.GetUserByEmail(loggedInUserMail);
+            
             List<Project> projects = projectRespository.GetAllProjects();
-            ViewBag.test = projects.Count(); //gör if sats säger noob jonte
-
-            ViewBag.User2Id = null;
-            if (user2 != null)
+            ViewBag.ProjectCount = projects.Count(); //gör if sats säger noob jonte
+            
+            ViewBag.LoggedInUserId = null;
+            if (loggedInUser != null)
             {
-                
-                ViewBag.User2Id = user2.UserID;
-                var userIdCommon = db.Projects_Users.Where(pu => pu.UserID == user2.UserID).ToList();
+                ViewBag.LoggedInUserId = loggedInUser.UserID;
+                var userIdInProjects = db.Projects_Users.Where(pu => pu.UserID == loggedInUser.UserID).ToList();
                 List<string> projIds = new List<string>();
 
-                foreach (var item in userIdCommon)
+                foreach (var item in userIdInProjects)
                 {
                     projIds.Add(item.ProjectID.ToString());
-
                 }
-
                 ViewBag.Projects = projIds;
-
-                
             }
-            
-            
-                
-                if (projects.Count() > 0)
+
+            if (projects.Count() > 0)
+            {
+                var project = projects.Last();
+                ViewBag.Projectnamn = "Titel: " + project.Titel;
+                var creator = userRespository.GetUserByUserID(project.Creator);
+
+                if (loggedInUser == null && creator.PrivateProfile == true)
                 {
-                    var project = projects.Last();
-                    ViewBag.Projectnamn = "Titel: " + project.Titel;
-                    var creator = userRespository.GetUserByUserID(project.Creator);
-
-                    if (user2 == null && creator.PrivateProfile == true)
-                    {
-                        ViewBag.Creator = "Anonym Användare";
-                    }
-                    else
-                    {
-                        ViewBag.Creator = creator.Firstname;
-                        ViewBag.CreatorId = creator.UserID;
-                        ViewBag.ProjId = project.ProjectID;
-                    }
-                }
-
-
-
-                List<User> users = null;
-                if (user2 == null)
-                {
-                    users = userRespository.GetAllUserNotPrivate();
+                    ViewBag.Creator = "Anonym Användare";
                 }
                 else
                 {
-                    users = userRespository.GetAllUsers();
+                    ViewBag.Creator = creator.Firstname;
+                    ViewBag.CreatorId = creator.UserID;
+                    ViewBag.ProjId = project.ProjectID;
                 }
+            }
 
-                if (users.Count() > 0)
+            List<User> users = null;
+            if (loggedInUser == null)
+            {
+                users = userRespository.GetAllUserNotPrivate();
+            }
+            else
+            {
+                users = userRespository.GetAllUsers();
+            }
+            if (users.Count() > 0)
+            {
+                int check = users.Count();
+                ViewBag.Count = users.Count();
+
+                List<int> uID = new List<int>();
+                List<string> name = new List<string>();
+                for (int i = 0; i < 3 && i < check; i++)
                 {
-                    int check = users.Count();
-                    ViewBag.Count = users.Count();
-
-                    List<int> uID = new List<int>();
-                    List<string> name = new List<string>();
-                    for (int i = 0; i < 3 && i < check; i++)
-                    {
-                        var user = users.Last();
-                        uID.Add(user.UserID);
-                        name.Add(user.Firstname + " " + user.Lastname);
-                        users.Remove(user);
-                    }
-                    ViewBag.UID = uID;
-                    ViewBag.Name = name;
+                    var user = users.Last();
+                    uID.Add(user.UserID);
+                    name.Add(user.Firstname + " " + user.Lastname);
+                    users.Remove(user);
                 }
-                //----------------------------------------------------------------------------------------
-                
-
-                return View();
-            
-
-        }
-
-        
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
+                ViewBag.UID = uID;
+                ViewBag.Name = name;
+            }
             return View();
         }
 
@@ -117,14 +91,11 @@ namespace Grupp_2.Controllers
                 int userId = user.UserID;
                 ViewBag.Id = userId;
             }
-
-
             return View(userRespository.GetUsersByString(searchString));
         }
 
         public ActionResult JoinProject(int id)
         {
-
             string loggedInUserMail = User.Identity.Name.ToString();
             User user = userRespository.GetUserByEmail(loggedInUserMail);
 
@@ -132,6 +103,7 @@ namespace Grupp_2.Controllers
 
             return RedirectToAction("Index");
         }
+
         public ActionResult LeaveProject(int id)
         {
             string loggedInUserMail = User.Identity.Name.ToString();
@@ -143,5 +115,4 @@ namespace Grupp_2.Controllers
             return RedirectToAction("Index");
         }
     }
-
 }

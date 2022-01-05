@@ -3,9 +3,6 @@
 
 }
 
-
-
-
 <div class="jumbotron">
     <h1>Grupp 2's CV sida</h1>
     <p class="lead"> Skapad av Anton Lyrberg, Noel Lindgren & Jonathan Gabrielsson</p>
@@ -28,11 +25,13 @@
             {
                 <a>@Html.RouteLink("Kolla på " + (string)(ViewBag.Name[2]) + "s CV", "ShowUserCv", new { userid = ViewBag.Uid[2] })  </a> <hr>
             }
-            else if(ViewBag.Count == 0)
-            { <p>Finns för nuvarande inga CV's inlagda i systemet.</p>}
+            else if (ViewBag.Count == 0)
+            {
+            <p>Finns för nuvarande inga CV's inlagda i systemet.</p>
+            }
 
-            </p>
-        </div>
+        </p>
+    </div>
 
         <div class="col-md-4">
             <h2>Senaste projeketet</h2>
@@ -43,27 +42,22 @@
             {
                 <p> Skapad av :  @ViewBag.creator </p>
             }
-
             @if (ViewBag.Projects == null)
             {
                 <p>Logga in för att kunna delta i ett projekt.</p>
             }
-
-            else if (ViewBag.test == 0)
+            else if (ViewBag.ProjectCount == 0)
             {
                 <p>Inga projekt finns i databasen</p>
             }
-
             else if (!ViewBag.Projects.Contains(ViewBag.ProjId.ToString()))
             {
                 <input type="button" value="Gå med i projekt" onclick="location.href='@Url.Action("JoinProject", "Home", new { id = ViewBag.ProjId })'" />
             }
-            else if (ViewBag.User2Id != ViewBag.CreatorId)
+            else if (ViewBag.LoggedInUserId != ViewBag.CreatorId)
             {
                 <input type="button" value="Gå ur projekt" onclick="location.href='@Url.Action("LeaveProject", "Home", new {id = ViewBag.ProjId})'" />
             }
-
-
         </div>
 
         <div class="col-md-4">
