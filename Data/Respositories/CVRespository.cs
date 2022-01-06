@@ -30,28 +30,20 @@ namespace Data.Respositories
         public List<CV> GetAllCVS()
         {
             return db.CVs.Include(c => c.User).ToList(); 
-            
         }
-
 
         public CV GetCVById(int? id)
         {
-            if(id == null)
-            {
-                //trycatch
-            }
             return db.CVs.Find(id);
         }
 
         public CV GetCVByUserId(int userID)
         {
-           
             return db.CVs.Where(u => u.UserID == userID).FirstOrDefault();
         }
 
-        public int GetCVIDByEmail(string email) //-> KAN finnas här eller service, respository
+        public int GetCVIDByEmail(string email)
         {
-
             string loggedInUserMail = email;
 
             UserRespository userRespository = new UserRespository();
@@ -102,8 +94,6 @@ namespace Data.Respositories
         public void AddWorkExpToCV(CV cv, int workExpID)
         {
             var workadd = db.Work_Experiences.Where(s => s.WorkExpID == workExpID).FirstOrDefault();
-
-
             cv.Work_Experiences.Add(workadd);
             db.SaveChanges();
         }
@@ -111,8 +101,6 @@ namespace Data.Respositories
         public void AddEducationToCV(CV cv, int educationID)
         {
             var eduadd = db.Educations.Where(s => s.EduID == educationID).FirstOrDefault();
-
-
             cv.Educations.Add(eduadd);
             db.SaveChanges();
         }
@@ -120,7 +108,6 @@ namespace Data.Respositories
         public void RemoveEducationFromCV(CV cv, string utbildning)
         {
             var edudel = db.Educations.Where(s => s.Title.Equals(utbildning)).FirstOrDefault();
-
             cv.Educations.Remove(edudel);
             db.SaveChanges();
         }
@@ -128,7 +115,6 @@ namespace Data.Respositories
         public void RemoveSkillFromCV(CV cv, string erfarenhet)
         {
             var skillDel = db.Skills.Where(s => s.Title.Equals(erfarenhet)).FirstOrDefault();
-
             cv.Skills.Remove(skillDel);
             db.SaveChanges();
         }
@@ -136,7 +122,6 @@ namespace Data.Respositories
         public void RemoveWorkExpFromCV(CV cv, string arbete)
         {
             var workDel = db.Work_Experiences.Where(s => s.Titel.Equals(arbete)).FirstOrDefault();
-
             cv.Work_Experiences.Remove(workDel);
             db.SaveChanges();
         }

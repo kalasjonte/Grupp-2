@@ -45,6 +45,7 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 
+    @*Ajax call för att hämta hur många olästa meddelande användaren har om den är inloggad*@
     <script>
 
         var inloggad = @User.Identity.IsAuthenticated.ToString().ToLower();

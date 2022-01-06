@@ -12,13 +12,15 @@ namespace Grupp_2.Controllers
         Datacontext db = new Datacontext();
         private ProjectRespository projectRespository = new ProjectRespository();
         private UserRespository userRespository = new UserRespository();
+        
+        //Metod för att ladda hemsida. Kollar om användare är inloggad, beroende på resultat visar privata/ickeprivata projekt/CV.
         public ActionResult Index()
         {
             string loggedInUserMail = User.Identity.Name.ToString();
             User loggedInUser = userRespository.GetUserByEmail(loggedInUserMail);
             
             List<Project> projects = projectRespository.GetAllProjects();
-            ViewBag.ProjectCount = projects.Count(); //gör if sats säger noob jonte
+            ViewBag.ProjectCount = projects.Count();
             
             ViewBag.LoggedInUserId = null;
             if (loggedInUser != null)
@@ -34,6 +36,7 @@ namespace Grupp_2.Controllers
                 ViewBag.Projects = projIds;
             }
 
+            //Laddar in projekt om det finns.
             if (projects.Count() > 0)
             {
                 var project = projects.Last();
@@ -91,7 +94,7 @@ namespace Grupp_2.Controllers
                 int userId = user.UserID;
                 ViewBag.Id = userId;
             }
-            return View(userRespository.GetUsersByString(searchString));
+            return View(userRespository.GetUsersByString(searchString)); //Returnerar en vy bestående av en lista av användare.
         }
 
         public ActionResult JoinProject(int id)

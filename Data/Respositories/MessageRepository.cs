@@ -26,7 +26,6 @@ namespace Data.Respositories
         {
             db.User_Messages.Add(user_Message);
             db.SaveChanges();
-            
         }
 
         public int GetUnreadMessagesCount(int id)
@@ -39,10 +38,10 @@ namespace Data.Respositories
             return db.User_Messages.Where(m => m.RecievingUser == id).ToList();
         }
 
-        public Message GetMessageByMessageID(int id )
+        public Message GetMessageByMessageID(int id)
         {
             return db.Messages.Where(m => m.MessageID == id).FirstOrDefault();
-        } 
+        }
 
         public void MarkAsRead(int id)
         {

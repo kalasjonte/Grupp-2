@@ -142,16 +142,18 @@ namespace Grupp_2.Controllers
 
             projects = ProjectRespository.GetAllProjectIncludeUser();
             List<ProjectsViewModel> ProjectViews = new List<ProjectsViewModel>();
-            //Jontes
+            
             using (var context = new Datacontext())
             {
                 foreach (var item in projects)
                 {
                     ProjectsViewModel ProjectsViewModel = null;
+                    //Om användare inte är inloggad, namnger projektets skapare som anonym användare
                     if (user == null && item.User.PrivateProfile == true)
                     {
                         ProjectsViewModel = new ProjectsViewModel(item.Creator, item.Titel, item.Description, item.ProjectID);
                     }
+                    //Displayar allas namn
                     else
                     {
                         string creatorname = item.User.Firstname + " " + item.User.Lastname;
@@ -161,6 +163,7 @@ namespace Grupp_2.Controllers
                     List<string> namn = new List<string>();
                     List<string> namnNonHidden = new List<string>();
 
+                    //Separerar namnlistor i privata och ickeprivata namn
                     foreach (var projects_Users in projusers)
                     {
                         var anv = context.Users.Where(u => u.UserID == projects_Users.UserID).ToList();

@@ -6,7 +6,8 @@ using System.Web.Http;
 
 namespace Grupp_2.Controllers
 {
-    public class MessageApiController : ApiController
+    //Här hanterar vi våra ajax-calls
+    public class MessageApiController : ApiController 
     {
         private UserRespository userRespository = new UserRespository();
         private MessageRepository messageRepository = new MessageRepository();

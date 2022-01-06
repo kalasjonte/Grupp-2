@@ -15,18 +15,23 @@ namespace Grupp_2.Controllers
 {
     public class CVController : Controller
     {
+        //Instansierar datacontext + repos
         private Datacontext db = new Datacontext();
+
         private CVRespository DBCV = new CVRespository();
         private UserRespository UserRespository = new UserRespository();
         private ProjectRespository ProjectRespository = new ProjectRespository();
 
-
+        //Metod för att visa "Ditt CV"
         public ActionResult CreateCVVM()
         {
+            //Hämtar filer vi har i mappen UploadedFiles
             var files = Directory.GetFiles(Server.MapPath("~/UploadedFiles"));
-            int cvId = DBCV.GetCVIDByEmail(User.Identity.Name.ToString());
             
+
+            int cvId = DBCV.GetCVIDByEmail(User.Identity.Name.ToString());
             var tempCv = DBCV.GetCVById(cvId);
+            
             var image = db.Images.Where(i => i.ImageID == tempCv.ImageID).FirstOrDefault();
             string path = image.Path;
 
@@ -43,6 +48,8 @@ namespace Grupp_2.Controllers
             var projects = ProjectRespository.GetAllProjects();
             var projectUsers = ProjectRespository.GetProjectUsersFromUserID(userID);
 
+
+            //Hämtar projekt som användare är med i (inkl själv skapade projekt)
             List<Project> tempList = new List<Project>();
 
             foreach (var item in projects)
@@ -56,6 +63,7 @@ namespace Grupp_2.Controllers
                 }
             }
 
+            //Skapar ViewModel för vyn
             var CreateCVViewModel = new CreateCVViewModel(education, skills, workExp, tempList);
 
             var skillsList = new SelectList(DBCV.GetAllSkills(), "SkillID", "Title");
@@ -78,6 +86,8 @@ namespace Grupp_2.Controllers
 
             return RedirectToAction("CreateCVVM");
         }
+
+        //Metod för att uppdatera i "Ditt CV" (Lägga till / ta bort Färdigheter, Utbildningar och Arbetserfarenheter)
         public ActionResult UpdateCvVm(string actionType)
         {
             int cvId = DBCV.GetCVIDByEmail(User.Identity.Name.ToString());
@@ -146,12 +156,12 @@ namespace Grupp_2.Controllers
             }
         }
 
-
+        //Metod för att visa vanligt CV
         [Route("Cv/{userid:int}/ShowUserCv", Name = "ShowUserCv")]
         public ActionResult ShowUserCV(int userid)
         {
             User user = UserRespository.GetUserByUserID(userid);
-            //ifnotnull
+
             CV cvet = DBCV.GetCVByUserId(user.UserID);
             int cvId = cvet.CVID;
 
@@ -182,9 +192,11 @@ namespace Grupp_2.Controllers
 
             string path = ("/UploadedFiles/") + Path.GetFileName(img.Name);
             string namn = user.Firstname + " " + user.Lastname;
+
+            //Skapar viewmodel för vyn
             CreateCVViewModel model = new CreateCVViewModel(user.UserID, namn, path, user.Email, user.Adress, education, skills, workExp, tempList);
 
-            if (!User.Identity.IsAuthenticated)
+            if (!User.Identity.IsAuthenticated) //Om icke inloggad => displayar privata användare som "Anonym användare"
             {
                 foreach (var item in model.Projects)
                 {
@@ -195,6 +207,7 @@ namespace Grupp_2.Controllers
                 }
 
             }
+
             return View(model);
         }
 
@@ -213,7 +226,7 @@ namespace Grupp_2.Controllers
             return RedirectToAction("CreateCVVM");
         }
 
-        //Bildmetod
+        //Metod för att ladda upp bilder i "Ditt CV"
         [HttpPost]
         public ActionResult Upload()
         {

@@ -20,14 +20,11 @@ namespace Data.Respositories
         public List<Project> GetAllProjects()
         {
             return db.Projects.ToList();
-
         }
-
-        
 
         public List<Project> GetAllProjectIncludeUser()
         {
-            return  db.Projects.Include(p => p.Users).ToList();
+            return db.Projects.Include(p => p.Users).ToList();
         }
 
         public List<Projects_Users> GetProjectUsersFromUserID(int id)
@@ -35,7 +32,7 @@ namespace Data.Respositories
             return db.Projects_Users.Where(pu => pu.UserID == id).ToList(); ;
         }
 
-       public Projects_Users GetProjectUsersByProjectIDAndUserID (int projectID, int userID)
+        public Projects_Users GetProjectUsersByProjectIDAndUserID(int projectID, int userID)
         {
             return db.Projects_Users.Where(pu => pu.ProjectID == projectID && pu.UserID == userID).FirstOrDefault();
         }

@@ -33,8 +33,8 @@ namespace Data.Respositories
                     templist.Add(item);
                 }
             }
-            return templist;
 
+            return templist;
         }
 
         public List<User> GetUsersByString(string searchString)
@@ -72,7 +72,6 @@ namespace Data.Respositories
         {
             return db.Users.Where(u => u.Email == email).FirstOrDefault();
         }
-
         public int GetUserIDByEmail(string email)
         {
             var user = db.Users.Where(u => u.Email == email).FirstOrDefault();

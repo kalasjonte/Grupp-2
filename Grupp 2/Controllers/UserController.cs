@@ -35,7 +35,9 @@ namespace Grupp_2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "UserID,Firstname,Lastname,Adress,Email,PrivateProfile")] User user)
         {
+            //Regex för användbares namn vid validering
             var regex = @"^(([A-za-z]+[\s]{1}[A-za-z]+)|([A-Za-z]+))$";
+            //Validering på användares namn och adress vid uppdatering
             if (user.Firstname != null && user.Lastname != null && user.Adress != null)
             {
                 var matchFirst = Regex.Match(user.Firstname, regex, RegexOptions.IgnoreCase);

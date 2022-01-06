@@ -28,6 +28,7 @@ namespace Grupp_2.Controllers
             var UserMessages = messageRepository.GetUserMessagesByUserID(user.UserID);
             List<MessagesViewModel> listMsgViewModels = new List<MessagesViewModel>();
 
+            //Skapar en ny message-viewmodel för varje meddelande som finns i databasen.
             foreach (var item in UserMessages)
             {
                 var MsgViewModel = new MessagesViewModel

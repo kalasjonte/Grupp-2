@@ -20,7 +20,6 @@ namespace Grupp_2.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        
 
         public AccountController()
         {
@@ -134,7 +133,8 @@ namespace Grupp_2.Controllers
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid code.");
-                    return View(model);
+                   
+                return View(model);
             }
         }
 
@@ -157,36 +157,26 @@ namespace Grupp_2.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+               
+                if (result.Succeeded) //om användere går att skapa => fortsätter med att lägga in i egna user-tabeller.
                 {
                     var DBuser = new UserRespository();
-
                     var DBCV = new CVRespository();
-
                     var db = new Datacontext();
+
                     DBuser.RegisterUser(model.Email, model.Adress, model.Firstname, model.Lastname);
-                    
 
                     int id = DBuser.GetUserIDByEmail(model.Email);
-
-                    
-
                     //Lägger till en "template" profilbild för nya användare
 
 
-                    //kan ej bryta ut denna i repos ? server?
                     var tempImg = db.Images.Where(i => i.ImageID == 1).FirstOrDefault();
                     if (tempImg == null)
                     {
                         db.Images.Add(new Image { ImageID = 1, Name = "profilepicture.jpg", Path = Server.MapPath("~/UploadedFiles/") + "profilepicture.jpg"});
                         db.SaveChanges();
                     }
-
                     DBCV.CreateCV(id);
-
-                    //db.CVs.Add(new Data.Models.CV { UserID = id, ImageID = 1 });
-                    //db.SaveChanges();
-                    
 
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
