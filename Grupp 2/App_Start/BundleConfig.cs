@@ -24,6 +24,7 @@ namespace Grupp_2
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                         "~/Content/bootstrap.css",
+                        //Nedladdad bootstrap för att varför inte liksom XD ^^
                         "~/Content/bootstrap-lux.css",
                       "~/Content/Site.css"));
 

@@ -29,6 +29,7 @@ namespace Grupp_2.Controllers
                 return HttpNotFound();
             }
             return View(user);
+
         }
 
         [HttpPost]
@@ -51,7 +52,8 @@ namespace Grupp_2.Controllers
                 {
                     db.Entry(user).State = EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Details", new { id = user.UserID });
+                    TempData["alertMessage"] = "Uppdaterat!";
+                    return RedirectToAction("Edit", new { id = user.UserID });
                 }
             }
             else TempData["alertMessage"] = "One of your fields is empty!";
