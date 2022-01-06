@@ -90,6 +90,18 @@
         </tr>
     }
 
+    <hr />
+    <div>
+        <h3>Hitta liknande personer</h3>
+        @using (Html.BeginForm("MatchUser", "Cv", new { id = Model.UserID }, FormMethod.Post))
+        {
+            <h4>Visa liknande personer:</h4>
+           <input type="submit" value="Få upp en liknande" class="btn"/>
+        
+        }
+            
+
+        </div>
 
 
 

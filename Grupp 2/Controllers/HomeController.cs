@@ -14,6 +14,7 @@ namespace Grupp_2.Controllers
         Datacontext db = new Datacontext();
         private ProjectRespository projectRespository = new ProjectRespository();
         private UserRespository userRespository = new UserRespository();
+        private CVRespository CVRespository = new CVRespository();
         public ActionResult Index()
         {
             string loggedInUserMail = User.Identity.Name.ToString();
@@ -122,20 +123,7 @@ namespace Grupp_2.Controllers
             return View(userRespository.GetUsersByStringVG(searchString));
         }
 
-        public ActionResult SearchKomp(string searchStringKomp)
-        {
-            string loggedInUserMail = User.Identity.Name.ToString();
-            User user = userRespository.GetUserByEmail(loggedInUserMail);
-
-            if (user != null)
-            {
-                int userId = user.UserID;
-                ViewBag.Id = userId;
-            }
-
-
-            return View(userRespository.GetUsersByStringVG(searchStringKomp));
-        }
+      
 
         public ActionResult JoinProject(int id)
         {
@@ -157,6 +145,10 @@ namespace Grupp_2.Controllers
 
             return RedirectToAction("Index");
         }
+
+
+        
+
     }
 
 }

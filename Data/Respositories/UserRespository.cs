@@ -61,7 +61,7 @@ namespace Data.Respositories
             List<User> returlist = new List<User>();
             if (!String.IsNullOrWhiteSpace(searchString) && searchString.Contains(" "))
             {
-                tempList = searchString.Split().ToList();
+                tempList = searchString.ToLower().Split().ToList();
                 List<Skill> skills = new List<Skill>();
                 
                 
@@ -106,14 +106,15 @@ namespace Data.Respositories
         public List<int> GetUserIDSBySkill(List<string> searchStrings)
         {
             List<int> userids = new List<int>();
-            foreach (var skill in searchStrings)
+            List<User> users = new List<User>();
+            foreach (var searchString in searchStrings)
             {
 
-                if (db.Skills.Any(x => x.Title.Contains(skill))) //så vi inte loopar när den inte finns
+                if (db.Skills.Any(x => x.Title.ToLower().Contains(searchString))) //så vi inte loopar när den inte finns
                 {
                     foreach (var item in db.Skills.ToList())
                     {
-                        if (item.Title.Contains(skill))
+                        if (item.Title.ToLower().Contains(searchString))
                         {
                             foreach (var cv in db.CVs.ToList())
                             {
@@ -128,21 +129,62 @@ namespace Data.Respositories
                         }
                     }
                 }
-                
+
+                if (db.Work_Experiences.Any(x => x.Titel.ToLower().Contains(searchString))) 
+                {
+                    foreach (var item in db.Work_Experiences.ToList())
+                    {
+                        if (item.Titel.ToLower().Contains(searchString))
+                        {
+                            foreach (var cv in db.CVs.ToList())
+                            {
+                                foreach (var workExp in cv.Work_Experiences.ToList())
+                                {
+                                    if (workExp.WorkExpID == item.WorkExpID)
+                                    {
+                                        userids.Add(cv.UserID);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (db.Educations.Any(x => x.Title.ToLower().Contains(searchString))) 
+                {
+                    foreach (var item in db.Educations.ToList())
+                    {
+                        if (item.Title.ToLower().Contains(searchString))
+                        {
+                            foreach (var cv in db.CVs.ToList())
+                            {
+                                foreach (var education in cv.Educations.ToList())
+                                {
+                                    if (education.EduID == item.EduID)
+                                    {
+                                        userids.Add(cv.UserID);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
+
             return userids;
         }
 
 
-        public List<int> GetUserIDSBySkillstring(string skill)
+        public List<int> GetUserIDSBySkillstring(string searchString)
         {
             List<int> userids = new List<int>();
 
-            if (db.Skills.Any(x => x.Title.Contains(skill))) //så vi inte loopar när den inte finns
+            if (db.Skills.Any(x => x.Title.ToLower().Contains(searchString))) //så vi inte loopar när den inte finns
             {
                 foreach (var item in db.Skills.ToList())
                 {
-                    if (item.Title.Contains(skill))
+                    if (item.Title.ToLower().Contains(searchString))
                     {
                         foreach (var cv in db.CVs.ToList())
                         {
@@ -157,8 +199,55 @@ namespace Data.Respositories
                     }
                 }
             }
+
+            if (db.Work_Experiences.Any(x => x.Titel.ToLower().Contains(searchString)))
+            {
+                foreach (var item in db.Work_Experiences.ToList())
+                {
+                    if (item.Titel.ToLower().Contains(searchString))
+                    {
+                        foreach (var cv in db.CVs.ToList())
+                        {
+                            foreach (var workExp in cv.Work_Experiences.ToList())
+                            {
+                                if (workExp.WorkExpID == item.WorkExpID)
+                                {
+                                    userids.Add(cv.UserID);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (db.Educations.Any(x => x.Title.ToLower().Contains(searchString)))
+            {
+                foreach (var item in db.Educations.ToList())
+                {
+                    if (item.Title.ToLower().Contains(searchString))
+                    {
+                        foreach (var cv in db.CVs.ToList())
+                        {
+                            foreach (var education in cv.Educations.ToList())
+                            {
+                                if (education.EduID == item.EduID)
+                                {
+                                    userids.Add(cv.UserID);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             return userids;
         }
+
+
+
+
+
+
+
             
         
 

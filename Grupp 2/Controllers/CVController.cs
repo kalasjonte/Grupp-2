@@ -427,5 +427,39 @@ namespace Grupp_2.Controllers
             }
             return RedirectToAction("CreateCVVM");
         }
+
+        public ActionResult MatchUser(int id) //förfina
+        {
+            CV cv = DBCV.GetCVByUserId(id);
+            string search = null;
+
+            foreach (var item in cv.Skills)
+            {
+                search += item.Title + "";
+            }
+
+            foreach (var item in cv.Work_Experiences)
+            {
+                search += item.Titel + "";
+            }
+
+            foreach (var item in cv.Educations)
+            {
+                search += item.Title + "";
+            }
+
+            
+
+
+            List<User> users = UserRespository.GetUsersByStringVG(search); // ta bort alla som är anonyma
+            User removeMe = UserRespository.GetUserByUserID(id);
+            users.Remove(removeMe);
+            User user = users.FirstOrDefault();
+            
+
+            return RedirectToAction("ShowUserCV", new { userid = user.UserID });
+
+        }
+
     }
 }
