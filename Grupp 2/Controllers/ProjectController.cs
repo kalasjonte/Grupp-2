@@ -38,22 +38,6 @@ namespace Grupp_2.Controllers
             return RedirectToAction("ProjectVM");
         }
 
-
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Project project = db.Projects.Find(id);
-            if (project == null)
-            {
-                return HttpNotFound();
-            }
-            return View(project);
-        }
-
-
         public ActionResult Create()
         {
             string loggedInUserMail = User.Identity.Name.ToString();

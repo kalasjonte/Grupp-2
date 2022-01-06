@@ -18,8 +18,6 @@
 
 <hr />
 
-@Html.ActionLink("Skicka ett meddelande till " + Model.User, "Create", "Message", new { id = Model.UserID }, null)
-
 <h4>Utbildningar:</h4>
 <ul>
     @foreach (var item in Model.Educations)
@@ -58,9 +56,9 @@
 </ul>
 
 <hr />
+<br />
 
 <h4>Projekt:</h4>
-
 <table class="table">
     <tr>
         <th>
@@ -88,8 +86,12 @@
             </td>
 
         </tr>
+
+
     }
-
-
+    <table />
+    
+        <br />
+    <div>@{Html.RenderAction("Create", "Message", new { id = Model.UserID });} </div>
 
 
