@@ -76,6 +76,14 @@ namespace Grupp_2.Controllers
                 return clicks;
         }
 
+        [Route("api/GetGithubReps/")]
+        [HttpGet]
+        public List<Project> GetGithubReps()
+        {
+            List<Project> projects = new List<Project>();
+            return projects;
+        }
+
 
 
 

@@ -18,6 +18,7 @@
 <h4>Kontaktinformation:</h4>
 <p>Adress: @Model.Adress</p>
 <p>Epost: @Model.Email</p>
+<p>Github namn: <p id="gitNamn">@Model.Github </p> </p>
 <br />
 
 <hr />
@@ -93,6 +94,7 @@
 
         </tr>
     }
+</table>
 
     <hr />
     <div>
@@ -120,5 +122,42 @@
 
     </div>
 
+    <h4>Länkade Github repos för användaren</h4>
+    <table id="repos" class="table">
+        
+        <tr>
+            <th>
+                Skapare
+
+            </th>
+            <th>
+                Titel
+            </th>
+            <th>
+                Beskrvining
+            </th>
+        </tr>
+        
+           
+        
+    </table>
+
+
+    @section Scripts {
+
+        <script>
+            var gitUser = $('#gitNamn').html();
+            if (gitUser != "") {
+                $.get('https://api.github.com/users/' + gitUser + '/repos', function (data) {
+                    console.log(data);
+                    for (var repo of data) {
+                        $("#repos").append('<tr><td>' + repo.owner.login + '</td><td>' + repo.full_name + '</td><td>' + repo.description + '</td></tr>');
+                    }
+                })
+            }
+
+        </script>
+        @Scripts.Render("~/bundles/jqueryval")
+    }
 
 

@@ -62,6 +62,10 @@
     <Compile Include="Migrations\202201051122138_deactivate.designer.cs">
       <DependentUpon>202201051122138_deactivate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202201071447340_gitub.cs" />
+    <Compile Include="Migrations\202201071447340_gitub.designer.cs">
+      <DependentUpon>202201071447340_gitub.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CV.cs" />
     <Compile Include="Models\Image.cs" />
@@ -90,6 +94,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202201051122138_deactivate.resx">
       <DependentUpon>202201051122138_deactivate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202201071447340_gitub.resx">
+      <DependentUpon>202201071447340_gitub.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -286,7 +286,7 @@ namespace Grupp_2.Controllers
             DBCV.AddClick(cvet);
             string path = ("/UploadedFiles/") + Path.GetFileName(img.Name);
             string namn = user.Firstname + " " + user.Lastname;
-            CreateCVViewModel model =  new CreateCVViewModel(user.UserID, namn, path, user.Email, user.Adress, education, skills, workExp, tempList);
+            CreateCVViewModel model =  new CreateCVViewModel(user.UserID, namn, path, user.Email, user.Adress, education, skills, workExp, tempList, user.GithubUsername);
 
             if (!User.Identity.IsAuthenticated)
             {

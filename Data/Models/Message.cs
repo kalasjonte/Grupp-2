@@ -13,7 +13,6 @@ namespace Data.Models
         [Key]
         public int MessageID { get; set; }
         public string Content { get; set; }
-
         
 
         public virtual ICollection<User_Message> User_Messages { get; set; }

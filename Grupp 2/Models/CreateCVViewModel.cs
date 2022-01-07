@@ -44,6 +44,8 @@ namespace Grupp_2.Models
         [DataMember]
         public List<Project> Projects { get; set; }
 
+        public string Github { get; set; }
+
         public CreateCVViewModel(string name, string path, List<Education> educations, List<Skill> skills, List<Work_Experience> work_Experiences, List<Project> projects)
         {
             User = name;
@@ -73,7 +75,7 @@ namespace Grupp_2.Models
 
         }
 
-        public CreateCVViewModel(int id, string name, string path, string email, string adress, List<Education> educations, List<Skill> skills, List<Work_Experience> work_Experiences, List<Project> projects)
+        public CreateCVViewModel(int id, string name, string path, string email, string adress, List<Education> educations, List<Skill> skills, List<Work_Experience> work_Experiences, List<Project> projects, string github)
         {
             UserID = id;
             User = name;
@@ -84,7 +86,7 @@ namespace Grupp_2.Models
             Skills = skills;
             Work_Experiences = work_Experiences;
             Projects = projects;
-
+            Github = github;
         }
 
 
@@ -138,7 +140,7 @@ namespace Grupp_2.Models
 
             string path = img.Name;
             string namn = user.Firstname + " " + user.Lastname;
-            CreateCVViewModel model = new CreateCVViewModel(user.UserID, namn, path, user.Email, user.Adress, education, skills, workExp, tempList);
+            CreateCVViewModel model = new CreateCVViewModel(user.UserID, namn, path, user.Email, user.Adress, education, skills, workExp, tempList,user.GithubUsername);
             return model;
         }
 

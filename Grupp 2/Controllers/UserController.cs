@@ -88,7 +88,7 @@ namespace Grupp_2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserID,Firstname,Lastname,Adress,Email,PrivateProfile")] User user)
+        public ActionResult Edit([Bind(Include = "UserID,Firstname,Lastname,Adress,Email,PrivateProfile,GithubUsername")] User user)
         {
             var regex = @"^(([A-za-z]+[\s]{1}[A-za-z]+)|([A-Za-z]+))$";
             if(user.Firstname != null && user.Lastname != null && user.Adress != null)
