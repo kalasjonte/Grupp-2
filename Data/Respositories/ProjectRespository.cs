@@ -10,7 +10,7 @@ namespace Data.Respositories
 {
     public class ProjectRespository
     {
-        private Datacontext db { get; set; }
+        public Datacontext db { get; set; }
 
         public ProjectRespository()
         {

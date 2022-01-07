@@ -5,8 +5,11 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml;
+using System.Xml.Serialization;
 using Data;
 using Data.Models;
 using Data.Respositories;
@@ -459,6 +462,25 @@ namespace Grupp_2.Controllers
 
             return RedirectToAction("ShowUserCV", new { userid = user.UserID });
 
+        }
+
+        public ActionResult ExportXML(int id)  //fungerar fram till projekt, sen säger han att projekt har en cyckel.
+        {
+            User user = UserRespository.GetUserByUserID(id);
+
+            CreateCVViewModel CCVM = new CreateCVViewModel();
+            CCVM = CCVM.CreateCVViewModelByUserId(id);
+
+            CCVM.Educations.Count();
+
+
+            FileStream textWriter = new FileStream("F:/Downloads/" + CCVM.User + ".xml" , FileMode.OpenOrCreate);
+            DataContractSerializer serializer = new DataContractSerializer(typeof(CreateCVViewModel));
+            
+
+            serializer.WriteObject(textWriter, CCVM);
+            textWriter.Close();
+            return RedirectToAction("ShowUserCV", new { userid = CCVM.UserID });
         }
 
     }

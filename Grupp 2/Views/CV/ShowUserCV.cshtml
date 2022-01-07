@@ -4,6 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+<div>
+    @{Html.RenderAction("Create", "Message",new {id = Model.UserID });}
+</div>
 <h2>Cv för @Model.User</h2>
 <div>
     <h3>Profilbild:</h3>
@@ -96,12 +100,25 @@
         @using (Html.BeginForm("MatchUser", "Cv", new { id = Model.UserID }, FormMethod.Post))
         {
             <h4>Visa liknande personer:</h4>
-           <input type="submit" value="Få upp en liknande" class="btn"/>
-        
-        }
-            
+            <input type="submit" value="Få upp en liknande" class="btn" />
 
-        </div>
+        }
+
+
+    </div>
+
+    <hr />
+    <div>
+        <h3>Exportera till XML</h3>
+        @using (Html.BeginForm("ExportXML", "Cv", new { id = Model.UserID }, FormMethod.Post))
+        {
+            <h4>Ladda ner cv data som xml:</h4>
+            <input type="submit" value="Ladda ner" class="btn" />
+
+        }
+
+
+    </div>
 
 
 
