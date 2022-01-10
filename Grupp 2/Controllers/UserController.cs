@@ -34,7 +34,7 @@ namespace Grupp_2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserID,Firstname,Lastname,Adress,Email,PrivateProfile")] User user)
+        public ActionResult Edit([Bind(Include = "UserID,Firstname,Lastname,Adress,Email,PrivateProfile,GithubUsername")] User user)
         {
             //Regex för användbares namn vid validering
             var regex = @"^(([A-za-z]+[\s]{1}[A-za-z]+)|([A-Za-z]+))$";
@@ -58,6 +58,19 @@ namespace Grupp_2.Controllers
             }
             else TempData["alertMessage"] = "One of your fields is empty!";
             return View(user);
+        }
+
+        
+
+            // POST: User/Delete/5
+            [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            User user = db.Users.Find(id);
+            db.Users.Remove(user);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

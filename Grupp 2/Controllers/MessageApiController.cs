@@ -11,6 +11,7 @@ namespace Grupp_2.Controllers
     {
         private UserRespository userRespository = new UserRespository();
         private MessageRepository messageRepository = new MessageRepository();
+        private CVRespository cVRespository = new CVRespository();
 
         [Route("api/SendAPI/{id}/{content}/{sender}")]
         [HttpGet]
@@ -59,6 +60,23 @@ namespace Grupp_2.Controllers
                 return unreadcount;
             }
 
+        }
+
+        [Route("api/GetApiVisning/")]
+        [HttpGet]
+        public int GetShowCountCV()
+        {
+                int cvID = cVRespository.GetCVIDByEmail(User.Identity.Name.ToString());
+                int clicks = cVRespository.GetClicks(cvID);
+                return clicks;
+        }
+
+        [Route("api/GetGithubReps/")]
+        [HttpGet]
+        public List<Project> GetGithubReps()
+        {
+            List<Project> projects = new List<Project>();
+            return projects;
         }
     }
 }

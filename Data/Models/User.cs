@@ -18,6 +18,8 @@ namespace Data.Models
        
         public string Email { get; set; }
         public bool PrivateProfile { get; set; }
+        public bool Deactivate { get; set; }
+        public string GithubUsername { get; set; }
 
         public virtual ICollection<Projects_Users> Projects { get; set; }
        

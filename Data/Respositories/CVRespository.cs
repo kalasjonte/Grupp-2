@@ -125,5 +125,21 @@ namespace Data.Respositories
             cv.Work_Experiences.Remove(workDel);
             db.SaveChanges();
         }
+
+        public void AddClick(CV cv)
+        {
+            cv.Clicks += 1;
+            db.SaveChanges();
+        }
+
+        public int GetClicks(int id)
+        {
+            CV cv = GetCVById(id);
+            return cv.Clicks;
+        }
+
+
+
+
     }
 }

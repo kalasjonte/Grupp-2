@@ -5,7 +5,11 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization;
+using System.Web;
 using System.Web.Mvc;
+using System.Xml;
+using System.Xml.Serialization;
 using Data;
 using Data.Models;
 using Data.Respositories;
@@ -156,12 +160,56 @@ namespace Grupp_2.Controllers
             }
         }
 
-        //Metod för att visa vanligt CV
+        public ActionResult ShowCVVM() //bryt ut till service, ha denna här men contenten i services
+        {
+            string loggedInUserMail = User.Identity.Name.ToString(); //KAN finnas här, eller ligga i services med hhtpcontext current (owin)
+            User user = UserRespository.GetUserByEmail(loggedInUserMail); //hämta user på inskickad id ist? -> in i user respository som ligger i data.
+
+            int cvId = DBCV.GetCVIDByEmail(User.Identity.Name.ToString()); //göra ny, ändra till inskickad userid?
+            var workExp = DBCV.GetWorkExpFromCVID(cvId);
+
+            var education = DBCV.GetEducationsFromCVID(cvId);
+
+            var skills = DBCV.GetSkillsFromCVID(cvId);
+            CV tempCv = DBCV.GetCVById(cvId);
+
+            //------
+            var img = db.Images.Where(i => i.ImageID == tempCv.ImageID).FirstOrDefault();
+
+            var projects = ProjectRespository.GetAllProjects();
+
+
+            var projectUsers = ProjectRespository.GetProjectUsersFromUserID(user.UserID);
+
+            List<Project> tempList = new List<Project>();
+
+            foreach (var item in projects)
+            {
+                foreach (var item2 in projectUsers)
+                {
+                    if (item.ProjectID == item2.ProjectID)
+                    {
+                        tempList.Add(item);
+                    }
+                }
+            }
+            string path = ("/UploadedFiles/") + Path.GetFileName(img.Name);
+            string namn = user.Firstname + " " + user.Lastname;
+
+            var CreateCVViewModel = new CreateCVViewModel(namn, path, education, skills, workExp, tempList); 
+
+            
+
+            return View(CreateCVViewModel);
+        }
+
         [Route("Cv/{userid:int}/ShowUserCv", Name = "ShowUserCv")]
         public ActionResult ShowUserCV(int userid)
         {
             User user = UserRespository.GetUserByUserID(userid);
 
+            User user = UserRespository.GetUserByUserID(userid);
+            
             CV cvet = DBCV.GetCVByUserId(user.UserID);
             int cvId = cvet.CVID;
 
@@ -190,11 +238,10 @@ namespace Grupp_2.Controllers
                 }
             }
 
+            DBCV.AddClick(cvet);
             string path = ("/UploadedFiles/") + Path.GetFileName(img.Name);
             string namn = user.Firstname + " " + user.Lastname;
-
-            //Skapar viewmodel för vyn
-            CreateCVViewModel model = new CreateCVViewModel(user.UserID, namn, path, user.Email, user.Adress, education, skills, workExp, tempList);
+            CreateCVViewModel model =  new CreateCVViewModel(user.UserID, namn, path, user.Email, user.Adress, education, skills, workExp, tempList, user.GithubUsername);
 
             if (!User.Identity.IsAuthenticated) //Om icke inloggad => displayar privata användare som "Anonym användare"
             {
@@ -257,5 +304,58 @@ namespace Grupp_2.Controllers
             }
             return RedirectToAction("CreateCVVM");
         }
+
+        public ActionResult MatchUser(int id) //förfina
+        {
+            CV cv = DBCV.GetCVByUserId(id);
+            string search = null;
+
+            foreach (var item in cv.Skills)
+            {
+                search += item.Title + "";
+            }
+
+            foreach (var item in cv.Work_Experiences)
+            {
+                search += item.Titel + "";
+            }
+
+            foreach (var item in cv.Educations)
+            {
+                search += item.Title + "";
+            }
+
+            
+
+
+            List<User> users = UserRespository.GetUsersByStringVG(search); // ta bort alla som är anonyma
+            User removeMe = UserRespository.GetUserByUserID(id);
+            users.Remove(removeMe);
+            User user = users.FirstOrDefault();
+            
+
+            return RedirectToAction("ShowUserCV", new { userid = user.UserID });
+
+        }
+
+        public ActionResult ExportXML(int id)  //fungerar fram till projekt, sen säger han att projekt har en cyckel.
+        {
+            User user = UserRespository.GetUserByUserID(id);
+
+            CreateCVViewModel CCVM = new CreateCVViewModel();
+            CCVM = CCVM.CreateCVViewModelByUserId(id);
+
+            CCVM.Educations.Count();
+
+
+            FileStream textWriter = new FileStream("F:/Downloads/" + CCVM.User + ".xml" , FileMode.OpenOrCreate);
+            DataContractSerializer serializer = new DataContractSerializer(typeof(CreateCVViewModel));
+            
+
+            serializer.WriteObject(textWriter, CCVM);
+            textWriter.Close();
+            return RedirectToAction("ShowUserCV", new { userid = CCVM.UserID });
+        }
+
     }
 }

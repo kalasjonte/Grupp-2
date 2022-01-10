@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Data.Models
 {
+    [DataContract(IsReference = true)]
     public class Project
     {
         [Key]
         public int ProjectID { get; set; }
+        [DataMember]
         public string Titel { get; set; }
 
         

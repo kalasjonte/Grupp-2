@@ -47,7 +47,7 @@
 
     @*Ajax call för att hämta hur många olästa meddelande användaren har om den är inloggad*@
     <script>
-
+        
         var inloggad = @User.Identity.IsAuthenticated.ToString().ToLower();
         if (inloggad) {
             $.get('/api/GetApi/', function (data) {

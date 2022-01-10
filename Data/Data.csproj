@@ -43,6 +43,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -53,9 +54,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Datacontext.cs" />
-    <Compile Include="Migrations\202201061257548_newDB.cs" />
-    <Compile Include="Migrations\202201061257548_newDB.designer.cs">
-      <DependentUpon>202201061257548_newDB.cs</DependentUpon>
+    <Compile Include="Migrations\202201051037296_clicks.cs" />
+    <Compile Include="Migrations\202201051037296_clicks.designer.cs">
+      <DependentUpon>202201051037296_clicks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202201051122138_deactivate.cs" />
+    <Compile Include="Migrations\202201051122138_deactivate.designer.cs">
+      <DependentUpon>202201051122138_deactivate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202201071447340_gitub.cs" />
+    <Compile Include="Migrations\202201071447340_gitub.designer.cs">
+      <DependentUpon>202201071447340_gitub.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CV.cs" />
@@ -79,6 +88,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Migrations\202201051037296_clicks.resx">
+      <DependentUpon>202201051037296_clicks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202201051122138_deactivate.resx">
+      <DependentUpon>202201051122138_deactivate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202201071447340_gitub.resx">
+      <DependentUpon>202201071447340_gitub.cs</DependentUpon>
     <EmbeddedResource Include="Migrations\202201061257548_newDB.resx">
       <DependentUpon>202201061257548_newDB.cs</DependentUpon>
     </EmbeddedResource>

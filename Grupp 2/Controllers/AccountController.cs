@@ -20,6 +20,8 @@ namespace Grupp_2.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private UserRespository userRespository = new UserRespository();
+        
 
         public AccountController()
         {
@@ -82,6 +84,7 @@ namespace Grupp_2.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    userRespository.ReActivateUserIfDeactive(model.Email);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

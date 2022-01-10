@@ -12,6 +12,7 @@ namespace Grupp_2.Controllers
         Datacontext db = new Datacontext();
         private ProjectRespository projectRespository = new ProjectRespository();
         private UserRespository userRespository = new UserRespository();
+        private CVRespository CVRespository = new CVRespository();
         
         //Metod för att ladda hemsida. Kollar om användare är inloggad, beroende på resultat visar privata/ickeprivata projekt/CV.
         public ActionResult Index()
@@ -94,8 +95,12 @@ namespace Grupp_2.Controllers
                 int userId = user.UserID;
                 ViewBag.Id = userId;
             }
-            return View(userRespository.GetUsersByString(searchString)); //Returnerar en vy bestående av en lista av användare.
+
+
+            return View(userRespository.GetUsersByStringVG(searchString));
         }
+
+      
 
         public ActionResult JoinProject(int id)
         {
@@ -117,5 +122,9 @@ namespace Grupp_2.Controllers
 
             return RedirectToAction("Index");
         }
+
+
+        
+
     }
 }
