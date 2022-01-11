@@ -1,6 +1,7 @@
 ﻿using Data;
 using Data.Models;
 using Data.Respositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -68,12 +69,14 @@ namespace Grupp_2.Controllers
             {
                 int check = users.Count();
                 ViewBag.Count = users.Count();
+                Random random = new Random();
 
                 List<int> uID = new List<int>();
                 List<string> name = new List<string>();
                 for (int i = 0; i < 3 && i < check; i++)
                 {
-                    var user = users.Last();
+                    int getThis = random.Next(0, users.Count());
+                    var user = users[getThis];
                     uID.Add(user.UserID);
                     name.Add(user.Firstname + " " + user.Lastname);
                     users.Remove(user);
