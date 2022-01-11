@@ -1,6 +1,7 @@
 ﻿using Data;
 using Data.Models;
 using Data.Respositories;
+using Grupp_2.Models;
 using System.Collections.Generic;
 using System.Web.Http;
 
