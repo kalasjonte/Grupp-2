@@ -1,64 +1,64 @@
 ﻿@model Grupp_2.Models.MessagesViewModel
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Skicka ett meddelande</h4>
-    <hr />
+    <div class="form-horizontal">
+        <h4>Skicka ett meddelande</h4>
+        <hr />
 
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @ID = "CONTENT", @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.ReciverName, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ReciverName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-            @Html.ValidationMessageFor(model => model.ReciverName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    @if (Model.Sender != null)
-    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.Sender, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Sender, new { htmlAttributes = new { @ID = "SENDER", @class = "form-control" , @readonly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.Sender, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @ID = "CONTENT", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
             </div>
         </div>
-    }
-    else
-    {
+
         <div class="form-group">
-            @Html.LabelFor(model => model.Sender, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ReciverName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Sender, new { htmlAttributes = new { @ID = "SENDER", @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Sender, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.ReciverName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.ReciverName, "", new { @class = "text-danger" })
             </div>
         </div>
-    }
 
-    <div class="form-group">
+        @if (Model.Sender != null)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Sender, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Sender, new { htmlAttributes = new { @ID = "SENDER", @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Sender, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Sender, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Sender, new { htmlAttributes = new { @ID = "SENDER", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Sender, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
 
-        <div class="col-md-10">
-            @Html.HiddenFor(model => model.Reciver)
+        <div class="form-group">
+
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.Reciver)
+            </div>
         </div>
+
+
     </div>
 
-
-</div>
-    
 }
 
-<button class="MessageSend" data-id="@Model.Reciver" > Skicka meddelande </button>
+<button class="MessageSend" data-id="@Model.Reciver"> Skicka meddelande </button>
 
 
 
@@ -69,17 +69,22 @@
             var ReciverID = $(this).data('id');
             var content = $('#CONTENT').val();
             var sender = $('#SENDER').val();
+
             if (content.length < 3 || sender.length < 2) {
                 window.alert('Vänligen kontrollera fälten.')
             }
             else
-                $.post('/api/SendAPI/' + ReciverID + '/' + content + '/' + sender, function () {
-                    window.alert('Meddelandet har skickats');
-                    window.location.reload();
-                });
-                
+
+                $.ajax({
+                    method: 'POST',
+                    url: '/api/SendAPI/',
+                    data: { Content: content, Sender: sender, Reciver: ReciverID },
+                    success: function () {
+                        window.alert('Meddelandet har skickats');
+                        window.location.reload();
+                    }
+                })
         });
-       
 
     </script>
     @Scripts.Render("~/bundles/jqueryval")
