@@ -1,98 +1,106 @@
 ﻿@model Grupp_2.Models.CreateCVViewModel
+@section Styles {
+    <link href="@Url.Content("~/Content/bootstrap-lux.css")" rel="stylesheet" type="text/css" />
+}
 @{
     ViewBag.Title = "ShowCVVM";
     Layout = null;
+
+
 }
+<body>
+    <div class="container body-content">
+    <h2>Cv för @Model.User</h2>
+    <div>
+        <h3>Profilbild:</h3>
+        <img src=@Model.Imgpath alt="Profilbild kunde inte laddas" style="border-radius: 50%" , width="300px" />
+    </div>
 
-<h2>Cv för @Model.User</h2>
-<div>
-    <h3>Profilbild:</h3>
-    <img src=@Model.Imgpath alt="Profilbild kunde inte laddas" style="border-radius: 50%" , width="300px" />
-</div>
+    <br />
+    <h4>Kontaktinformation:</h4>
+    <p>Adress: @Model.Adress</p>
+    <p>Epost: @Model.Email</p>
+    <br />
 
-<br />
-<h4>Kontaktinformation:</h4>
-<p>Adress: @Model.Adress</p>
-<p>Epost: @Model.Email</p>
-<br />
+    <hr />
 
-<hr />
+    <h4>Utbildningar:</h4>
+    <ul>
+        @foreach (var item in Model.Educations)
+        {
+            <li>
+                @item.Title
+            </li>
 
-<h4>Utbildningar:</h4>
-<ul>
-    @foreach (var item in Model.Educations)
-    {
-        <li>
-            @item.Title
-        </li>
+        }
+    </ul>
 
-    }
-</ul>
+    <hr />
 
-<hr />
+    <h4>Arbetserfarenheter:</h4>
+    <ul>
+        @foreach (var item in Model.Work_Experiences)
+        {
+            <li>
+                @item.Titel
+            </li>
 
-<h4>Arbetserfarenheter:</h4>
-<ul>
-    @foreach (var item in Model.Work_Experiences)
-    {
-        <li>
-            @item.Titel
-        </li>
+        }
+    </ul>
 
-    }
-</ul>
+    <hr />
 
-<hr />
+    <h4>Färdigheter:</h4>
+    <ul>
+        @foreach (var skills in Model.Skills)
+        {
+            <li>
+                @skills.Title
+            </li>
 
-<h4>Färdigheter:</h4>
-<ul>
-    @foreach (var skills in Model.Skills)
-    {
-        <li>
-            @skills.Title
-        </li>
+        }
+    </ul>
 
-    }
-</ul>
+    <hr />
+    <br />
 
-<hr />
-<br />
-
-<h4>Projekt:</h4>
-<table class="table">
-    <tr>
-        <th>
-            Skapare
-
-        </th>
-        <th>
-            Titel
-        </th>
-        <th>
-            Beskrvining
-        </th>
-    </tr>
-    @foreach (var item in Model.Projects)
-    {
+    <h4>Projekt:</h4>
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Firstname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
+            <th>
+                Skapare
 
+            </th>
+            <th>
+                Titel
+            </th>
+            <th>
+                Beskrvining
+            </th>
         </tr>
+        @foreach (var item in Model.Projects)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Firstname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Titel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+
+            </tr>
 
 
-    }
-    <table />
-    
+        }
+        <table />
+
         <br />
+        </div>
+</body>
 
-    <div>@{Html.RenderAction("Create", "Message", new { id = Model.UserID });} </div>
+<div>@{Html.RenderAction("Create", "Message", new { id = Model.UserID });} </div>
 
 
