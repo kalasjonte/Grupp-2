@@ -18,7 +18,7 @@ namespace Grupp_2.Controllers
         private CVRespository cVRespository = new CVRespository();
 
 
-        [Route("api/SendAPI/{id}/{content}/{sender}")]
+        [Route("api/SendAPI/{id}/{sender}/{content}")]
         [HttpGet]
         public IHttpActionResult SendMessage(int id, string content, string sender)
         {
