@@ -74,11 +74,7 @@
                 window.alert('Vänligen kontrollera fälten.')
             }
             else
-                //$.get('/api/SendAPI/' + ReciverID + '/' + content + '/' + sender, function () {
-                //    window.alert('Meddelandet har skickats');
-                //    window.location.reload();
-                //})
-                
+             
                 $.ajax({
                     method: 'POST',
                     url: '/api/SendAPI/',
