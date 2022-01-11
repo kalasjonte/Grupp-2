@@ -74,10 +74,20 @@
                 window.alert('Vänligen kontrollera fälten.')
             }
             else
-            $.get('/api/SendAPI/' + ReciverID + '/' + content + '/' + sender, function () {
-                window.alert('Meddelandet har skickats');
-                window.location.reload();
-            })
+                //$.get('/api/SendAPI/' + ReciverID + '/' + content + '/' + sender, function () {
+                //    window.alert('Meddelandet har skickats');
+                //    window.location.reload();
+                //})
+                
+                $.ajax({
+                    method: 'POST',
+                    url: '/api/SendAPI/',
+                    data: { Content: content, Sender: sender, Reciver: ReciverID },
+                    success: function () {
+                            window.alert('Meddelandet har skickats');
+                             window.location.reload();
+                    }
+                })
         });
 
     </script>
