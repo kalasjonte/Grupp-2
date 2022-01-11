@@ -63,7 +63,7 @@
         @foreach (var skills in Model.Skills)
         {
             <li>
-                @skills.Title <input type="submit" name="actionType" value="Ta bort erfarenhet @skills.Title"/>
+                @skills.Title <input type="submit" name="actionType" value="Ta bort erfarenhet @skills.Title" />
             </li>
         }
     </ul>
@@ -115,7 +115,10 @@
     </tr>
 
 }
-<br /><br />
+<br />
+<br />
+<hr />
+<h5>Lägg till nya objekt i databasen:</h5>
 <p>
     @Html.ActionLink("Lägg till ny Färdighet", "Create", "Skill")
     @Html.ActionLink("Lägg till nytt Arbete", "Create", "Work_Experience")
