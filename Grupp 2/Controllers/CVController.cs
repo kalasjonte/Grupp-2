@@ -207,8 +207,6 @@ namespace Grupp_2.Controllers
         public ActionResult ShowUserCV(int userid)
         {
             User user = UserRespository.GetUserByUserID(userid);
-
-            User user = UserRespository.GetUserByUserID(userid);
             
             CV cvet = DBCV.GetCVByUserId(user.UserID);
             int cvId = cvet.CVID;
