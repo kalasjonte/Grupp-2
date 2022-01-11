@@ -69,16 +69,17 @@
             var ReciverID = $(this).data('id');
             var content = $('#CONTENT').val();
             var sender = $('#SENDER').val();
-
             if (content.length < 3 || sender.length < 2) {
                 window.alert('Vänligen kontrollera fälten.')
             }
             else
-            $.get('/api/SendAPI/' + ReciverID + '/' + content + '/' + sender, function () {
-                window.alert('Meddelandet har skickats');
-                window.location.reload();
-            })
+                $.post('/api/SendAPI/' + ReciverID + '/' + content + '/' + sender, function () {
+                    window.alert('Meddelandet har skickats');
+                    window.location.reload();
+                });
+                
         });
+       
 
     </script>
     @Scripts.Render("~/bundles/jqueryval")

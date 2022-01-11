@@ -42,7 +42,7 @@ namespace Grupp_2.Controllers
         {
             string loggedInUserMail = User.Identity.Name.ToString();
             ViewBag.Creator = new SelectList(db.Users.Where(u => u.Email == loggedInUserMail).ToList(), "UserID", "Firstname");
-
+            
             return View();
         }
 
@@ -50,24 +50,39 @@ namespace Grupp_2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ProjectID,Titel,Description,Creator")] Project project)
         {
+            string loggedInUserMail = User.Identity.Name.ToString();
+            ViewBag.Creator = new SelectList(db.Users.Where(u => u.Email == loggedInUserMail).ToList(), "UserID", "Firstname");
             if (ModelState.IsValid)
-            {
-                foreach (var proj in db.Projects)
+            { 
+                if (!string.IsNullOrWhiteSpace(project.Description) && !string.IsNullOrWhiteSpace(project.Titel))
                 {
-                    if (proj.Titel.ToLower() == project.Titel.ToLower())
+                    if (!ProjectRespository.TitelExists(project.Titel))
                     {
-                        return RedirectToAction("DuplicateErrorProj");
+
+                        ProjectRespository.AddNewProject(project);
+
+                        return RedirectToAction("ProjectVM");
+                        
+                    }
+                    else
+                    {
+                        TempData["alertMessage"] = "Finns redan ett projekt med den titeln!";
+                        return View(project);
                     }
                 }
-                ProjectRespository.AddNewProject(project);
 
-                return RedirectToAction("ProjectVM");
+                else
+                {
+                    TempData["alertMessage"] = "Fyll i titel samt beskrivning!";
+                    return View(project);
+
+                }
             }
             ViewBag.Creator = new SelectList(userRespository.GetAllUsers(), "UserID", "Firstname", project.Creator);
             return View(project);
         }
 
-        public ActionResult Edit(int? id) //ska denna selectlisten (ENDAST EN CREATOR) brytas? behöver ha den i en lista
+        public ActionResult Edit(int? id) 
         {
             if (id == null)
             {
@@ -87,12 +102,37 @@ namespace Grupp_2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ProjectID,Titel,Description,Creator")] Project project)
         {
+            string loggedInUserMail = User.Identity.Name.ToString();
+            ViewBag.Creator = new SelectList(db.Users.Where(u => u.Email == loggedInUserMail).ToList(), "UserID", "Firstname");
+
             if (ModelState.IsValid)
             {
-                db.Entry(project).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("ProjectVM");
+                if (!string.IsNullOrEmpty(project.Description) && !string.IsNullOrWhiteSpace(project.Titel))
+                {
+                    if (!ProjectRespository.TitelExists(project.Titel))
+                    {
+                    
+                        db.Entry(project).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("ProjectVM");
+                    }
+                    else
+                    {
+                        TempData["alertMessage"] = "Finns redan ett projekt med den titeln!";
+                        return View(project);
+                    }
+                }
+
+                else
+                {
+                    TempData["alertMessage"] = "Fyll i titel samt beskrivning!";
+                    return View(project);
+                    
+                }
             }
+               
+                
+            
             ViewBag.Creator = new SelectList(userRespository.GetAllUsers(), "UserID", "Firstname", project.Creator);
             return View(project);
         }

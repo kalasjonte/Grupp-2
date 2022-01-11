@@ -56,7 +56,7 @@
                     @Html.ActionLink("Redigera", "Edit", new { id = item.ProjectID }) |
                     @Html.ActionLink("Ta bort", "Delete", new { id = item.ProjectID })
                 </td>
- }          @*Om inloggad användare inte är skapare så kollar vi om den är deltagare i projektet*@ 
+            } @*Om inloggad användare inte är skapare så kollar vi om den är deltagare i projektet*@
             else if (ViewBag.Id != null && item.CreatorID != ViewBag.Id)
             {
 
@@ -66,20 +66,20 @@
                     <td>
                         <input type="button" value="Gå med i projekt" onclick="location.href='@Url.Action("Insert", "Project", new {id = item.ProjectID})'" />
                     </td>
- }
+                }
                 else
                 {
                     <td>
                         <input type="button" value="Gå ur projekt" onclick="location.href='@Url.Action("Remove", "Project", new {id = item.ProjectID})'" />
                     </td>
-}
+                }
 
 
             }
 
 
         </tr>
-}
+    }
 
 </table>
 

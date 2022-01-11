@@ -15,16 +15,17 @@ namespace Data.Models
         [Key]
         public int ProjectID { get; set; }
         [DataMember]
+
+
         public string Titel { get; set; }
 
-        
         [Display(Name = "Beskrivning")]
         public string Description { get; set; }
         
 
 
         [ForeignKey("User")]
-        [Display(Name = "´Skapare")]
+        [Display(Name = "Skapare")]
         public int Creator { get; set; }
         public virtual User User { get; set; }
 

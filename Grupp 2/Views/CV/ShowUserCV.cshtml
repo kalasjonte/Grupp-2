@@ -1,13 +1,11 @@
 ﻿@model Grupp_2.Models.CreateCVViewModel
 @{
     ViewBag.Title = "ShowCVVM";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
 
-<div>
-    @{Html.RenderAction("Create", "Message",new {id = Model.UserID });}
-</div>
+
 <h2>Cv för @Model.User</h2>
 <div>
     <h3>Profilbild:</h3>

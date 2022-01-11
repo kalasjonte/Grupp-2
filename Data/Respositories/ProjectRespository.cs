@@ -81,5 +81,17 @@ namespace Data.Respositories
             db.Projects.Remove(project);
             db.SaveChanges();
         }
+
+        public bool TitelExists(string titel)
+        {
+            foreach (var proj in db.Projects)
+            {
+                if (proj.Titel.ToLower() == titel.ToLower())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
