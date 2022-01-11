@@ -87,12 +87,37 @@ namespace Grupp_2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ProjectID,Titel,Description,Creator")] Project project)
         {
+            string loggedInUserMail = User.Identity.Name.ToString();
+            ViewBag.Creator = new SelectList(db.Users.Where(u => u.Email == loggedInUserMail).ToList(), "UserID", "Firstname");
+
             if (ModelState.IsValid)
             {
-                db.Entry(project).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("ProjectVM");
+                if (!string.IsNullOrEmpty(project.Description) && !string.IsNullOrWhiteSpace(project.Titel))
+                {
+                    if (!ProjectRespository.TitelExists(project.Titel))
+                    {
+
+                        db.Entry(project).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("ProjectVM");
+                    }
+                    else
+                    {
+                        TempData["alertMessage"] = "Finns redan ett projekt med den titeln!";
+                        return View(project);
+                    }
+                }
+
+                else
+                {
+                    TempData["alertMessage"] = "Fyll i titel samt beskrivning!";
+                    return View(project);
+
+                }
             }
+
+
+
             ViewBag.Creator = new SelectList(userRespository.GetAllUsers(), "UserID", "Firstname", project.Creator);
             return View(project);
         }
