@@ -21,7 +21,7 @@ namespace Data.Models
 
 
         [ForeignKey("User")]
-        [Display(Name = "´Skapare")]
+        [Display(Name = "Skapare")]
         public int Creator { get; set; }
         public virtual User User { get; set; }
 
