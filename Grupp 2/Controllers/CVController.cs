@@ -25,57 +25,62 @@ namespace Grupp_2.Controllers
         //Metod för att visa "Ditt CV"
         public ActionResult CreateCVVM()
         {
-            //Hämtar filer vi har i mappen UploadedFiles
-            var files = Directory.GetFiles(Server.MapPath("~/UploadedFiles"));
-            
-
-            int cvId = DBCV.GetCVIDByEmail(User.Identity.Name.ToString());
-            var tempCv = DBCV.GetCVById(cvId);
-            
-            var image = db.Images.Where(i => i.ImageID == tempCv.ImageID).FirstOrDefault();
-            string path = image.Path;
-
-            ViewBag.Path = ("/UploadedFiles/") + Path.GetFileName(image.Name);
-
-            var workExp = DBCV.GetWorkExpFromCVID(cvId);
-            var education = DBCV.GetEducationsFromCVID(cvId);
-            var skills = DBCV.GetSkillsFromCVID(cvId);
-
-            string loggedInUserMail = User.Identity.Name.ToString();
-            int userID = UserRespository.GetUserIDByEmail(loggedInUserMail);
-            ViewBag.Id = userID;
-
-            var projects = ProjectRespository.GetAllProjects();
-            var projectUsers = ProjectRespository.GetProjectUsersFromUserID(userID);
-
-
-            //Hämtar projekt som användare är med i (inkl själv skapade projekt)
-            List<Project> tempList = new List<Project>();
-
-            foreach (var item in projects)
+            if (User.Identity.IsAuthenticated)
             {
-                foreach (var item2 in projectUsers)
+                //Hämtar filer vi har i mappen UploadedFiles
+                var files = Directory.GetFiles(Server.MapPath("~/UploadedFiles"));
+
+
+                int cvId = DBCV.GetCVIDByEmail(User.Identity.Name.ToString());
+                var tempCv = DBCV.GetCVById(cvId);
+
+                var image = db.Images.Where(i => i.ImageID == tempCv.ImageID).FirstOrDefault();
+                string path = image.Path;
+
+                ViewBag.Path = ("/UploadedFiles/") + Path.GetFileName(image.Name);
+
+                var workExp = DBCV.GetWorkExpFromCVID(cvId);
+                var education = DBCV.GetEducationsFromCVID(cvId);
+                var skills = DBCV.GetSkillsFromCVID(cvId);
+
+                string loggedInUserMail = User.Identity.Name.ToString();
+                int userID = UserRespository.GetUserIDByEmail(loggedInUserMail);
+                ViewBag.Id = userID;
+
+                var projects = ProjectRespository.GetAllProjects();
+                var projectUsers = ProjectRespository.GetProjectUsersFromUserID(userID);
+
+
+                //Hämtar projekt som användare är med i (inkl själv skapade projekt)
+                List<Project> tempList = new List<Project>();
+
+                foreach (var item in projects)
                 {
-                    if (item.ProjectID == item2.ProjectID)
+                    foreach (var item2 in projectUsers)
                     {
-                        tempList.Add(item);
+                        if (item.ProjectID == item2.ProjectID)
+                        {
+                            tempList.Add(item);
+                        }
                     }
                 }
+
+                //Skapar ViewModel för vyn
+                var CreateCVViewModel = new CreateCVViewModel(education, skills, workExp, tempList);
+
+                var skillsList = new SelectList(DBCV.GetAllSkills(), "SkillID", "Title");
+                ViewData["DBMySkills"] = skillsList;
+
+                var workExperience = new SelectList(DBCV.GetAllWorkExps(), "WorkExpID", "Titel");
+                ViewData["DBMyWorkExp"] = workExperience;
+
+                var educations = new SelectList(DBCV.GetAllEducations(), "EduID", "Title");
+                ViewData["DBMyEducations"] = educations;
+
+                return View(CreateCVViewModel);
             }
-
-            //Skapar ViewModel för vyn
-            var CreateCVViewModel = new CreateCVViewModel(education, skills, workExp, tempList);
-
-            var skillsList = new SelectList(DBCV.GetAllSkills(), "SkillID", "Title");
-            ViewData["DBMySkills"] = skillsList;
-
-            var workExperience = new SelectList(DBCV.GetAllWorkExps(), "WorkExpID", "Titel");
-            ViewData["DBMyWorkExp"] = workExperience;
-
-            var educations = new SelectList(DBCV.GetAllEducations(), "EduID", "Title");
-            ViewData["DBMyEducations"] = educations;
-
-            return View(CreateCVViewModel);
+            else
+                return RedirectToAction("Index", "Home");
         }
 
         public ActionResult Remove(int id)
