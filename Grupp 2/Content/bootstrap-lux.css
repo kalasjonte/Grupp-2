@@ -95,12 +95,14 @@ body {
     color: red;
 }
 
+
+
 hr {
-  margin: 1rem 0;
-  color: inherit;
-  background-color: currentColor;
-  border: 0;
-  opacity: 0.25;
+    margin: 1rem 0;
+    color: inherit;
+    background-color: currentColor;
+    border: 0;
+    opacity: 0.25;
 }
 
 hr:not([size]) {
@@ -1193,7 +1195,7 @@ progress {
     flex: 0 0 auto;
     width: 33.333333%;
   }
-  .col-md-5 {
+        .col-md-5 {
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     width: 41.666667%;
@@ -11226,3 +11228,4 @@ th {
 .card-title, .card-header {
   color: inherit;
 }
+
