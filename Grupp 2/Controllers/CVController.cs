@@ -312,17 +312,17 @@ namespace Grupp_2.Controllers
 
             foreach (var item in cv.Skills)
             {
-                search += item.Title + "";
+                search += item.Title + " ";
             }
 
             foreach (var item in cv.Work_Experiences)
             {
-                search += item.Titel + "";
+                search += item.Titel + " ";
             }
 
             foreach (var item in cv.Educations)
             {
-                search += item.Title + "";
+                search += item.Title + " ";
             }
 
             
@@ -331,7 +331,9 @@ namespace Grupp_2.Controllers
             List<User> users = UserRespository.GetUsersByStringVG(search); // ta bort alla som är anonyma
             User removeMe = UserRespository.GetUserByUserID(id);
             users.Remove(removeMe);
-            User user = users.FirstOrDefault();
+            Random random = new Random();
+            int getThis = random.Next(0, users.Count());
+            User user = users[getThis];
             
 
             return RedirectToAction("ShowUserCV", new { userid = user.UserID });
