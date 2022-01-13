@@ -1,106 +1,162 @@
 ﻿@model Grupp_2.Models.CreateCVViewModel
-@section Styles {
-    <link href="@Url.Content("~/Content/bootstrap-lux.css")" rel="stylesheet" type="text/css" />
-}
 @{
     ViewBag.Title = "ShowCVVM";
     Layout = null;
-
-
 }
-<body>
-    <div class="container body-content">
-    <h2>Cv för @Model.User</h2>
+
+
+
+<h2>Cv för @Model.User</h2>
+<div>
+    <h3>Profilbild:</h3>
+    <img src=@Model.Imgpath alt="Profilbild kunde inte laddas" style="border-radius: 50%" , width="300px" />
+</div>
+
+<br />
+<h4>Kontaktinformation:</h4>
+<p>Adress: @Model.Adress</p>
+<p>Epost: @Model.Email</p>
+<p>Github namn: <p id="gitNamn">@Model.Github </p> </p>
+<br />
+
+<hr />
+
+<h4>Utbildningar:</h4>
+<ul>
+    @foreach (var item in Model.Educations)
+    {
+        <li>
+            @item.Title
+        </li>
+
+    }
+</ul>
+
+<hr />
+
+<h4>Arbetserfarenheter:</h4>
+<ul>
+    @foreach (var item in Model.Work_Experiences)
+    {
+        <li>
+            @item.Titel
+        </li>
+
+    }
+</ul>
+
+<hr />
+
+<h4>Färdigheter:</h4>
+<ul>
+    @foreach (var skills in Model.Skills)
+    {
+        <li>
+            @skills.Title
+        </li>
+
+    }
+</ul>
+
+<hr />
+<br />
+
+<h4>Projekt:</h4>
+<table class="table">
+    <tr>
+        <th>
+            Skapare
+
+        </th>
+        <th>
+            Titel
+        </th>
+        <th>
+            Beskrvining
+        </th>
+    </tr>
+    @foreach (var item in Model.Projects)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Firstname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+
+        </tr>
+
+
+    }
+</table>
+
+    <hr />
     <div>
-        <h3>Profilbild:</h3>
-        <img src=@Model.Imgpath alt="Profilbild kunde inte laddas" style="border-radius: 50%" , width="300px" /> 
+        <h3>Hitta liknande personer</h3>
+        @using (Html.BeginForm("MatchUser", "Cv", new { id = Model.UserID }, FormMethod.Post))
+        {
+            <h4>Visa liknande personer:</h4>
+            <input type="submit" value="Få upp en liknande" class="btn" />
+
+        }
+
+
     </div>
 
-        <br />
-        <h4>Kontaktinformation:</h4>
-        <p>Adress: @Model.Adress</p>
-        <p>Epost: @Model.Email</p>
-        <br />
+    <hr />
+    <div>
+        <h3>Exportera till XML</h3>
+        @using (Html.BeginForm("ExportXML", "Cv", new { id = Model.UserID }, FormMethod.Post))
+        {
+            <h4>Ladda ner cv data som xml:</h4>
+            <input type="submit" value="Ladda ner" class="btn" />
 
-        <hr />
-
-        <h4>Utbildningar:</h4>
-        <ul>
-            @foreach (var item in Model.Educations)
-            {
-                <li>
-                    @item.Title
-                </li>
-
-            }
-        </ul>
-
-        <hr />
-
-        <h4>Arbetserfarenheter:</h4>
-        <ul>
-            @foreach (var item in Model.Work_Experiences)
-            {
-                <li>
-                    @item.Titel
-                </li>
-
-            }
-        </ul>
-
-        <hr />
-
-        <h4>Färdigheter:</h4>
-        <ul>
-            @foreach (var skills in Model.Skills)
-            {
-                <li>
-                    @skills.Title
-                </li>
-
-            }
-        </ul>
-
-        <hr />
-        <br />
-
-        <h4>Projekt:</h4>
-        <table class="table">
-            <tr>
-                <th>
-                    Skapare
-
-                </th>
-                <th>
-                    Titel
-                </th>
-                <th>
-                    Beskrvining
-                </th>
-            </tr>
-            @foreach (var item in Model.Projects)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.User.Firstname)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Titel)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-
-                </tr>
+        }
 
 
-            }
-            <table />
-
-            <br />
     </div>
-</body>
 
-<div>@{Html.RenderAction("Create", "Message", new { id = Model.UserID });} </div>
+    <h4>Länkade Github repos för användaren</h4>
+    <table id="repos" class="table">
+        
+        <tr>
+            <th>
+                Skapare
+
+            </th>
+            <th>
+                Titel
+            </th>
+            <th>
+                Beskrvining
+            </th>
+        </tr>
+        
+           
+        
+    </table>
+
+
+    @section Scripts {
+
+        <script>
+            var gitUser = $('#gitNamn').html();
+            if (gitUser != "") {
+                $.get('https://api.github.com/users/' + gitUser + '/repos', function (data) {
+                    console.log(data);
+                    for (var repo of data) {
+                        $("#repos").append('<tr><td>' + repo.owner.login + '</td><td>' + repo.full_name + '</td><td>' + repo.description + '</td></tr>');
+                    }
+                })
+            }
+
+        </script>
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+    <div>@{Html.RenderAction("Create", "Message", new { id = Model.UserID });} </div>
 
 
