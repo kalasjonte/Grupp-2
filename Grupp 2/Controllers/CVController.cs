@@ -340,7 +340,7 @@ namespace Grupp_2.Controllers
 
         }
 
-        public ActionResult ExportXML(int id)  //fungerar fram till projekt, sen säger han att projekt har en cyckel.
+        public ActionResult ExportXML(int id)  
         {
             User user = UserRespository.GetUserByUserID(id);
 
