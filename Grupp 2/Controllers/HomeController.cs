@@ -13,8 +13,8 @@ namespace Grupp_2.Controllers
         Datacontext db = new Datacontext();
         private ProjectRespository projectRespository = new ProjectRespository();
         private UserRespository userRespository = new UserRespository();
-        private CVRespository CVRespository = new CVRespository();
-        
+        private CVRespository cVRespository = new CVRespository();
+
         //Metod för att ladda hemsida. Kollar om användare är inloggad, beroende på resultat visar privata/ickeprivata projekt/CV.
         public ActionResult Index()
         {
@@ -43,6 +43,7 @@ namespace Grupp_2.Controllers
             {
                 var project = projects.Last();
                 ViewBag.Projectnamn = "Titel: " + project.Titel;
+                ViewBag.Beskrivning = project.Description;
                 var creator = userRespository.GetUserByUserID(project.Creator);
 
                 if (loggedInUser == null && creator.PrivateProfile == true)
@@ -51,6 +52,7 @@ namespace Grupp_2.Controllers
                 }
                 else
                 {
+                    
                     ViewBag.Creator = creator.Firstname;
                     ViewBag.CreatorId = creator.UserID;
                     ViewBag.ProjId = project.ProjectID;
@@ -71,6 +73,7 @@ namespace Grupp_2.Controllers
                 int check = users.Count();
                 ViewBag.Count = users.Count();
                 Random random = new Random();
+                var imgPaths = new string[3];
 
                 List<int> uID = new List<int>();
                 List<string> name = new List<string>();
@@ -80,10 +83,13 @@ namespace Grupp_2.Controllers
                     var user = users[getThis];
                     uID.Add(user.UserID);
                     name.Add(user.Firstname + " " + user.Lastname);
+                    imgPaths[i] =  cVRespository.GetImgPathByUserID(user.UserID);
                     users.Remove(user);
                 }
+                ViewBag.Images = imgPaths;
                 ViewBag.UID = uID;
                 ViewBag.Name = name;
+                ViewBag.Logo = cVRespository.GetLogo();
             }
             return View();
         }

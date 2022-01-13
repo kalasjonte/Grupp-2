@@ -16,15 +16,25 @@
             @*Kollar så att det finns ett 1 till 3 CV eller mer och displayar dem på hemsidan om true*@
             @if (ViewBag.Count >= 1)
             {
-                <a>@Html.RouteLink("Kolla på " + (string)(ViewBag.Name[0]) + "s CV", "ShowUserCv", new { userid = ViewBag.Uid[0] })  </a> <hr>
+                <a>@Html.RouteLink("Kolla på " + (string)(ViewBag.Name[0]) + "s CV", "ShowUserCv", new { userid = ViewBag.Uid[0] })  </a>
+                <div>
+                    <img src="@ViewBag.Images[0]" alt="Profilbild kunde inte laddas" style="border-radius: 50%" , width="100px" />
+                </div>
+            <hr>
             }
             @if (ViewBag.Count >= 2)
             {
-                <a>@Html.RouteLink("Kolla på " + (string)(ViewBag.Name[1]) + "s CV", "ShowUserCv", new { userid = ViewBag.Uid[1] })  </a> <hr>
+                <a>@Html.RouteLink("Kolla på " + (string)(ViewBag.Name[1]) + "s CV", "ShowUserCv", new { userid = ViewBag.Uid[1] })  </a>
+                <div>
+                    <img src="@ViewBag.Images[1]" alt="Profilbild kunde inte laddas" style="border-radius: 50%" , width="100px" /><hr>
+                </div>
             }
             @if (ViewBag.Count >= 3)
             {
-                <a>@Html.RouteLink("Kolla på " + (string)(ViewBag.Name[2]) + "s CV", "ShowUserCv", new { userid = ViewBag.Uid[2] })  </a> <hr>
+                <a>@Html.RouteLink("Kolla på " + (string)(ViewBag.Name[2]) + "s CV", "ShowUserCv", new { userid = ViewBag.Uid[2] })  </a> 
+                <div>
+                    <img src="@ViewBag.Images[2]" alt="Profilbild kunde inte laddas" style="border-radius: 50%" , width="100px" /> <hr>
+                </div>
             }
             else if (ViewBag.Count == 0)
             {
@@ -34,32 +44,37 @@
         </p>
     </div>
 
-        <div class="col-md-4">
-            <h2>Senaste projeketet</h2>
+    <div class="col-md-4">
+        <h2>Senaste projeketet</h2>
 
-            <a href=@Url.Action("ProjectVM", "Project" )> @ViewBag.Projectnamn</a>
+        <a href=@Url.Action("ProjectVM", "Project" )> @ViewBag.Projectnamn</a>
 
-            @if (ViewBag.creator != null)
-            {
-                <p> Skapad av :  @ViewBag.creator </p>
-            }
-            @if (ViewBag.Projects == null)
-            {
-                <p>Logga in för att kunna delta i ett projekt.</p>
-            }
-            else if (ViewBag.ProjectCount == 0)
-            {
-                <p>Inga projekt finns i databasen</p>
-            }
-            else if (!ViewBag.Projects.Contains(ViewBag.ProjId.ToString()))
-            {
-                <input type="button" value="Gå med i projekt" onclick="location.href='@Url.Action("JoinProject", "Home", new { id = ViewBag.ProjId })'" />
-            }
-            else if (ViewBag.LoggedInUserId != ViewBag.CreatorId)
-            {
-                <input type="button" value="Gå ur projekt" onclick="location.href='@Url.Action("LeaveProject", "Home", new {id = ViewBag.ProjId})'" />
-            }
-        </div>
+        @if (ViewBag.creator != null)
+        {
+            <p> Skapad av :  @ViewBag.creator </p>
+            <p> Beskrivning :  @ViewBag.Beskrivning </p>
+        }
+        @if (ViewBag.Projects == null)
+        {
+            <p>Logga in för att kunna delta i ett projekt.</p>
+        }
+        else if (ViewBag.ProjectCount == 0)
+        {
+            <p>Inga projekt finns i databasen</p>
+        }
+        else if (!ViewBag.Projects.Contains(ViewBag.ProjId.ToString()))
+        {
+            <input type="button" value="Gå med i projekt" onclick="location.href='@Url.Action("JoinProject", "Home", new { id = ViewBag.ProjId })'" />
+        }
+        else if (ViewBag.LoggedInUserId != ViewBag.CreatorId)
+        {
+            <input type="button" value="Gå ur projekt" onclick="location.href='@Url.Action("LeaveProject", "Home", new {id = ViewBag.ProjId})'" />
+        }
+
+
+    </div>
+
+        
 
         <div class="col-md-4">
             <h2>Om hemsidan</h2>
@@ -67,6 +82,9 @@
                 Denna ASPNET-sida utvecklades under kursen: Informatik, Webbsystem med .NET, fortsättningskurs, HT21, IK204G. Syftet var att få en grundläggande förståelse hur en ASPNET-sida fungerar tillsammans med
                 MVC och Entity Framework (code first).
             </p>
-            <p><a class="btn btn-default" href="https://www.oru.se/utbildning/kurser/kurs/informatik-webbsystem-med-net-fortsattningskurs-ik204g" target="_blank">Läs mer &raquo;</a></p>
+            <p><a class="btn" href="https://www.oru.se/utbildning/kurser/kurs/informatik-webbsystem-med-net-fortsattningskurs-ik204g" target="_blank">Läs mer &raquo;</a></p>
+            <div>
+                <img src="@ViewBag.Logo" alt="Profilbild kunde inte laddas" style="border-radius: 50%" , width="200px" />
+            </div>
         </div>
     </div>

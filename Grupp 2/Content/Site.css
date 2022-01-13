@@ -9,6 +9,11 @@
     margin-left:5px;
 }
 
+.preview {
+    width: 10px;
+    height: 10px;
+}
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;

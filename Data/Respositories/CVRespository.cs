@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Data.Models;
 using System.Data.Entity;
+using System.IO;
 
 namespace Data.Respositories
 {
@@ -124,6 +125,21 @@ namespace Data.Respositories
             var workDel = db.Work_Experiences.Where(s => s.Titel.Equals(arbete)).FirstOrDefault();
             cv.Work_Experiences.Remove(workDel);
             db.SaveChanges();
+        }
+
+        public string GetImgPathByUserID(int id)
+        {
+            CV cv = GetCVByUserId(id);
+            Image img = cv.Image;
+
+            return "/UploadedFiles/" + Path.GetFileName(img.Name); 
+        }
+
+        public string GetLogo()
+        {
+            Image img = db.Images.Where(i => i.Name == "Logo123.png").FirstOrDefault();
+
+            return "/UploadedFiles/" + Path.GetFileName(img.Name);
         }
 
         public void AddClick(CV cv)

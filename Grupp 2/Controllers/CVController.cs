@@ -39,11 +39,12 @@ namespace Grupp_2.Controllers
             var image = db.Images.Where(i => i.ImageID == tempCv.ImageID).FirstOrDefault();
             string path = image.Path;
 
-            ViewBag.Path = ("/UploadedFiles/") + Path.GetFileName(image.Name);
+                ViewBag.Path = ("/UploadedFiles/") + Path.GetFileName(image.Name);
+               
 
-            var workExp = DBCV.GetWorkExpFromCVID(cvId);
-            var education = DBCV.GetEducationsFromCVID(cvId);
-            var skills = DBCV.GetSkillsFromCVID(cvId);
+                var workExp = DBCV.GetWorkExpFromCVID(cvId);
+                var education = DBCV.GetEducationsFromCVID(cvId);
+                var skills = DBCV.GetSkillsFromCVID(cvId);
 
             string loggedInUserMail = User.Identity.Name.ToString();
             int userID = UserRespository.GetUserIDByEmail(loggedInUserMail);
@@ -252,6 +253,7 @@ namespace Grupp_2.Controllers
                 }
 
             }
+            System.Diagnostics.Debug.WriteLine(model.Imgpath);
 
             return View(model);
         }
