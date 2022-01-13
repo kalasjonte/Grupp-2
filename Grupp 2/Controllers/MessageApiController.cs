@@ -1,6 +1,7 @@
 ﻿using Data;
 using Data.Models;
 using Data.Respositories;
+using Grupp_2.Models;
 using System.Collections.Generic;
 using System.Web.Http;
 
@@ -14,16 +15,16 @@ namespace Grupp_2.Controllers
         private MessageRepository messageRepository = new MessageRepository();
         private CVRespository cVRespository = new CVRespository();
 
-        [Route("api/SendAPI/{id}/{content}/{sender}")]
+        [Route("api/SendAPI/")]
         [HttpPost]
-        public IHttpActionResult SendMessage(int id, string content, string sender)
+        public IHttpActionResult SendMessage(MessagesViewModel model)
         {
             using (var db = new Datacontext())
             {
-                var reciver = userRespository.GetUserByUserID(id);
+                var reciver = userRespository.GetUserByUserID(model.Reciver);
                 var msg = new Message
                 {
-                    Content = content
+                    Content = model.Content
                 };
 
                 if (reciver == null)
@@ -36,10 +37,10 @@ namespace Grupp_2.Controllers
 
                     var usermsg = new User_Message
                     {
-                        RecievingUser = id,
+                        RecievingUser = model.Reciver,
                         MessageID = msg.MessageID,
                         Read = false,
-                        Sender = sender,
+                        Sender = model.Sender,
 
                     };
                     messageRepository.SaveUserMessage(usermsg);
