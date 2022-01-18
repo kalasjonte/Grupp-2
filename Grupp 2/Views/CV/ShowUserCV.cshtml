@@ -25,12 +25,12 @@
         <h4>Utbildningar:</h4>
         <ul>
             @foreach (var item in Model.Educations)
-    {
-            <li>
-                @item.Title
-            </li>
+            {
+                <li>
+                    @item.Title
+                </li>
 
-    }
+            }
         </ul>
 
         <hr />
@@ -38,12 +38,12 @@
         <h4>Arbetserfarenheter:</h4>
         <ul>
             @foreach (var item in Model.Work_Experiences)
-    {
-            <li>
-                @item.Titel
-            </li>
+            {
+                <li>
+                    @item.Titel
+                </li>
 
-    }
+            }
         </ul>
 
         <hr />
@@ -51,12 +51,12 @@
         <h4>Färdigheter:</h4>
         <ul>
             @foreach (var skills in Model.Skills)
-    {
-            <li>
-                @skills.Title
-            </li>
+            {
+                <li>
+                    @skills.Title
+                </li>
 
-    }
+            }
         </ul>
 
         <hr />
@@ -77,33 +77,33 @@
                 </th>
             </tr>
             @foreach (var item in Model.Projects)
-    {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.Firstname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Titel)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.Firstname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Titel)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
 
-            </tr>
+                </tr>
 
 
-    }
+            }
         </table>
 
         <hr />
         <div>
             <h3>Hitta liknande personer</h3>
             @using (Html.BeginForm("MatchUser", "Cv", new { id = Model.UserID }, FormMethod.Post))
-        {
-            <h4>Visa liknande personer:</h4>
-            <input type="submit" value="Få upp en liknande" class="btn" />
+            {
+                <h4>Visa liknande personer:</h4>
+                <input type="submit" value="Få upp en liknande" class="btn" />
 
-        }
+            }
 
 
         </div>
@@ -112,11 +112,11 @@
         <div>
             <h3>Exportera till XML</h3>
             @using (Html.BeginForm("ExportXML", "Cv", new { id = Model.UserID }, FormMethod.Post))
-        {
-            <h4>Ladda ner cv data som xml:</h4>
-            <input type="submit" value="Ladda ner" class="btn" />
+            {
+                <h4>Ladda ner cv data som xml:</h4>
+                <input type="submit" value="Ladda ner" class="btn" />
 
-        }
+            }
 
 
         </div>
@@ -145,22 +145,26 @@
 </body>
 
 
-@section Scripts {
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
 
-    <script>
-        var gitUser = $('#gitNamn').html();
-        if (gitUser != "") {
-            $.get('https://api.github.com/users/' + gitUser + '/repos', function (data) {
-                console.log(data);
-                for (var repo of data) {
-                    $("#repos").append('<tr><td>' + repo.owner.login + '</td><td>' + repo.full_name + '</td><td>' + repo.description + '</td></tr>');
-                }
-            })
-        }
+<script>
+    console.log("körs");
+    var gitUser = $('#gitNamn').html();
+    console.log(gitUser);
+    if (gitUser != "") {
+        console.log("inne i if");
+        $.get('https://api.github.com/users/' + gitUser + '/repos', function (data) {
+            console.log(data);
+            for (var repo of data) {
+                $("#repos").append('<tr><td>' + repo.owner.login + '</td><td>' + repo.full_name + '</td><td>' + repo.description + '</td></tr>');
+            }
+        })
+    }
 
-    </script>
-    @Scripts.Render("~/bundles/jqueryval")
-}
+</script>
+@Scripts.Render("~/bundles/jqueryval")
+
 <div>@{Html.RenderAction("Create", "Message", new { id = Model.UserID });} </div>
 
 
