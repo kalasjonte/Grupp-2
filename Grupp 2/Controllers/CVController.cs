@@ -342,15 +342,16 @@ namespace Grupp_2.Controllers
 
         public ActionResult ExportXML(int id)  
         {
+            string path = ControllerContext.HttpContext.Server.MapPath("~/UploadedFiles/");
             User user = UserRespository.GetUserByUserID(id);
 
             CreateCVViewModel CCVM = new CreateCVViewModel();
             CCVM = CCVM.CreateCVViewModelByUserId(id);
 
-            CCVM.Educations.Count();
+            
 
 
-            FileStream textWriter = new FileStream("F:/Downloads/" + CCVM.User + ".xml" , FileMode.OpenOrCreate);
+            FileStream textWriter = new FileStream(path + CCVM.User + ".xml" , FileMode.OpenOrCreate);
             DataContractSerializer serializer = new DataContractSerializer(typeof(CreateCVViewModel));
             
 

@@ -101,7 +101,7 @@
             @using (Html.BeginForm("MatchUser", "Cv", new { id = Model.UserID }, FormMethod.Post))
             {
                 <h4>Visa liknande personer:</h4>
-                <input type="submit" value="Få upp en liknande" class="btn" />
+                <input type="submit" value="Få upp en liknande" class="btn btn-primary" />
 
             }
 
@@ -111,37 +111,38 @@
         <hr />
         <div>
             <h3>Exportera till XML</h3>
-            @using (Html.BeginForm("ExportXML", "Cv", new { id = Model.UserID }, FormMethod.Post))
-            {
-                <h4>Ladda ner cv data som xml:</h4>
-                <input type="submit" value="Ladda ner" class="btn" />
+            <p> Sparas i uploaded files, under grupp 2 i projektmappen</p>
+                @using (Html.BeginForm("ExportXML", "Cv", new { id = Model.UserID }, FormMethod.Post))
+                {
+                    <h4>Ladda ner cv data som xml:</h4>
+                    <input type="submit" value="Ladda ner" class="btn btn-primary" />
 
-            }
+                }
 
+
+            </div>
+
+            <h4>Länkade Github repos för användaren</h4>
+            <table id="repos" class="table">
+
+                <tr>
+                    <th>
+                        Skapare
+
+                    </th>
+                    <th>
+                        Titel
+                    </th>
+                    <th>
+                        Beskrvining
+                    </th>
+                </tr>
+
+
+
+            </table>
 
         </div>
-
-        <h4>Länkade Github repos för användaren</h4>
-        <table id="repos" class="table">
-
-            <tr>
-                <th>
-                    Skapare
-
-                </th>
-                <th>
-                    Titel
-                </th>
-                <th>
-                    Beskrvining
-                </th>
-            </tr>
-
-
-
-        </table>
-
-    </div>
 </body>
 
 
