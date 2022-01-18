@@ -50,6 +50,13 @@ namespace Data.Respositories
             db.SaveChanges();
         }
 
+        public void MarkAsUnRead(int id)
+        {
+            User_Message message = db.User_Messages.Where(um => um.MessageID == id).FirstOrDefault();
+            message.Read = false;
+            db.SaveChanges();
+        }
+
         public void MarkAllAsRead(int userID)
         {
             List<User_Message> user_Messages = GetUserMessagesByUserID(userID);

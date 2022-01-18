@@ -109,7 +109,7 @@
 
     <hr />
     <div>
-        @Html.ActionLink("Visa din profil", "Details", new { id = Model.UserID })
+        @Html.RouteLink("Ditt CV", "ShowUserCV", new { userid = Model.UserID })
     </div>
 
     @section Scripts {

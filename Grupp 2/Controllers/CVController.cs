@@ -161,12 +161,12 @@ namespace Grupp_2.Controllers
             }
         }
 
-        public ActionResult ShowCVVM() //bryt ut till service, ha denna här men contenten i services
+        public ActionResult ShowCVVM() 
         {
-            string loggedInUserMail = User.Identity.Name.ToString(); //KAN finnas här, eller ligga i services med hhtpcontext current (owin)
-            User user = UserRespository.GetUserByEmail(loggedInUserMail); //hämta user på inskickad id ist? -> in i user respository som ligger i data.
+            string loggedInUserMail = User.Identity.Name.ToString(); 
+            User user = UserRespository.GetUserByEmail(loggedInUserMail); 
 
-            int cvId = DBCV.GetCVIDByEmail(User.Identity.Name.ToString()); //göra ny, ändra till inskickad userid?
+            int cvId = DBCV.GetCVIDByEmail(User.Identity.Name.ToString()); 
             var workExp = DBCV.GetWorkExpFromCVID(cvId);
 
             var education = DBCV.GetEducationsFromCVID(cvId);

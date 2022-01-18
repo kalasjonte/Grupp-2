@@ -110,11 +110,10 @@
 
         <hr />
         <div>
-            <h3>Exportera till XML</h3>
+            <h3>Exportera till XML</h3> 
             <p> Sparas i uploaded files, under grupp 2 i projektmappen</p>
                 @using (Html.BeginForm("ExportXML", "Cv", new { id = Model.UserID }, FormMethod.Post))
                 {
-                    <h4>Ladda ner cv data som xml:</h4>
                     <input type="submit" value="Ladda ner" class="btn btn-primary" />
 
                 }
