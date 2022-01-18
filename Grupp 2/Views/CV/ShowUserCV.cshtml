@@ -1,25 +1,23 @@
 ﻿@model Grupp_2.Models.CreateCVViewModel
-@section Styles {
-    <link href="@Url.Content("~/Content/bootstrap-lux.css")" rel="stylesheet" type="text/css" />
-}
 @{
     ViewBag.Title = "ShowCVVM";
     Layout = null;
-
-
 }
+
 <body>
     <div class="container body-content">
-    <h2>Cv för @Model.User</h2>
-    <div>
-        <h3>Profilbild:</h3>
-        <img src=@Model.Imgpath alt="Profilbild kunde inte laddas" style="border-radius: 50%" , width="300px" /> 
-    </div>
+
+        <h2>Cv för @Model.User</h2>
+        <div>
+            <h3>Profilbild:</h3>
+            <img src=@Model.Imgpath alt="Profilbild kunde inte laddas" style="border-radius: 50%" , width="300px" />
+        </div>
 
         <br />
         <h4>Kontaktinformation:</h4>
         <p>Adress: @Model.Adress</p>
         <p>Epost: @Model.Email</p>
+        <p>Github namn: <p id="gitNamn">@Model.Github </p> </p>
         <br />
 
         <hr />
@@ -95,11 +93,77 @@
 
 
             }
-            <table />
+        </table>
 
-            <br />
-    </div>
+        <hr />
+        <div>
+            <h3>Hitta liknande personer</h3>
+            @using (Html.BeginForm("MatchUser", "Cv", new { id = Model.UserID }, FormMethod.Post))
+            {
+                <h4>Visa liknande personer:</h4>
+                <input type="submit" value="Få upp en liknande" class="btn btn-primary" />
+
+            }
+
+
+        </div>
+
+        <hr />
+        <div>
+            <h3>Exportera till XML</h3> 
+            <p> Sparas i uploaded files, under grupp 2 i projektmappen</p>
+                @using (Html.BeginForm("ExportXML", "Cv", new { id = Model.UserID }, FormMethod.Post))
+                {
+                    <input type="submit" value="Ladda ner" class="btn btn-primary" />
+
+                }
+
+
+            </div>
+
+            <h4>Länkade Github repos för användaren</h4>
+            <table id="repos" class="table">
+
+                <tr>
+                    <th>
+                        Skapare
+
+                    </th>
+                    <th>
+                        Titel
+                    </th>
+                    <th>
+                        Beskrvining
+                    </th>
+                </tr>
+
+
+
+            </table>
+
+        </div>
 </body>
+
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+
+<script>
+    console.log("körs");
+    var gitUser = $('#gitNamn').html();
+    console.log(gitUser);
+    if (gitUser != "") {
+        console.log("inne i if");
+        $.get('https://api.github.com/users/' + gitUser + '/repos', function (data) {
+            console.log(data);
+            for (var repo of data) {
+                $("#repos").append('<tr><td>' + repo.owner.login + '</td><td>' + repo.full_name + '</td><td>' + repo.description + '</td></tr>');
+            }
+        })
+    }
+
+</script>
+@Scripts.Render("~/bundles/jqueryval")
 
 <div>@{Html.RenderAction("Create", "Message", new { id = Model.UserID });} </div>
 

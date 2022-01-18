@@ -161,12 +161,12 @@ namespace Grupp_2.Controllers
             }
         }
 
-        public ActionResult ShowCVVM() //bryt ut till service, ha denna här men contenten i services
+        public ActionResult ShowCVVM() 
         {
-            string loggedInUserMail = User.Identity.Name.ToString(); //KAN finnas här, eller ligga i services med hhtpcontext current (owin)
-            User user = UserRespository.GetUserByEmail(loggedInUserMail); //hämta user på inskickad id ist? -> in i user respository som ligger i data.
+            string loggedInUserMail = User.Identity.Name.ToString(); 
+            User user = UserRespository.GetUserByEmail(loggedInUserMail); 
 
-            int cvId = DBCV.GetCVIDByEmail(User.Identity.Name.ToString()); //göra ny, ändra till inskickad userid?
+            int cvId = DBCV.GetCVIDByEmail(User.Identity.Name.ToString()); 
             var workExp = DBCV.GetWorkExpFromCVID(cvId);
 
             var education = DBCV.GetEducationsFromCVID(cvId);
@@ -312,17 +312,17 @@ namespace Grupp_2.Controllers
 
             foreach (var item in cv.Skills)
             {
-                search += item.Title + "";
+                search += item.Title + " ";
             }
 
             foreach (var item in cv.Work_Experiences)
             {
-                search += item.Titel + "";
+                search += item.Titel + " ";
             }
 
             foreach (var item in cv.Educations)
             {
-                search += item.Title + "";
+                search += item.Title + " ";
             }
 
             
@@ -331,24 +331,27 @@ namespace Grupp_2.Controllers
             List<User> users = UserRespository.GetUsersByStringVG(search); // ta bort alla som är anonyma
             User removeMe = UserRespository.GetUserByUserID(id);
             users.Remove(removeMe);
-            User user = users.FirstOrDefault();
+            Random random = new Random();
+            int getThis = random.Next(0, users.Count());
+            User user = users[getThis];
             
 
             return RedirectToAction("ShowUserCV", new { userid = user.UserID });
 
         }
 
-        public ActionResult ExportXML(int id)  //fungerar fram till projekt, sen säger han att projekt har en cyckel.
+        public ActionResult ExportXML(int id)  
         {
+            string path = ControllerContext.HttpContext.Server.MapPath("~/UploadedFiles/");
             User user = UserRespository.GetUserByUserID(id);
 
             CreateCVViewModel CCVM = new CreateCVViewModel();
             CCVM = CCVM.CreateCVViewModelByUserId(id);
 
-            CCVM.Educations.Count();
+            
 
 
-            FileStream textWriter = new FileStream("F:/Downloads/" + CCVM.User + ".xml" , FileMode.OpenOrCreate);
+            FileStream textWriter = new FileStream(path + CCVM.User + ".xml" , FileMode.OpenOrCreate);
             DataContractSerializer serializer = new DataContractSerializer(typeof(CreateCVViewModel));
             
 

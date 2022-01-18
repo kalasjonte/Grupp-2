@@ -52,6 +52,12 @@ namespace Grupp_2.Controllers
             messageRepository.MarkAsRead(id);
             return RedirectToAction("Index");
         }
+        public ActionResult MarkAsUnRead(int id)
+        {
+            messageRepository.MarkAsUnRead(id);
+            return RedirectToAction("Index");
+        }
+
 
         public ActionResult MarkAllAsRead(int userID)
         {

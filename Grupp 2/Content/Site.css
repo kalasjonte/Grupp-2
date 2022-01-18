@@ -9,6 +9,10 @@
     margin-left:5px;
 }
 
+#changePsw {
+    float: right;
+}
+
 .preview {
     width: 10px;
     height: 10px;
